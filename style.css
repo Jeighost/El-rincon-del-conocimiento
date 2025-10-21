@@ -167,3 +167,15 @@ footer span {
   color: #fff;
   text-shadow: 0 0 10px #d4af37;
 }
+/* Estilo para los enlaces dentro de la sección de reflexiones */
+.reflexiones a {
+  color: #d4af37; /* dorado elegante */
+  text-decoration: none; /* sin subrayado */
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.reflexiones a:hover {
+  color: #fff5cc; /* tono claro al pasar el cursor */
+  text-shadow: 0 0 8px #d4af37;
+}
