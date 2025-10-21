@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap');
+
+body {
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 70%, #000 100%);
+  color: #f5f5f5;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+/* --- Header --- */
+header {
+  background: linear-gradient(135deg, #111, #4b3a1e, #111);
+  background-size: 200% 200%;
+  animation: moverGradiente 15s ease infinite alternate;
+  color: #f5f5f5;
+  text-align: center;
+  padding: 3rem 1rem;
+  box-shadow: 0 0 25px rgba(212,175,55,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  color: #d4af37;
+  text-shadow: 0 0 10px rgba(212,175,55,0.3);
+  transition: text-shadow 0.8s ease;
+}
+
+header h1:hover {
+  text-shadow: 0 0 20px rgba(212,175,55,0.8);
+}
+
+header p {
+  max-width: 900px;
+  margin: 1rem auto 0;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+}
+
+@keyframes moverGradiente {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* --- Navegación --- */
+nav {
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+}
+
+nav a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+nav a:hover, nav a.activo {
+  color: #fff;
+  text-shadow: 0 0 10px #d4af37;
+}
+
+/* --- Secciones --- */
+section {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 1rem;
+  text-align: justify;
+}
+
+h2 {
+  border-bottom: 2px solid #d4af37;
+  display: inline-block;
+  color: #d4af37;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* --- Galería --- */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.galeria img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(212,175,55,0.1);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.galeria img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(212,175,55,0.3);
+}
+
+/* --- Reflexiones --- */
+.reflexiones p {
+  background: rgba(255,255,255,0.02);
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(212,175,55,0.05);
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.5s ease;
+}
+
+.reflexiones p:hover {
+  box-shadow: 0 0 25px rgba(212,175,55,0.25);
+}
+
+/* --- Nota --- */
+.nota {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #d4af37;
+  border-left: 3px solid #d4af37;
+  padding-left: 5px;
+  font-style: italic;
+  text-shadow: 0 0 6px rgba(212,175,55,0.4);
+}
+
+/* --- Footer --- */
+footer {
+  background: #0a0a0a;
+  color: #bfbfbf;
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(212,175,55,0.2);
+  box-shadow: 0 -2px 8px rgba(212,175,55,0.1);
+}
+
+footer span {
+  color: #d4af37;
+}
+
+/* --- Autor --- */
+.autor {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+}.img-pequena {
+  width: 200px;
+  border-radius: 10px;
+}
+.nota.especial {
+  color: #ff5051;
+  border-left-color: #ff5050;
+}
+.enlace-reflexion {
+  color: #d4af37;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.enlace-reflexion:hover {
+  color: #fff;
+  text-shadow: 0 0 10px #d4af37;
+}
