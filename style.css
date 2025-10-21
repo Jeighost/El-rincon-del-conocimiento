@@ -156,14 +156,14 @@ footer span {
   color: #ff5051;
   border-left-color: #ff5050;
 }
-.enlace-reflexion {
+.enlace-reflexion1 {
   color: #d4af37;
   font-weight: bold;
   text-decoration: none;
   font-size: 1.1rem;
   transition: color 0.3s, text-shadow 0.3s;
 }
-.enlace-reflexion:hover {
+.enlace-reflexion2:hover {
   color: #fff;
   text-shadow: 0 0 10px #d4af37;
 }
