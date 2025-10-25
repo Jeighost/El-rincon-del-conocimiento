@@ -37,12 +37,12 @@ header h1 {
   margin: 0;
   font-size: 2.8rem;
   color: #d4af37;
-  text-shadow: 0 0 5px rgba(212,175,55,0.3);
+  text-shadow: 0 0 8px rgba(212,175,55,0.3);
   transition: text-shadow 0.8s ease;
 }
 
 header h1:hover {
-  text-shadow: 0 0 10px rgba(212,175,55,0.8);
+  text-shadow: 0 0 15px rgba(212,175,55,0.8);
 }
 
 header p {
