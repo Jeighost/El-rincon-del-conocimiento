@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+  
 <head>
-  <button id="modo-btn">🌙 Cambiar modo</button>
-
+<!-- Fondo dorado respirante -->
+<div class="halo"></div>
 <script>
-const boton = document.getElementById("modo-btn");
-const body = document.body;
 
-// Detecta hora local y aplica modo oscuro automáticamente
-const hora = new Date().getHours();
-if (hora >= 18 || hora < 6) {
-  body.classList.add("oscuro");
-}
-
-// Alterna manualmente
-boton.addEventListener("click", () => {
-  body.classList.toggle("oscuro");
-});
 </script>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -35,6 +24,7 @@ boton.addEventListener("click", () => {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
   <header>
   <h1 class="fade-in">Esta es otra historia</h1>
 <p class="fade-in">Mis poemas directamente a tus ojos. Sean bienvenidos a un rinco de mi conocimiento.</p>
@@ -50,14 +40,95 @@ boton.addEventListener("click", () => {
   </header>
   <blockquote class="cita">“El conocimiento no libera a quien teme mirar dentro de sí.”</blockquote>
 
-<img src="https://i.imgur.com/HoXwFWB.png" width="490" >
-
   <section class="intro">
     <h2>Bienvenido al rincón del conocimiento</h2>
     <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
     Redacto mis pensamientos esos que han sido silenciado por mi, intentando dar a conocer esas cosas que mi boca calla.
     Ni siquiera me interesa si alguien leyera, pero espero sea de agrado para el interesado de estos textos.</p>
   </section>
+  <section class="interactivo">
+  <h2>¿Qué es la vida para ti?</h2>
+  <input type="text" id="respuesta" placeholder="Escribe tu pensamiento..." />
+  <button id="enviar">Descubrir</button>
+  <p id="resultado"></p>
+</section>
+
+<script>
+const respuestas = `
+Quizás la vida no se define, se siente.
+La vida es aquello que ocurre mientras aprendemos a entenderla.
+No hay una sola respuesta; cada alma escribe la suya.
+La vida no espera: se vive, incluso cuando no la comprendes.
+A veces la vida es solo silencio esperando ser escuchado.
+La vida es arriesgar cada minuto para que parezca que todo fue unico.
+Cada día es un fragmento del infinito que fingimos entender.
+La vida es la pregunta que nadie responde, pero todos sienten.
+No lo se, bueno. busquemos el significado juntos.
+`.trim().split("\n");
+
+document.getElementById("enviar").addEventListener("click", () => {
+  const entrada = document.getElementById("respuesta").value.trim();
+  const resultado = document.getElementById("resultado");
+
+  if (entrada === "") {
+    resultado.innerHTML = "Antes de responder, escúchate a ti mismo.";
+  } else {
+    const aleatoria = respuestas[Math.floor(Math.random() * respuestas.length)];
+    resultado.innerHTML = aleatoria;
+  }
+});
+</script>
+
+<style>
+.interactivo {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.interactivo h2 {
+  color: #d4af37;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.interactivo input {
+  background: #111;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  padding: 8px 10px;
+  width: 70%;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.interactivo button {
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.interactivo button:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+.interactivo p {
+  margin-top: 20px;
+  font-style: italic;
+  color: #ccc;
+  animation: aparecer 1s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
   <footer>
     © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
   </footer>

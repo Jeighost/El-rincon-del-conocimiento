@@ -320,3 +320,49 @@ body.oscuro {
   border-radius: 10px;
   cursor: pointer;
 }
+.halo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.40), transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: respirar 5s infinite ease-in-out;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes respirar {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+/* --- Ajuste general para títulos principales --- */
+header h1 {
+  font-size: 2.2rem;        /* Reduce el tamaño */
+  line-height: 1.1;         /* Acerca las líneas si es doble */
+  margin-top: 20px;         /* Reduce el espacio superior */
+  margin-bottom: 10px;      /* Reduce espacio inferior */
+  text-align: center;
+  color: #d4af37;
+}
+
+/* --- Ajuste opcional para los párrafos debajo del h1 --- */
+header p {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ddd;
+  font-size: 1.1rem;
+}
+body, header {
+  padding-top: 1;
+  margin-top: 1;
+}
