@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <button id="modo-btn">🌙 Cambiar modo</button>
+
+<script>
+const boton = document.getElementById("modo-btn");
+const body = document.body;
+
+// Detecta hora local y aplica modo oscuro automáticamente
+const hora = new Date().getHours();
+if (hora >= 18 || hora < 6) {
+  body.classList.add("oscuro");
+}
+
+// Alterna manualmente
+boton.addEventListener("click", () => {
+  body.classList.toggle("oscuro");
+});
+</script>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   </html>
-<a href="#top" class="btn-top">⬆</a>
 <meta name="description" content="El rincón del conocimiento — Reflexiones, filosofía y pensamiento crítico sobre la esencia humana y la verdad.">
 <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, Jeison Gonzalez">
 <meta name="author" content="Jeison Gonzalez">
@@ -20,11 +36,8 @@
 </head>
 <body>
   <header>
-    <h1>¿Que es la vida?</h1>
-    <p>
-      He cambiado el titulo de esta intruccion.
-      lo he cambiado porque tras revisar mis escritos me he dado cuenta que solo narro mis experecias, y reflexiones.
-      No quiero enseñar y ni que parezca una religion, solo el punto de vista que yo tengo. Sean bienvenidos a un rinco de mi conocimiento.
+  <h1 class="fade-in">Esta es otra historia</h1>
+<p class="fade-in">Mis poemas directamente a tus ojos. Sean bienvenidos a un rinco de mi conocimiento.</p>
     </p>
     </header>
      <nav>
@@ -41,10 +54,19 @@
 
   <section class="intro">
     <h2>Bienvenido al rincón del conocimiento</h2>
-    <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.</p>
+    <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
+    Redacto mis pensamientos esos que han sido silenciado por mi, intentando dar a conocer esas cosas que mi boca calla.
+    Ni siquiera me interesa si alguien leyera, pero espero sea de agrado para el interesado de estos textos.</p>
   </section>
   <footer>
     © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
   </footer>
-  <div class="autor">Creada por: Jeison Gonzalez</div>
+  <div class="autor">Creada x: Jeighost</div>
+  <p class="fecha-auto">Actualizado automáticamente: <span id="ultima-act"></span></p>
+  <script>
+  // Detecta la fecha real de modificación del archivo HTML
+  const fecha = new Date(document.lastModified);
+  const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+  document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
+</script>
 </body>
