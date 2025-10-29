@@ -19,7 +19,7 @@ function createParticle() {
   const x = Math.random() * canvas.width;
   const y = canvas.height + Math.random() * 100;
   const size = Math.random() * 2;
-  const speedY = 0.5 + Math.random() * 1.5;
+  const speedY = 0.8 + Math.random() * 2;
   const color = `rgba(${200 + Math.random() * 55}, ${80 + Math.random() * 50}, 0, ${0.8})`;
   particles.push({ x, y, size, speedY, color });
 }
