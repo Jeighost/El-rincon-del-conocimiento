@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Fondo oscuro -->
+  <rect width="100" height="100" fill="#0b0b0c"/>
+  
+  <!-- Círculo dorado exterior -->
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Libro abierto estilizado -->
+  <path d="M 30 40 Q 30 35 35 35 L 48 35 L 48 65 L 35 65 Q 30 65 30 60 Z" fill="#d4af37" opacity="0.8"/>
+  <path d="M 70 40 Q 70 35 65 35 L 52 35 L 52 65 L 65 65 Q 70 65 70 60 Z" fill="#d4af37" opacity="0.8"/>
+  
+  <!-- Línea central del libro -->
+  <line x1="50" y1="35" x2="50" y2="65" stroke="#0b0b0c" stroke-width="1.5"/>
+  
+  <!-- Detalle de páginas -->
+  <line x1="38" y1="45" x2="45" y2="45" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  <line x1="38" y1="50" x2="45" y2="50" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  <line x1="38" y1="55" x2="45" y2="55" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  
+  <line x1="55" y1="45" x2="62" y2="45" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  <line x1="55" y1="50" x2="62" y2="50" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  <line x1="55" y1="55" x2="62" y2="55" stroke="#0b0b0c" stroke-width="0.8" opacity="0.5"/>
+  
+  <!-- Brillo sutil -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.2"/>
+</svg>

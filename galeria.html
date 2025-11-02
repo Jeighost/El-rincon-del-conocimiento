@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conocimiento en imágenes</title>
+  <!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conocimiento en imágenes - El rincón del conocimiento</title>
+  
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  
+  <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
-<script src="script.js"></script>
+
 <body>
+  <div class="halo"></div>
+
   <header>
     <h1>🎨 Conocimiento en imágenes</h1>
     <p>El arte como expresión del pensamiento y la observación consciente.</p>
@@ -20,19 +28,22 @@
     <a href="galeria.html" class="activo">Conocimiento en imágenes</a>
     <a href="reflexiones.html">Reflexiones</a>
   </nav>
-<p>Aqui pondras observar imagenes cortamente explicativa sobre los conceptos mencionados en las reflexiones.</p>
 
-  <span class="nota especial">No necesariamente todos los conceptos son mencionados.</span> 
+  <section class="intro">
+    <p>Aquí podrás observar imágenes cortamente explicativas sobre los conceptos mencionados en las reflexiones.</p>
+    <span class="nota especial">No necesariamente todos los conceptos son mencionados.</span>
+  </section>
 
   <section class="galeria">
-    <img src="https://i.imgur.com/iHWws0b.png" alt="La objetividad">
-    <img src="https://i.imgur.com/lsM7g3x.png" alt="La subjetividad">
-    <img src="https://i.imgur.com/n0gNrmo.png" alt="La percepcion">
+    <img src="https://i.imgur.com/iHWws0b.png" alt="La objetividad" loading="lazy">
+    <img src="https://i.imgur.com/lsM7g3x.png" alt="La subjetividad" loading="lazy">
+    <img src="https://i.imgur.com/n0gNrmo.png" alt="La percepcion" loading="lazy">
   </section>
 
   <footer>
     © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
   </footer>
+
   <script src="particles.js"></script>
 </body>
 </html>

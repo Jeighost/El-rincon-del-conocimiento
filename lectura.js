@@ -1,40 +1,72 @@
-// --- Efecto de lectura progresiva y mensaje final --- //
-document.addEventListener("DOMContentLoaded", () => {
-  const contenedor = document.querySelector(".texto-reflexion");
-  if (!contenedor) return;
+// ============================================
+// LECTURA.JS - Efecto de lectura progresiva
+// ============================================
 
-  const textoOriginal = contenedor.innerHTML.trim();
-  const lineas = textoOriginal.split("<br>");
-  contenedor.innerHTML = "";
+(function() {
+  'use strict';
 
-  let index = 0;
-  function mostrarLinea() {
-    if (index < lineas.length) {
-      const span = document.createElement("p");
-      span.innerHTML = lineas[index];
-      span.style.opacity = 0;
-      span.style.transform = "translateY(20px)";
-      contenedor.appendChild(span);
+  document.addEventListener("DOMContentLoaded", () => {
+    const contenedor = document.querySelector(".texto-reflexion");
+    
+    // Si no existe el contenedor, salir
+    if (!contenedor) return;
 
-      setTimeout(() => {
-        span.style.transition = "opacity 1.2s ease, transform 1.2s ease";
-        span.style.opacity = 1;
-        span.style.transform = "translateY(0)";
-      }, 100);
+    const textoOriginal = contenedor.innerHTML.trim();
+    const lineas = textoOriginal.split("<br>");
+    
+    // Limpiar contenedor
+    contenedor.innerHTML = "";
 
-      index++;
-      setTimeout(mostrarLinea, 800); // Velocidad de aparición
-    } else {
-      mostrarMensajeFinal();
+    let index = 0;
+    const velocidadAparicion = 600; // Milisegundos entre líneas
+
+    function mostrarLinea() {
+      if (index < lineas.length) {
+        // Crear elemento para la línea
+        const parrafo = document.createElement("p");
+        parrafo.innerHTML = lineas[index];
+        parrafo.style.opacity = '0';
+        parrafo.style.transform = 'translateY(20px)';
+        parrafo.style.marginBottom = '1rem';
+        
+        contenedor.appendChild(parrafo);
+
+        // Animar aparición
+        setTimeout(() => {
+          parrafo.style.transition = 'opacity 1s ease, transform 1s ease';
+          parrafo.style.opacity = '1';
+          parrafo.style.transform = 'translateY(0)';
+        }, 50);
+
+        index++;
+        setTimeout(mostrarLinea, velocidadAparicion);
+      } else {
+        // Mostrar mensaje final cuando termine
+        mostrarMensajeFinal();
+      }
     }
-  }
 
-  function mostrarMensajeFinal() {
-    const mensaje = document.createElement("div");
-    mensaje.className = "mensaje-final";
-    mensaje.textContent = "¿Aún sientes curiosidad? Continúa leyendo...";
-    contenedor.appendChild(mensaje);
-  }
+    function mostrarMensajeFinal() {
+      // Buscar si ya existe un mensaje final en el DOM
+      let mensajeFinal = document.querySelector(".mensaje-final");
+      
+      // Si no existe, crear uno
+      if (!mensajeFinal) {
+        mensajeFinal = document.createElement("div");
+        mensajeFinal.className = "mensaje-final";
+        mensajeFinal.textContent = "¿Aún sientes curiosidad? Continúa leyendo...";
+        contenedor.appendChild(mensajeFinal);
+      }
+      
+      // Asegurar que sea visible con animación
+      mensajeFinal.style.opacity = '0';
+      setTimeout(() => {
+        mensajeFinal.style.transition = 'opacity 1.5s ease';
+        mensajeFinal.style.opacity = '1';
+      }, 100);
+    }
 
-  mostrarLinea();
-});
+    // Iniciar la animación de lectura
+    mostrarLinea();
+  });
+})();

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El rincón del conocimiento</title>
 
   <!-- Descripción y metadatos -->
@@ -15,10 +15,12 @@
   <meta property="og:url" content="https://jeighost.github.io/El-rincon-del-conocimiento/">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="favicon.ico">
+
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
@@ -30,7 +32,9 @@
 
   <header>
     <h1 class="fade-in">Esta es otra historia</h1>
-    <p class="fade-in">Mis poemas directamente a tus ojos. Sean bienvenidos a un rincón de mi conocimiento.</p>
+    <p class="fade-in">
+      "Reflexiones filosóficas sobre percepción, existencia y pensamiento crítico"
+      Mis poemas directamente a tus ojos. Sean bienvenidos a un rincón de mi conocimiento.</p>
   </header>
 
   <nav>
@@ -39,36 +43,45 @@
     <a href="reflexiones.html">Reflexiones</a>
   </nav>
 
-  <blockquote class="cita">“El conocimiento no libera a quien teme mirar dentro de sí.”</blockquote>
+  <blockquote class="cita">"El conocimiento no libera a quien teme mirar dentro de sí."</blockquote>
 
   <section class="intro">
     <h2>Bienvenido al rincón del conocimiento</h2>
     <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
     Redacto mis pensamientos esos que han sido silenciados por mí, intentando dar a conocer esas cosas que mi boca calla.
-    Ni siquiera me interesa si alguien leyera, pero espero sea de agrado para el interesado de estos textos.</p>
+     "Estas reflexiones son mi forma de pensar en voz alta. Si resuenan contigo, bienvenido seas."</p>
   </section>
 
   <!-- Sección interactiva -->
   <section class="interactivo">
     <h2>¿Qué es la vida para ti?</h2>
-    <input type="text" id="respuesta" placeholder="Escribe tu pensamiento..." />
+    <input type="text" id="respuesta" placeholder="Escribe tu pensamiento...">
     <button id="enviar">Descubrir</button>
     <p id="resultado"></p>
   </section>
 
-  <!-- Script del módulo interactivo -->
+  <footer>
+    © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
+  </footer>
+  
+  <div class="autor">Creada por: Jeighost</div>
+
+  <p class="fecha-auto">Actualización: <span id="ultima-act"></span></p>
+
+  <!-- Scripts -->
   <script>
-    const respuestas = `
-    Quizás la vida no se define, se siente.
-    La vida es aquello que ocurre mientras aprendemos a entenderla.
-    No hay una sola respuesta; cada alma escribe la suya.
-    La vida no espera: se vive, incluso cuando no la comprendes.
-    A veces la vida es solo silencio esperando ser escuchado.
-    La vida es arriesgar cada minuto para que parezca que todo fue único.
-    Cada día es un fragmento del infinito que fingimos entender.
-    La vida es la pregunta que nadie responde, pero todos sienten.
-    No lo sé, bueno... busquemos el significado juntos.
-    `.trim().split("\n");
+    // Script de la sección interactiva
+    const respuestas = [
+      "Quizás la vida no se define, se siente.",
+      "La vida es aquello que ocurre mientras aprendemos a entenderla.",
+      "No hay una sola respuesta; cada alma escribe la suya.",
+      "La vida no espera: se vive, incluso cuando no la comprendes.",
+      "A veces la vida es solo silencio esperando ser escuchado.",
+      "La vida es arriesgar cada minuto para que parezca que todo fue único.",
+      "Cada día es un fragmento del infinito que fingimos entender.",
+      "La vida es la pregunta que nadie responde, pero todos sienten.",
+      "No lo sé, bueno... busquemos el significado juntos."
+    ];
 
     document.getElementById("enviar").addEventListener("click", () => {
       const entrada = document.getElementById("respuesta").value.trim();
@@ -81,76 +94,13 @@
         resultado.innerHTML = aleatoria;
       }
     });
-  </script>
 
-  <!-- Estilos locales (solo para el bloque interactivo) -->
-  <style>
-    .interactivo {
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    .interactivo h2 {
-      color: #d4af37;
-      letter-spacing: 1px;
-      margin-bottom: 15px;
-    }
-
-    .interactivo input {
-      background: #111;
-      color: #e0e0e0;
-      border: 1px solid #555;
-      padding: 8px 10px;
-      width: 70%;
-      border-radius: 8px;
-      text-align: center;
-    }
-
-    .interactivo button {
-      background: transparent;
-      color: #d4af37;
-      border: 1px solid #d4af37;
-      margin-left: 10px;
-      padding: 8px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .interactivo button:hover {
-      background: #d4af37;
-      color: #000;
-    }
-
-    .interactivo p {
-      margin-top: 20px;
-      font-style: italic;
-      color: #ccc;
-      animation: aparecer 1s ease;
-    }
-
-    @keyframes aparecer {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
-
-  <footer>
-    © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
-  </footer>
-  
-  <div class="autor">Creada por: Jeighost</div>
-
-  <p class="fecha-auto">Actualización: <span id="ultima-act"></span></p>
-
-  <script>
+    // Script de fecha automática
     const fecha = new Date(document.lastModified);
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
 
-  <!-- Tu JS principal -->
-  <script src="script.js"></script>
   <script src="particles.js"></script>
 </body>
 </html>

@@ -1,51 +1,93 @@
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
-document.body.appendChild(canvas);
+// ============================================
+// PARTICLES.JS - Sistema de partículas optimizado
+// ============================================
 
-canvas.style.position = 'fixed';
-canvas.style.top = '0';
-canvas.style.left = '0';
-canvas.style.width = '100%';
-canvas.style.height = '100%';
-canvas.style.zIndex = '-1';
-canvas.style.pointerEvents = 'none';
+(function() {
+  'use strict';
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+  // Crear canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  document.body.appendChild(canvas);
 
-let particles = [];
+  // Estilos del canvas
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.zIndex = '-1';
+  canvas.style.pointerEvents = 'none';
 
-function createParticle() {
-  const x = Math.random() * canvas.width;
-  const y = canvas.height + Math.random() * 100;
-  const size = Math.random() * 2;
-  const speedY = 0.8 + Math.random() * 2;
-  const color = `rgba(${200 + Math.random() * 55}, ${80 + Math.random() * 50}, 0, ${0.8})`;
-  particles.push({ x, y, size, speedY, color });
-}
+  // Configuración inicial
+  let particles = [];
+  const MAX_PARTICLES = 80; // Límite de partículas para mejor rendimiento
 
-function updateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = p.color;
-    ctx.fill();
-    p.y -= p.speedY;
-    if (p.y < -10) particles.splice(i, 1);
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
-}
 
-function animate() {
-  if (particles.length < 100) createParticle();
-  updateParticles();
-  requestAnimationFrame(animate);
-}
+  resizeCanvas();
 
-animate();
+  // Crear una partícula
+  function createParticle() {
+    const x = Math.random() * canvas.width;
+    const y = canvas.height + Math.random() * 100;
+    const size = Math.random() * 2.5 + 0.5;
+    const speedY = 0.8 + Math.random() * 2;
+    const opacity = 0.6 + Math.random() * 0.4;
+    const hue = 40 + Math.random() * 15; // Tonos dorados
+    const color = `hsla(${hue}, 80%, 60%, ${opacity})`;
+    
+    particles.push({ x, y, size, speedY, color, opacity });
+  }
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+  // Actualizar y dibujar partículas
+  function updateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      
+      // Dibujar partícula
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      
+      // Actualizar posición
+      p.y -= p.speedY;
+      
+      // Eliminar si está fuera de pantalla
+      if (p.y < -10) {
+        particles.splice(i, 1);
+      }
+    }
+  }
+
+  // Loop de animación
+  function animate() {
+    // Crear nuevas partículas si no alcanzamos el límite
+    if (particles.length < MAX_PARTICLES) {
+      createParticle();
+    }
+    
+    updateParticles();
+    requestAnimationFrame(animate);
+  }
+
+  // Manejar resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      resizeCanvas();
+      // Limpiar partículas fuera de los nuevos límites
+      particles = particles.filter(p => p.x <= canvas.width);
+    }, 250);
+  });
+
+  // Iniciar animación
+  animate();
+})();
