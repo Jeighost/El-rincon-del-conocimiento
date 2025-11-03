@@ -8,14 +8,17 @@
   let deferredPrompt;
   let installButton;
   let installBanner;
+  let permanentInstallBtn;
 
   // Esperar a que el DOM esté listo
   document.addEventListener('DOMContentLoaded', () => {
     createInstallUI();
     registerServiceWorker();
+    addPermanentInstallStyles();
+    addPermanentInstallButton();
   });
 
-  // Crear interfaz de instalación
+  // Crear interfaz de instalación (banner temporal)
   function createInstallUI() {
     // Banner de instalación
     installBanner = document.createElement('div');
@@ -190,6 +193,7 @@
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    console.log('📱 Evento de instalación capturado');
 
     // Verificar si ya fue instalada o descartada
     const dismissed = localStorage.getItem('install-dismissed');
@@ -201,11 +205,18 @@
         installBanner.style.display = 'block';
       }, 3000);
     }
+
+    // Actualizar botón permanente
+    updatePermanentButton();
   });
 
   // Función para instalar
   function installApp() {
-    if (!deferredPrompt) return;
+    if (!deferredPrompt) {
+      console.log('❌ No hay prompt de instalación disponible');
+      showInstallInstructions();
+      return;
+    }
 
     deferredPrompt.prompt();
 
@@ -214,6 +225,7 @@
         console.log('✅ Usuario aceptó instalar');
         localStorage.setItem('app-installed', 'true');
         showSuccessMessage();
+        updatePermanentButton();
       } else {
         console.log('❌ Usuario canceló la instalación');
       }
@@ -268,16 +280,232 @@
     }, 3000);
   }
 
+  // === BOTÓN PERMANENTE ===
+
+  // Estilos para botón permanente
+  function addPermanentInstallStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+      .install-permanent-btn {
+        background: transparent;
+        color: #d4af37;
+        border: 1px solid rgba(212,175,55,0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+      }
+
+      .install-permanent-btn:hover {
+        border-color: #d4af37;
+        background: rgba(212,175,55,0.1);
+        transform: translateY(-2px);
+      }
+
+      .install-permanent-btn.installed {
+        color: #90ee90;
+        border-color: rgba(144,238,144,0.3);
+        cursor: default;
+      }
+
+      .install-permanent-btn.installed:hover {
+        border-color: #90ee90;
+        background: rgba(45,80,22,0.2);
+        transform: none;
+      }
+
+      .install-info-message {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(20,20,20,0.98);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212,175,55,0.3);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+        z-index: 10000;
+        max-width: 90%;
+        width: 400px;
+        animation: slideDown 0.4s ease;
+      }
+
+      .install-info-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .install-info-icon {
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .install-info-text {
+        flex: 1;
+      }
+
+      .install-info-text strong {
+        color: #d4af37;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .install-info-text p {
+        color: #ccc;
+        font-size: 0.9rem;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .install-info-close {
+        background: transparent;
+        border: none;
+        color: #888;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        transition: color 0.3s;
+      }
+
+      .install-info-close:hover {
+        color: #d4af37;
+      }
+
+      @media (max-width: 768px) {
+        .install-text {
+          display: none;
+        }
+        
+        .install-permanent-btn {
+          padding: 0.5rem 0.8rem;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Agregar botón permanente
+  function addPermanentInstallButton() {
+    // Esperar a que el nav exista
+    const checkNav = setInterval(() => {
+      const nav = document.querySelector('nav');
+      if (nav) {
+        clearInterval(checkNav);
+        
+        permanentInstallBtn = document.createElement('button');
+        permanentInstallBtn.id = 'permanent-install-btn';
+        permanentInstallBtn.className = 'install-permanent-btn';
+        permanentInstallBtn.title = 'Instalar aplicación';
+        
+        updatePermanentButton();
+        
+        permanentInstallBtn.addEventListener('click', handlePermanentButtonClick);
+        
+        // Agregar al nav
+        nav.appendChild(permanentInstallBtn);
+        console.log('✅ Botón permanente agregado');
+      }
+    }, 100);
+
+    // Timeout de seguridad
+    setTimeout(() => clearInterval(checkNav), 5000);
+  }
+
+  // Manejar clic en botón permanente
+  function handlePermanentButtonClick() {
+    const isInstalled = localStorage.getItem('app-installed') === 'true';
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (isInstalled || isPWA) {
+      showInstalledMessage();
+    } else if (deferredPrompt) {
+      installApp();
+    } else {
+      showInstallInstructions();
+    }
+  }
+
+  // Actualizar estado del botón permanente
+  function updatePermanentButton() {
+    if (!permanentInstallBtn) return;
+
+    const isInstalled = localStorage.getItem('app-installed') === 'true';
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (isInstalled || isPWA) {
+      permanentInstallBtn.innerHTML = '✅ <span class="install-text">App instalada</span>';
+      permanentInstallBtn.classList.add('installed');
+      permanentInstallBtn.title = 'La app ya está instalada';
+    } else {
+      permanentInstallBtn.innerHTML = '📱 <span class="install-text">Instalar App</span>';
+      permanentInstallBtn.classList.remove('installed');
+      permanentInstallBtn.title = 'Instalar como aplicación';
+    }
+  }
+
+  // Mensaje cuando ya está instalada
+  function showInstalledMessage() {
+    const message = document.createElement('div');
+    message.className = 'install-info-message';
+    message.innerHTML = `
+      <div class="install-info-content">
+        <div class="install-info-icon">✅</div>
+        <div class="install-info-text">
+          <strong>App ya instalada</strong>
+          <p>Puedes acceder desde tu pantalla de inicio</p>
+        </div>
+        <button class="install-info-close">✕</button>
+      </div>
+    `;
+    
+    document.body.appendChild(message);
+    
+    message.querySelector('.install-info-close').addEventListener('click', () => {
+      message.remove();
+    });
+    
+    setTimeout(() => message.remove(), 5000);
+  }
+
+  // Instrucciones si no se puede instalar automáticamente
+  function showInstallInstructions() {
+    const message = document.createElement('div');
+    message.className = 'install-info-message';
+    message.innerHTML = `
+      <div class="install-info-content">
+        <div class="install-info-icon">💡</div>
+        <div class="install-info-text">
+          <strong>Cómo instalar</strong>
+          <p>Abre el menú del navegador (⋮) y selecciona "Instalar app" o "Agregar a pantalla de inicio"</p>
+        </div>
+        <button class="install-info-close">✕</button>
+      </div>
+    `;
+    
+    document.body.appendChild(message);
+    
+    message.querySelector('.install-info-close').addEventListener('click', () => {
+      message.remove();
+    });
+    
+    setTimeout(() => message.remove(), 8000);
+  }
+
   // Detectar si ya está instalada
   window.addEventListener('appinstalled', () => {
     console.log('✅ PWA instalada exitosamente');
     localStorage.setItem('app-installed', 'true');
-    
-    // Actualizar botón permanente
-    const permanentBtn = document.getElementById('permanent-install-btn');
-    if (permanentBtn) {
-      updateInstallButtonState(permanentBtn);
-    }
+    updatePermanentButton();
   });
 
   // Actualizar estado al cargar si ya está instalada como PWA
