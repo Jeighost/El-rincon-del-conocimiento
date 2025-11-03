@@ -231,7 +231,7 @@
     // Permitir mostrar nuevamente después de 7 días
     setTimeout(() => {
       localStorage.removeItem('install-dismissed');
-    }, 0 * 0 * 60 * 60 * 1000);
+    }, 7 * 24 * 60 * 60 * 1000);
   }
 
   // Mensaje de éxito
@@ -272,6 +272,17 @@
   window.addEventListener('appinstalled', () => {
     console.log('✅ PWA instalada exitosamente');
     localStorage.setItem('app-installed', 'true');
+    
+    // Actualizar botón permanente
+    const permanentBtn = document.getElementById('permanent-install-btn');
+    if (permanentBtn) {
+      updateInstallButtonState(permanentBtn);
+    }
   });
+
+  // Actualizar estado al cargar si ya está instalada como PWA
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    localStorage.setItem('app-installed', 'true');
+  }
 
 })();

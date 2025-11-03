@@ -33,28 +33,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="splash-screen.css">
-  <!-- OneSignal Web Push SDK -->
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "f5089879-aa40-4af5-b688-a7d9d49ad36c", // 🔹 Reemplaza con tu App ID de OneSignal
-      safari_web_id: "",        // opcional si no usas Safari
-      notifyButton: {
-        enable: true,           // Muestra el botón para activar notificaciones
-      },
-      promptOptions: {
-        slidedown: {
-          enabled: true,
-          actionMessage: "¿Deseas recibir notificaciones cuando se publique una nueva reflexión?",
-          acceptButtonText: "Sí, quiero",
-          cancelButtonText: "No por ahora"
-        }
-      }
-    });
-  });
-</script>
+  <link rel="stylesheet" href="menu-mejorado.css">
 </head>
 
 <body>
@@ -133,5 +112,7 @@
   <script src="install.js"></script>
   <script src="splash.js"></script>
   <script src="analytics.js"></script>
+  <script src="notifications.js"></script>
+  <script src="menu.js"></script>
 </body>
 </html>
