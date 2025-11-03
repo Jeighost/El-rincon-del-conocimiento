@@ -303,10 +303,10 @@ blockquote {
   margin-top: 3rem;
   margin-bottom: 2rem;
   font-style: italic;
-  color: #d4af37;
-  font-size: 1.1rem;
+  color: #d4af23;
+  font-size: 0.8rem;
   opacity: 0.7;
-  animation: respirarMensaje 6s infinite ease-in-out;
+  animation: respirarMensaje 8s infinite ease-in-out;
 }
 
 /* ============================================
