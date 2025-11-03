@@ -231,7 +231,7 @@
     // Permitir mostrar nuevamente después de 7 días
     setTimeout(() => {
       localStorage.removeItem('install-dismissed');
-    }, 7 * 24 * 60 * 60 * 1000);
+    }, 0 * 0 * 60 * 60 * 1000);
   }
 
   // Mensaje de éxito
