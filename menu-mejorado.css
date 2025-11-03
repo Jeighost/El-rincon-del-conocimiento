@@ -6,12 +6,12 @@
 nav {
   position: sticky;
   top: 0;
-  background: transparent;
-  backdrop-filter: none
-  border: none;
-  box-shadow: none;
-  z-index: 80;
-  padding: 0.2rem 0.5rem;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(212,175,55,0.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  z-index: 100;
+  padding: 0;
 }
 
 /* Contenedor interno para mejor organización */
@@ -20,7 +20,7 @@ nav {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0.8rem 1.5rem;
   gap: 1.5rem;
 }
@@ -315,6 +315,11 @@ nav a:hover::after,
 
 @media (max-width: 968px) {
   .nav-actions button:hover::before {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .notification-btn {
     display: none;
   }
 }

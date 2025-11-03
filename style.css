@@ -123,21 +123,6 @@ header p {
 /* ============================================
    NAVEGACIÓN
    ============================================ */
-nav {
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  background: rgba(10,10,10,0.98);
-  backdrop-filter: blur(10px);
-  padding: 1rem;
-  border-bottom: 1px solid rgba(212,175,55,0.25);
-  box-shadow: 0 3px 12px rgba(0,0,0,0.5);
-  z-index: 100;
-}
-
 nav a {
   color: #d4af37;
   text-decoration: none;
