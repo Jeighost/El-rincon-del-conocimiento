@@ -33,6 +33,28 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="splash-screen.css">
+  <!-- OneSignal Web Push SDK -->
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "f5089879-aa40-4af5-b688-a7d9d49ad36c", // 🔹 Reemplaza con tu App ID de OneSignal
+      safari_web_id: "",        // opcional si no usas Safari
+      notifyButton: {
+        enable: true,           // Muestra el botón para activar notificaciones
+      },
+      promptOptions: {
+        slidedown: {
+          enabled: true,
+          actionMessage: "¿Deseas recibir notificaciones cuando se publique una nueva reflexión?",
+          acceptButtonText: "Sí, quiero",
+          cancelButtonText: "No por ahora"
+        }
+      }
+    });
+  });
+</script>
 </head>
 
 <body>
@@ -55,8 +77,7 @@
   <section class="intro">
     <h2>Bienvenido al rincón del conocimiento</h2>
     <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
-    Redacto mis pensamientos esos que han sido silenciados por mí, intentando dar a conocer esas cosas que mi boca calla.
-    Ni siquiera me interesa si alguien leyera, pero espero sea de agrado para el interesado de estos textos.</p>
+    Redacto mis pensamientos esos que han sido silenciados por mí, intentando dar a conocer esas cosas que mi boca calla.</p>
   </section>
 
   <!-- Sección interactiva -->
