@@ -179,7 +179,7 @@
   // Registrar Service Worker
   function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/El-rincon-del-conocimiento/service-worker.js')
+      navigator.serviceWorker.register('/service-worker.js')
         .then((registration) => {
           console.log('✅ Service Worker registrado:', registration);
         })

@@ -12,21 +12,15 @@
   // Detectar automáticamente número de reflexiones
   async function detectReflexionesCount() {
     let count = 0;
-    
-    // Intentar detectar archivos reflexionX.html
     for (let i = 1; i <= 50; i++) {
       try {
         const response = await fetch(`reflexion${i}.html`, { method: 'HEAD' });
-        if (response.ok) {
-          count = i;
-        } else {
-          break;
-        }
+        if (response.ok) count = i;
+        else break;
       } catch (e) {
         break;
       }
     }
-    
     return count;
   }
 
@@ -35,27 +29,25 @@
     try {
       const lastCount = parseInt(localStorage.getItem(REFLEXIONES_KEY) || '0');
       const currentCount = await detectReflexionesCount();
-      
+
       console.log(`📊 Reflexiones: ${lastCount} → ${currentCount}`);
-      
+
       if (currentCount > lastCount) {
         const newReflections = currentCount - lastCount;
-        
-        // Guardar nuevo contador
+
         localStorage.setItem(REFLEXIONES_KEY, currentCount.toString());
         localStorage.setItem(LAST_CHECK_KEY, new Date().toISOString());
-        
-        // Verificar si ya se envió notificación
+
         const notificationSent = localStorage.getItem(NOTIFICATION_SENT_KEY);
-        
+
         if (notificationSent !== currentCount.toString()) {
           await sendNewReflectionNotification(newReflections, currentCount);
           localStorage.setItem(NOTIFICATION_SENT_KEY, currentCount.toString());
         }
-        
+
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Error detectando reflexiones:', error);
@@ -65,6 +57,12 @@
 
   // Enviar notificación de nueva reflexión
   async function sendNewReflectionNotification(count, totalCount) {
+    // 🧩 FIX 1: Verificar compatibilidad antes de usar Notification
+    if (!('Notification' in window)) {
+      console.warn("🚫 API de notificaciones no disponible en este entorno.");
+      return;
+    }
+
     if (Notification.permission !== 'granted') {
       console.log('⚠️ Sin permiso para notificaciones');
       return;
@@ -77,38 +75,41 @@
       4: 'No soy nadie',
       5: 'Un sueño despierto',
       6: 'Un solitario',
-      7: 'El titulo va al final',
-      8: 'Nueva reflexión', // Default para reflexiones futuras
-      9: 'Nueva reflexión',
-      10: 'Nueva reflexión'
+      7: 'El título va al final',
+      8: 'Otro dia',
+      9: 'Desgaste invisible',
+      10: 'La identidad'
     };
 
     const title = count === 1 
-      ? `🧠 Nueva reflexión: "${titles[totalCount] || 'Reflexión ' + totalCount}"` 
+      ? `🧠 Nueva reflexión: "${titles[totalCount] || 'Reflexión ' + totalCount}"`
       : `🧠 ${count} nuevas reflexiones disponibles`;
 
     const body = count === 1
       ? 'Explora este nuevo pensamiento'
       : `Ahora hay ${totalCount} reflexiones para explorar`;
 
-    const notification = new Notification(title, {
-      body: body,
-      icon: 'icon-192.png',
-      badge: 'icon-96.png',
-      tag: `new-reflection-${totalCount}`,
-      requireInteraction: false,
-      vibrate: [200, 100, 200, 100, 200],
-      data: {
-        url: count === 1 ? `reflexion${totalCount}.html` : 'reflexiones.html'
-      }
-    });
+    try {
+      const notification = new Notification(title, {
+        body: body,
+        icon: 'icon-192.png',
+        badge: 'icon-96.png',
+        tag: `new-reflection-${totalCount}`,
+        requireInteraction: false,
+        vibrate: [200, 100, 200, 100, 200],
+        data: {
+          url: count === 1 ? `reflexion${totalCount}.html` : 'reflexiones.html'
+        }
+      });
 
-    notification.onclick = function() {
-      window.open(this.data.url, '_self');
-      notification.close();
-    };
+      notification.onclick = function() {
+        window.open(this.data.url, '_self');
+        notification.close();
+      };
+    } catch (error) {
+      console.warn("⚠️ No se pudo mostrar la notificación:", error);
+    }
 
-    // Registrar en analytics
     if (window.gtag) {
       gtag('event', 'new_reflection_detected', {
         'event_category': 'Content',
@@ -120,38 +121,36 @@
 
   // Programar verificaciones periódicas
   function scheduleChecks() {
-    // Verificar al cargar la página
     checkForNewReflections();
 
-    // Verificar cada 30 minutos
     setInterval(() => {
       checkForNewReflections();
     }, 30 * 60 * 1000);
 
-    // Verificar cuando el usuario regresa a la pestaña
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         const lastCheck = localStorage.getItem(LAST_CHECK_KEY);
         const now = new Date();
-        
         if (!lastCheck) {
           checkForNewReflections();
           return;
         }
-        
+
         const lastCheckDate = new Date(lastCheck);
         const hoursSinceCheck = (now - lastCheckDate) / (1000 * 60 * 60);
-        
-        // Si pasaron más de 2 horas, verificar de nuevo
-        if (hoursSinceCheck > 2) {
-          checkForNewReflections();
-        }
+        if (hoursSinceCheck > 2) checkForNewReflections();
       }
     });
   }
 
   // Sistema de programación de notificaciones
   function scheduleNotification(date, title, message) {
+    // 🧩 FIX 2: Verificar compatibilidad antes de usar Notification
+    if (!('Notification' in window)) {
+      console.warn("🚫 API de notificaciones no disponible en este entorno.");
+      return false;
+    }
+
     const now = new Date();
     const scheduledTime = new Date(date);
     const delay = scheduledTime - now;
@@ -159,12 +158,16 @@
     if (delay > 0) {
       setTimeout(() => {
         if (Notification.permission === 'granted') {
-          new Notification(title, {
-            body: message,
-            icon: 'icon-192.png',
-            badge: 'icon-96.png',
-            vibrate: [200, 100, 200]
-          });
+          try {
+            new Notification(title, {
+              body: message,
+              icon: 'icon-192.png',
+              badge: 'icon-96.png',
+              vibrate: [200, 100, 200]
+            });
+          } catch (error) {
+            console.warn("⚠️ No se pudo mostrar la notificación programada:", error);
+          }
         }
       }, delay);
 
@@ -175,16 +178,14 @@
     return false;
   }
 
-  // API pública para programar notificaciones personalizadas
+  // API pública
   window.autoNotifications = {
     check: checkForNewReflections,
     schedule: scheduleNotification,
-    // Programar recordatorio semanal
     scheduleWeeklyReminder: () => {
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
-      nextWeek.setHours(19, 0, 0, 0); // 7 PM
-
+      nextWeek.setHours(19, 0, 0, 0);
       return scheduleNotification(
         nextWeek,
         '📚 El Rincón del Conocimiento',
@@ -195,14 +196,17 @@
 
   // Inicializar sistema
   document.addEventListener('DOMContentLoaded', () => {
-    // Solo iniciar si hay permiso de notificaciones
+    // 🧩 FIX 3: Verificar compatibilidad general
+    if (!('Notification' in window)) {
+      console.warn("🚫 API de notificaciones no disponible. Saltando inicialización.");
+      return;
+    }
+
     if (Notification.permission === 'granted') {
       console.log('🔔 Sistema de notificaciones automáticas iniciado');
       scheduleChecks();
     } else {
       console.log('⏸️ Sistema de notificaciones en espera de permiso');
-      
-      // Escuchar cuando se otorgue permiso
       const checkPermission = setInterval(() => {
         if (Notification.permission === 'granted') {
           console.log('✅ Permiso otorgado, iniciando sistema');
@@ -243,7 +247,6 @@
     }
   }
 
-  // Actualizar al cargar
   if (window.location.pathname.includes('index.html') || 
       window.location.pathname === '/' ||
       window.location.pathname.endsWith('/El-rincon-del-conocimiento/')) {

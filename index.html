@@ -115,11 +115,17 @@
   <script src="install.js"></script>
   <script src="splash.js"></script>
   <script src="analytics.js"></script>
-  <script src="notifications.js"></script>
   <script src="menu.js"></script>
   <script src="features.js"></script>
   <script src="favoritos.js"></script>
  <script src="advanced-features.js"></script>
  <script src="auto-notifications.js"></script>
+ <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(reg => console.log('✅ Service Worker registrado con éxito:', reg.scope))
+    .catch(err => console.error('❌ Error al registrar el Service Worker:', err));
+}
+</script>
  </body>
 </html>
