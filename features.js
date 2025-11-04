@@ -235,7 +235,7 @@
     if (!match) return;
 
     const currentNum = parseInt(match[1]);
-    const totalReflections = 9; // Actualizar cuando agregues más
+    const totalReflections = 10; // Actualizar cuando agregues más
 
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';

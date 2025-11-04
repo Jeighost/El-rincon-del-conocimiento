@@ -16,11 +16,10 @@
     { id: 4, title: 'No soy nadie', tags: ['individualidad', 'reconocimiento', 'propósito'], preview: 'Nunca lo seré, pero para mí lo soy' },
     { id: 5, title: 'Un sueño despierto', tags: ['sueños', 'futuro', 'responsabilidad'], preview: 'Todos podemos soñar con lo mismo' },
     { id: 6, title: 'Un solitario', tags: ['soledad', 'existencia', 'conciencia'], preview: 'Anhelando una compañía real' },
-    { id: 7, title: 'El titulo va al final', tags: ['vida', 'muerte', 'decisiones'], preview: 'Ya pude leerlo' }
-    { id: 8, title: 'Otro dia', tags: ['universo', 'amor', 'enamoramiento'], preview: 'otra poesia' }
-     { id: 9, title: 'Desgaste invisible', tags: ['salud', 'bienestar', 'cambio'], preview: '¿Como estoy cuidando lo importante?' }
-     { id: 10, title: 'La identidad', tags: ['dualidad', 'cambio', 'verdad'], preview: 'Una mirada hacia el ser interior, donde las máscaras, los recuerdos y el tiempo difuminan lo que creemos ser.
-' }
+    { id: 7, title: 'El titulo va al final', tags: ['vida', 'muerte', 'decisiones'], preview: 'Ya pude leerlo' },
+    { id: 8, title: 'Otro dia', tags: ['universo', 'amor', 'enamoramiento'], preview: 'otra poesia' },
+     { id: 9, title: 'Desgaste invisible', tags: ['salud', 'bienestar', 'cambio'], preview: '¿Como estoy cuidando lo importante?' },
+     { id: 10, title: 'La identidad', tags: ['dualidad', 'cambio', 'verdad'], preview: 'Una mirada hacia el ser interior, donde las máscaras, los recuerdos y el tiempo difuminan lo que creemos ser.' },
   ];
 
   function addSearchBar() {
@@ -262,7 +261,7 @@
         !window.location.pathname.endsWith('/El-rincon-del-conocimiento/')) return;
 
     // Fecha de última reflexión (actualizar manualmente)
-    const lastReflectionDate = new Date('2025-01-15'); 2025-11-04
+    const lastReflectionDate = new Date('2025-11-04'); 
     const today = new Date();
     const daysSince = Math.floor((today - lastReflectionDate) / (1000 * 60 * 60 * 24));
 
@@ -446,7 +445,7 @@
 
       body[data-theme="light"] p,
       body[data-theme="light"] .texto-reflexion {
-        color: #2a2a2a;
+        color: #111111;
       }
 
       body[data-theme="light"] nav a {
