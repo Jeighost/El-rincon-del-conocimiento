@@ -148,6 +148,8 @@
       tags = ['Universo', 'Amor', 'Enamoramiento'];
     }else if (path.includes('reflexion9')) {
       tags = ['Salud', 'Bienestar', 'Cambio'];
+    }else if (path.includes('reflexion10')) {
+      tags = ['Dualidad', 'Cambio', 'Verdad'];
     }
 
     if (tags.length > 0) {
