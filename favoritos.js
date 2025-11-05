@@ -181,7 +181,11 @@
       '4': 'No soy nadie',
       '5': 'Un sueño despierto',
       '6': 'Un solitario',
-      '7': 'El titulo va al final'
+      '7': 'El titulo va al final',
+      '8': 'Otro dia',
+      '9': 'Desgaste invisible',
+      '10': 'La identidad',
+      '11': 'La conciencia que se basta asi misma'
     };
     
     favorites.forEach(id => {

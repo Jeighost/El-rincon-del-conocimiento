@@ -41,7 +41,7 @@
     statsBar.className = 'stats-bar';
     statsBar.innerHTML = `
       <div class="stat-item">
-        <span class="stat-number">9</span>
+        <span class="stat-number">11</span>
         <span class="stat-label">Reflexiones</span>
       </div>
       <div class="stat-item">
@@ -127,7 +127,7 @@
     if (!reflexionContent) return;
 
     const path = window.location.pathname;
-    let tags = [];
+    let tags = [11];
 
     // Asignar tags según reflexión
     if (path.includes('reflexion1')) {
@@ -150,6 +150,7 @@
       tags = ['Salud', 'Bienestar', 'Cambio'];
     }else if (path.includes('reflexion10')) {
       tags = ['Dualidad', 'Cambio', 'Verdad'];
+    }else if (path.includes('reflexion11')) { tags = ['Conciencia', 'Infinito', 'Plenitud'];
     }
 
     if (tags.length > 0) {
