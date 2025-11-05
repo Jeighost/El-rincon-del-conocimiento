@@ -2,7 +2,7 @@
 // SERVICE WORKER - El rincón del conocimiento
 // ============================================
 
-const CACHE_NAME = 'el-rincon-v3';
+const CACHE_NAME = 'el-rincon-v5';
 const urlsToCache = [
   '/El-rincon-del-conocimiento/',
   '/El-rincon-del-conocimiento/index.html',
