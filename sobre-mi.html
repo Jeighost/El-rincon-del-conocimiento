@@ -40,7 +40,7 @@
   <section class="sobre-mi-content">
     <div class="perfil-card">
       <div class="perfil-avatar">
-        <div class="avatar-placeholder">JG</div>
+        <img src="https://i.imgur.com/7HuzmmI.jpeg" alt="Jeison gonzalez" class="avatar-image">
       </div>
       
       <h2>Jeison Gonzalez</h2>
@@ -158,6 +158,19 @@
       font-family: 'Cinzel', serif;
       box-shadow: 0 0 30px rgba(212,175,55,0.3);
     }
+    .avatar-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  object-fit: cover;
+  box-shadow: 0 0 30px rgba(212,.3);
+  transition: transform 0.3s ease;
+}
+
+.avatar-image:hover {
+  transform: scale(1.05);
+}
 
     .perfil-card h2 {
       color: #d4af37;
