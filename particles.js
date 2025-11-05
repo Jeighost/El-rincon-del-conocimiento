@@ -21,7 +21,7 @@
 
   // Configuración inicial
   let particles = [];
-  const MAX_PARTICLES = 80; // Límite de partículas para mejor rendimiento
+  const MAX_PARTICLES = 40; // Límite de partículas para mejor rendimiento
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;

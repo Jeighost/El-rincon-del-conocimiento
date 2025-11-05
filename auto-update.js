@@ -22,7 +22,7 @@
     // { id: 8, title: 'Tu nueva reflexión', tags: ['Tag1', 'Tag2', 'Tag3'] }
   ];
 
-  const TEMAS_COUNT = 5; // Actualizar manualmente si cambian los temas
+  const TEMAS_COUNT = 8; // Actualizar manualmente si cambian los temas
 
   // ======================================
   // ACTUALIZACIÓN AUTOMÁTICA
