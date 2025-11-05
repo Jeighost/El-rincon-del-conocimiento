@@ -33,12 +33,12 @@
   // Crear una partícula
   function createParticle() {
     const x = Math.random() * canvas.width;
-    const y = canvas.height + Math.random() * 100;
-    const size = Math.random() * 2.5 + 0.5;
-    const speedY = 0.8 + Math.random() * 2;
+    const y = canvas.height + Math.random() * 70;
+    const size = Math.random() * 2.0 + 1.0;
+    const speedY = 0.5 + Math.random() * 1;
     const opacity = 0.6 + Math.random() * 0.4;
     const hue = 40 + Math.random() * 15; // Tonos dorados
-    const color = `hsla(${hue}, 80%, 60%, ${opacity})`;
+    const color = `hsla(${hue}, 60%, 60%, ${opacity})`;
     
     particles.push({ x, y, size, speedY, color, opacity });
   }
@@ -52,7 +52,7 @@
       
       // Dibujar partícula
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 3);
       ctx.fillStyle = p.color;
       ctx.fill();
       
@@ -61,7 +61,7 @@
       
       // Eliminar si está fuera de pantalla
       if (p.y < -10) {
-        particles.splice(i, 1);
+        particles.splice(i, 2);
       }
     }
   }
@@ -85,7 +85,7 @@
       resizeCanvas();
       // Limpiar partículas fuera de los nuevos límites
       particles = particles.filter(p => p.x <= canvas.width);
-    }, 250);
+    }, 200);
   });
 
   // Iniciar animación
