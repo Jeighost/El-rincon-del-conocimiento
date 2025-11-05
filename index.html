@@ -113,16 +113,16 @@
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
-
-  <script src="particles.js"></script>
-  <script src="install.js"></script>
-  <script src="splash.js"></script>
-  <script src="analytics.js"></script>
-  <script src="menu.js"></script>
-  <script src="features.js"></script>
-  <script src="favoritos.js"></script>
- <script src="advanced-features.js"></script>
- <script src="auto-notifications.js"></script>
+<script src="particles.js"></script>
+<script src="auto-update.js"></script>
+<script src="favoritos.js"></script>
+<script src="advanced-features.js"></script>
+<script src="auto-notifications.js"></script>
+<script src="install.js"></script>
+<script src="notifications.js"></script>
+<script src="menu.js"></script>
+<script src="features.js"></script>
+<script src="analytics.js"></script>
  <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')

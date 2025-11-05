@@ -714,3 +714,129 @@ body[data-theme="light"] nav a {
     transform: scale(0.95);
   }
 }
+/* ==========================================
+   CORRECCIONES RESPONSIVE PROFESIONALES
+   ========================================== */
+
+/* Prevenir zoom en inputs iOS */
+input, textarea, select {
+  font-size: 16px !important;
+}
+
+/* Mejorar legibilidad en móvil */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* Stats más compactos */
+  .stats-bar {
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+  }
+
+  /* Breadcrumb responsive */
+  .breadcrumb {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.8rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Tags en móvil */
+  .tags {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 0.5rem;
+  }
+
+  .tag {
+    flex-shrink: 0;
+  }
+
+  /* Búsqueda */
+  #search-input {
+    font-size: 15px;
+    padding: 0.7rem 2.5rem 0.7rem 1rem;
+  }
+
+  /* Botones táctiles */
+  .nav-actions button,
+  .floating-nav button,
+  .favorite-btn,
+  .audio-reader-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Texto más legible */
+  .texto-reflexion,
+  .contenido-reflexion p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+}
+
+/* Desktop optimizado */
+@media (min-width: 1200px) {
+  /* Mejor uso del espacio */
+  .stats-bar {
+    max-width: 700px;
+  }
+
+  .reflexion-completa,
+  .contenido-reflexion {
+    max-width: 900px;
+  }
+
+  /* Sidebar para contenido largo */
+  .floating-nav {
+    right: 3rem;
+  }
+}
+
+/* Prevenir CLS (Cumulative Layout Shift) */
+.stats-bar,
+.tags,
+.social-share,
+.breadcrumb {
+  min-height: fit-content;
+}
+
+/* Mejorar contraste general */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Asegurar visibilidad de todos los textos */
+p, span, div, a {
+  text-rendering: optimizeLegibility;
+}
+
+/* Mejorar hover states */
+@media (hover: hover) {
+  .reflexion-item:hover,
+  .related-card:hover,
+  .search-result-item a:hover {
+    box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+  }
+}
+
+/* Accesibilidad para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

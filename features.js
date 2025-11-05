@@ -127,7 +127,7 @@
     if (!reflexionContent) return;
 
     const path = window.location.pathname;
-    let tags = [11];
+    let tags = [];
 
     // Asignar tags según reflexión
     if (path.includes('reflexion1')) {
@@ -236,7 +236,7 @@
     if (!match) return;
 
     const currentNum = parseInt(match[1]);
-    const totalReflections = 10; // Actualizar cuando agregues más
+    const totalReflections = 11; // Actualizar cuando agregues más
 
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';

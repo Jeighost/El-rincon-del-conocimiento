@@ -425,37 +425,64 @@
         transform: scale(1.1);
       }
 
-      /* Tema claro */
-      body[data-theme="light"] {
-        background: linear-gradient(-45deg, #f5f5f5, #e8e8e8, #ffffff, #f0f0f0);
-        color: #1a1a1a;
-      }
+/* Tema claro MEJORADO */
+body[data-theme="light"] {
+  background: linear-gradient(-45deg, #fafafa, #f5f5f5, #ffffff, #f8f8f8);
+  color: #1a1a1a;
+}
 
-      body[data-theme="light"] header,
-      body[data-theme="light"] nav,
-      body[data-theme="light"] footer {
-        background: rgba(255,255,255,0.95);
-        color: #1a1a1a;
-      }
+body[data-theme="light"] header,
+body[data-theme="light"] nav,
+body[data-theme="light"] footer {
+  background: rgba(255,255,255,0.98);
+  color: #1a1a1a;
+  border-color: rgba(139,115,85,0.3);
+}
 
-      body[data-theme="light"] h1,
-      body[data-theme="light"] h2,
-      body[data-theme="light"] h3 {
-        color: #8b7355;
-      }
+body[data-theme="light"] h1,
+body[data-theme="light"] h2,
+body[data-theme="light"] h3 {
+  color: #6d5a45;
+}
 
-      body[data-theme="light"] p,
-      body[data-theme="light"] .texto-reflexion {
-        color: #111111;
-      }
+body[data-theme="light"] p,
+body[data-theme="light"] .texto-reflexion,
+body[data-theme="light"] .contenido-reflexion,
+body[data-theme="light"] .bio {
+  color: #2a2a2a;
+}
 
-      body[data-theme="light"] nav a {
-        color: #8b7355;
-      }
+body[data-theme="light"] nav a,
+body[data-theme="light"] .enlace-reflexion,
+body[data-theme="light"] .favorite-title {
+  color: #6d5a45 !important;
+}
 
-      body[data-theme="light"] .halo {
-        background: radial-gradient(circle, rgba(139,115,85,0.2), transparent 70%);
-      }
+body[data-theme="light"] .breadcrumb,
+body[data-theme="light"] .stats-bar,
+body[data-theme="light"] .reflexion-item {
+  background: rgba(139,115,85,0.08);
+  border-color: rgba(139,115,85,0.2);
+}
+
+body[data-theme="light"] .stat-label,
+body[data-theme="light"] .counter-label,
+body[data-theme="light"] .subtitulo {
+  color: #666;
+}
+
+body[data-theme="light"] .cita,
+body[data-theme="light"] blockquote {
+  color: #3a3a3a;
+  background: rgba(139,115,85,0.1);
+  border-left-color: #8b7355;
+}
+
+body[data-theme="light"] .tag {
+  background: rgba(139,115,85,0.15);
+  color: #6d5a45;
+  border-color: rgba(139,115,85,0.3);
+}
 
       /* REFLEXIONES RELACIONADAS */
       .related-reflections {
