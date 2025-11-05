@@ -316,3 +316,25 @@ blockquote {
     perspective: 1px;
   }
 }
+@media (max-width: 480px) {
+  /* Mejor uso del espacio */
+  header {
+    padding: 1rem 0.8rem 0.8rem;
+  }
+  
+  /* Botones más grandes (táctil) */
+  .nav-actions button,
+  .floating-nav button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Texto más legible */
+  body {
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+  
+  input, textarea {
+    font-size: 16px;
+  }
+}

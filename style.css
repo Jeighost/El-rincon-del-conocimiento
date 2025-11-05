@@ -627,3 +627,90 @@ footer span {
     padding: 0.8rem 1rem;
   }
 }
+img, .stat-number, .halo {
+  content-visibility: auto;
+}
+
+.stats-bar, .tags, .social-share {
+  min-height: 80px; /* Reservar espacio */
+}
+/* OPTIMIZACIONES DE RENDIMIENTO */
+
+/* Prevenir CLS */
+.stats-bar {
+  min-height: 120px;
+}
+
+.social-share {
+  min-height: 90px;
+}
+
+.tags {
+  min-height: 50px;
+}
+
+/* Mejorar contraste de botones */
+.nav-actions button {
+  background: rgba(212,175,55,0.15);
+}
+
+.nav-actions button:hover {
+  background: rgba(212,175,55,0.3);
+}
+
+/* Mejorar legibilidad */
+.breadcrumb {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Optimizar animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mejorar carga de fuentes */
+@font-face {
+  font-family: 'Cinzel';
+  font-display: swap;
+}
+
+/* Espaciado más consistente */
+section {
+  margin: 2.5rem auto;
+}
+
+h2 {
+  margin: 2rem 0 1.5rem;
+}
+
+h3 {
+  margin: 1.5rem 0 1rem;
+}
+
+/* Mejorar contraste en modo claro */
+body[data-theme="light"] .breadcrumb {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(139,115,85,0.2);
+}
+
+body[data-theme="light"] nav a {
+  color: #6d5a45;
+}
+
+/* Botones más visibles */
+.favorite-btn,
+.audio-reader-btn,
+.theme-toggle-btn {
+  box-shadow: 0 2px 8px rgba(212,175,55,0.15);
+}
+
+/* Mejorar hover en móvil */
+@media (hover: none) {
+  .floating-nav button:active {
+    transform: scale(0.95);
+  }
+}
