@@ -185,7 +185,8 @@
       '8': 'Otro dia',
       '9': 'Desgaste invisible',
       '10': 'La identidad',
-      '11': 'La conciencia que se basta asi misma'
+      '11': 'La conciencia que se basta asi misma',
+      '12': 'El mundo que sueño'
     };
     
     favorites.forEach(id => {

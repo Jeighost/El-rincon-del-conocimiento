@@ -18,6 +18,7 @@
     { id: 9, title: 'Desgaste invicible', tags: ['Salud', 'Bienestar', 'Cambio'] },
     { id: 10, title: 'La Identidad', tags: ['Percepción', 'Conciencia', 'Conocimiento'] },
     { id: 11, title: 'La conciencia que se basta asi misma', tags: ['Conciencia', 'Plenitud', 'Cambio'] }
+    { id: 12, title: 'El mundo que sueño', tags: ['Consciencia', 'Unidad', 'Preservacion'] }
     // AGREGAR NUEVAS AQUÍ:
     // { id: 8, title: 'Tu nueva reflexión', tags: ['Tag1', 'Tag2', 'Tag3'] }
   ];
@@ -93,6 +94,7 @@
       9: 'Desgaste invicible',
       10: 'La Identidad',
       11: 'La conciencia que se basta asi misma'
+      12: 'El mundo que sueño'
     };
     return previews[id] || 'Nueva reflexión';
   }

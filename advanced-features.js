@@ -21,6 +21,7 @@
      { id: 9, title: 'Desgaste invisible', tags: ['salud', 'bienestar', 'cambio'], preview: '¿Como estoy cuidando lo importante?' },
      { id: 10, title: 'La identidad', tags: ['dualidad', 'cambio', 'verdad'], preview: 'Una mirada hacia el ser interior, donde las máscaras, los recuerdos y el tiempo difuminan lo que creemos ser.' },
      { id: 11, title: 'La conciencia que basta asi misma', tags: ['conciencia', 'plenitud', 'infinito'], preview: 'Reflexión filosófica sobre la plenitud interior y la conciencia como fuente inagotable de felicidad.' },
+     { id: 12, title: 'El mundo que sueño', tags: ['consciencia', 'unidad', 'preservacion'], preview: 'Una vision posible' },
   ];
 
   function addSearchBar() {

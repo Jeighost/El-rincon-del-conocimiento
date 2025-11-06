@@ -41,7 +41,7 @@
     statsBar.className = 'stats-bar';
     statsBar.innerHTML = `
       <div class="stat-item">
-        <span class="stat-number">11</span>
+        <span class="stat-number">12</span>
         <span class="stat-label">Reflexiones</span>
       </div>
       <div class="stat-item">
@@ -151,6 +151,7 @@
     }else if (path.includes('reflexion10')) {
       tags = ['Dualidad', 'Cambio', 'Verdad'];
     }else if (path.includes('reflexion11')) { tags = ['Conciencia', 'Infinito', 'Plenitud'];
+    }else if (path.includes('reflexion12')) { tags = ['Consciencia', 'Unidad', 'Preservacion'];
     }
 
     if (tags.length > 0) {
@@ -236,7 +237,7 @@
     if (!match) return;
 
     const currentNum = parseInt(match[1]);
-    const totalReflections = 11; // Actualizar cuando agregues más
+    const totalReflections = 12; // Actualizar cuando agregues más
 
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';
