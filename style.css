@@ -185,24 +185,12 @@ h2 {
   margin-bottom: 1.5rem;
   font-size: clamp(1.3rem, 3.5vw, 1.6rem);
 }
-.pie {
-  text-align: center;
-  background: rgba(255,255,255,0.03);
-  padding: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(212,175,55,0.08);
-}
-h3 {
+.intro h3 {
   color: ##F0F8FF;
   margin-bottom: 0.5rem;
-  font-size: clamp(0.3rem, 2.5vw, 0.6rem);
+  text-align: center;
+  font-size: clamp(0.9rem, 2.5vw, 0.6rem);
 }
-h5 {
-  color: #d4af37;
-  margin-bottom: 0.5rem;
-  font-size: clamp(0.3rem, 2.5vw, 0.6rem);
-}
-
 /* ============================================
    CITAS
    ============================================ */
