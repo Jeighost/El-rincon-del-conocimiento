@@ -2,8 +2,8 @@
   "name": "El Rincón del Conocimiento",
   "short_name": "El Rincón",
   "description": "Reflexiones filosóficas sobre la percepción, conciencia y pensamiento crítico",
-  "start_url": "/El-rincon-del-conocimiento/index.html",
-  "scope": "/El-rincon-del-conocimiento/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#d4af37",
@@ -13,68 +13,16 @@
   "categories": ["education", "books", "lifestyle"],
   "icons": [
     {
-      "src": "/El-rincon-del-conocimiento/icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/El-rincon-del-conocimiento/icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/El-rincon-del-conocimiento/screenshot-mobile.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Vista móvil de reflexiones"
-    },
-    {
-      "src": "/El-rincon-del-conocimiento/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Vista de escritorio"
     }
   ],
   "shortcuts": [
@@ -82,11 +30,11 @@
       "name": "Ver reflexiones",
       "short_name": "Reflexiones",
       "description": "Acceso directo a todas las reflexiones",
-      "url": "/El-rincon-del-conocimiento/reflexiones.html",
+      "url": "/reflexiones.html",
       "icons": [
         {
-          "src": "/El-rincon-del-conocimiento/icon-96.png",
-          "sizes": "96x96"
+          "src": "/icon-192.png",
+          "sizes": "192x192"
         }
       ]
     },
@@ -94,43 +42,15 @@
       "name": "Galería",
       "short_name": "Galería",
       "description": "Conocimiento en imágenes",
-      "url": "/El-rincon-del-conocimiento/galeria.html",
+      "url": "/galeria.html",
       "icons": [
         {
-          "src": "/El-rincon-del-conocimiento/icon-96.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Mis favoritos",
-      "short_name": "Favoritos",
-      "description": "Reflexiones guardadas",
-      "url": "/El-rincon-del-conocimiento/index.html#favoritos",
-      "icons": [
-        {
-          "src": "/El-rincon-del-conocimiento/icon-96.png",
-          "sizes": "96x96"
+          "src": "/icon-192.png",
+          "sizes": "192x192"
         }
       ]
     }
   ],
   "related_applications": [],
-  "prefer_related_applications": false,
-  "share_target": {
-    "action": "/El-rincon-del-conocimiento/share",
-    "method": "GET",
-    "enctype": "application/x-www-form-urlencoded",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "web+rincon",
-      "url": "/El-rincon-del-conocimiento/?reflection=%s"
-    }
-  ]
+  "prefer_related_applications": false
 }
