@@ -1,0 +1,209 @@
+/* =============================================
+   SECCIÓN ROSA ANIMADA
+   ============================================= */
+
+.rosa-animada {
+  position: relative;
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 2rem 1rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.rosa-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.rosa-imagen {
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: rosaFloat 4s ease-in-out infinite;
+  filter: brightness(1.05) contrast(1.1);
+}
+
+/* Animación de flotación de la rosa */
+@keyframes rosaFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+/* GOTAS DE LÍQUIDO ROJO */
+.gota {
+  position: absolute;
+  width: 8px;
+  height: 15px;
+  background: linear-gradient(180deg, 
+    rgba(220, 38, 38, 0.9) 0%, 
+    rgba(185, 28, 28, 0.8) 50%,
+    rgba(220, 38, 38, 0.6) 100%
+  );
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  filter: blur(0.5px);
+  animation: gotaCaer 3s ease-in infinite;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
+}
+
+/* Posiciones iniciales de las gotas */
+.gota-1 {
+  left: 48%;
+  top: 42%;
+  animation-delay: 0s;
+}
+
+.gota-2 {
+  left: 50%;
+  top: 44%;
+  animation-delay: 1s;
+}
+
+.gota-3 {
+  left: 52%;
+  top: 43%;
+  animation-delay: 2s;
+}
+
+/* Animación de caída de gotas */
+@keyframes gotaCaer {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(50px) scale(1);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(400px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(500px) scale(0.7);
+  }
+}
+
+/* TEXTO */
+.rosa-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: #d4af37;
+  margin: 2rem 0 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  animation: tituloFadeIn 1.5s ease-out;
+}
+
+@keyframes tituloFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rosa-texto {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: #c9c9c9;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: justify;
+  text-justify: inter-word;
+  animation: textoFadeIn 2s ease-out 0.5s backwards;
+}
+
+@keyframes textoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .rosa-animada {
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .rosa-titulo {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .rosa-texto {
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: left;
+    padding: 0 1rem;
+  }
+
+  .rosa-container {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Ajustar gotas para móvil */
+  .gota {
+    width: 6px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rosa-titulo {
+    font-size: 1.3rem;
+  }
+
+  .rosa-texto {
+    font-size: 0.95rem;
+  }
+}
+
+/* Efecto hover en desktop */
+@media (min-width: 769px) {
+  .rosa-container:hover .rosa-imagen {
+    animation: rosaFloatHover 2s ease-in-out infinite;
+  }
+
+  @keyframes rosaFloatHover {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-15px) scale(1.03);
+    }
+  }
+
+  .rosa-container:hover .gota {
+    animation-duration: 2.5s;
+  }
+}

@@ -45,7 +45,7 @@ body::before {
   height: 100%;
   background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 100%),
               radial-gradient(circle at 100% 100%, rgba(255,255,255,0.02), transparent 100%);
-  animation: movimientoNiebla 20s infinite alternate;
+  animation: movimientoNiebla 8s infinite alternate;
   z-index: -1;
   pointer-events: none;
 }
@@ -57,7 +57,7 @@ body::before {
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(212,175,55,0.20), transparent 70%);
   transform: translate(-50%, -50%);
   animation: respirar 8s infinite ease-in-out;
   z-index: -2;
@@ -84,7 +84,7 @@ header {
   background: linear-gradient(180deg, rgba(15,15,15,0.95), rgba(15,15,15,0.85));
   text-align: center;
   padding: 3rem 1.5rem 2.5rem;
-  border-bottom: 1px solid rgba(212,175,55,0.2);
+  border-bottom: 3px solid rgba(212,175,55,0.2);
   box-shadow: 0 5px 20px rgba(0,0,0,0.6);
 }
 
@@ -311,7 +311,7 @@ blockquote {
   color: #d4af23;
   font-size: 0.8rem;
   opacity: 0.7;
-  animation: respirarMensaje 8s infinite ease-in-out;
+  animation: respirarMensaje 5s infinite ease-in-out;
 }
 
 /* ============================================
@@ -509,7 +509,7 @@ footer span {
 
 @keyframes respirar {
   0%, 100% {
-    opacity: 0.6;
+    opacity: 0.9;
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
@@ -519,7 +519,7 @@ footer span {
 }
 
 @keyframes movimientoNiebla {
-  0% { background-position: 0% 0%, 0% 0%; }
+  0% { background-position: 30% 30%, 30% 30%; }
   100% { background-position: 100% 100%, 50% 50%; }
 }
 
@@ -605,8 +605,8 @@ footer span {
   }
 
   .halo {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
   }
 }
 
