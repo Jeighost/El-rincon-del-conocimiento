@@ -2,8 +2,8 @@
 // SERVICE WORKER MEJORADO - El rincón del conocimiento
 // ============================================
 
-const CACHE_NAME = 'el-rincon-v6';
-const CACHE_DYNAMIC = 'el-rincon-dynamic-v6';
+const CACHE_NAME = 'el-rincon-v6.5';
+const CACHE_DYNAMIC = 'el-rincon-dynamic-v6.5';
 const BASE_PATH = '/El-rincon-del-conocimiento';
 
 // Recursos críticos para cachear en instalación

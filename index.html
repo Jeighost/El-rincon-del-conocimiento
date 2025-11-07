@@ -12,7 +12,7 @@
   <meta property="og:title" content="El rincón del conocimiento">
   <meta property="og:description" content="Reflexiones y pensamientos sobre la esencia del ser y el conocimiento.">
   <meta property="og:image" content="https://jeighost.github.io/El-rincon-del-conocimiento/img/portada.jpg">
-  <meta property="og:url" content="https://jeighost.github.io/El-rincon-del-conocimiento/">
+  <meta property="og:url" content="https://jeighost.lat">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicon -->
@@ -113,22 +113,12 @@
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
-<script src="particles.js"></script>
-<script src="auto-update.js"></script>
-<script src="favoritos.js"></script>
-<script src="advanced-features.js"></script>
-<script src="auto-notifications.js"></script>
-<script src="install.js"></script>
-<script src="notifications.js"></script>
-<script src="menu.js"></script>
-<script src="features.js"></script>
-<script src="analytics.js"></script>
- <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(reg => console.log('✅ Service Worker registrado con éxito:', reg.scope))
-    .catch(err => console.error('❌ Error al registrar el Service Worker:', err));
-}
+<script src="particles.js"></script>  <script src="auto-update.js"></script>  <script src="favoritos.js"></script>  <script src="advanced-features.js"></script>  <script src="auto-notifications.js"></script>  <script src="install.js"></script>  <script src="notifications.js"></script>  <script src="menu.js"></script>  <script src="features.js"></script>  <script src="analytics.js"></script>   <script>  
+if ('serviceWorker' in navigator) {  
+  navigator.serviceWorker.register('./service-worker.js')  
+    .then(reg => console.log('✅ Service Worker registrado con éxito:', reg.scope))  
+    .catch(err => console.error('❌ Error al registrar el Service Worker:', err));  
+}  
 </script>
  </body>
 </html>
