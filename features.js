@@ -246,15 +246,15 @@
 
     // Botón anterior
     if (currentNum > 1) {
-      navHTML += `<button onclick="window.location.href='reflexion${currentNum - 1}.html'" title="Reflexión anterior">←</button>`;
+      navHTML += `<button onclick="window.location.href='reflexion${currentNum - 1}.html'" title="Reflexión anterior">↩</button>`;
     }
 
     // Botón volver arriba
-    navHTML += `<button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver arriba">↑</button>`;
+    navHTML += `<button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver arriba">️⬆</button>`;
 
     // Botón siguiente
     if (currentNum < totalReflections) {
-      navHTML += `<button onclick="window.location.href='reflexion${currentNum + 1}.html'" title="Siguiente reflexión">→</button>`;
+      navHTML += `<button onclick="window.location.href='reflexion${currentNum + 1}.html'" title="Siguiente reflexión">️↪</button>`;
     }
 
     floatingNav.innerHTML = navHTML;
@@ -276,7 +276,11 @@
       "La reflexión es el puente entre la ignorancia y la sabiduría",
       "Cada pensamiento crítico es un paso hacia la verdad",
       "La percepción moldea nuestra realidad",
-      "Pensar por uno mismo es el acto más revolucionario"
+      "Pensar por uno mismo es el acto más revolucionario",
+      "Tu sonrisa hace magia con mi mente",
+      "Estaba perdido pero tu sonrisa fue mi guia",
+      "Se lo que valgo, y valgo mucho",
+      "Deseo que todos pudieran ser felices"
     ];
 
     const quoteElement = document.createElement('div');

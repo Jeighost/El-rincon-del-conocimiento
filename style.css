@@ -177,7 +177,7 @@ section {
   color: #d4af37;
   margin-bottom: 1.5rem;
   text-align: center;
-  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  font-size: clamp(1.5rem, 3.5vw, 1.8rem);
 }
 
 h2 {
@@ -193,6 +193,11 @@ h2 {
   box-shadow: 0 0 10px rgba(212,175,55,0.08);
 }
 h3 {
+  color: ##F0F8FF;
+  margin-bottom: 0.5rem;
+  font-size: clamp(0.3rem, 2.5vw, 0.6rem);
+}
+h5 {
   color: #d4af37;
   margin-bottom: 0.5rem;
   font-size: clamp(0.3rem, 2.5vw, 0.6rem);
@@ -203,16 +208,16 @@ h3 {
    ============================================ */
 .cita,
 blockquote {
-  border-left: 3px solid #d4af37;
-  padding: 1rem 1.5rem;
+  border-left: 5px solid #d4af37;
+  padding: 3rem 1.5rem;
   font-style: italic;
   color: #ccc;
-  max-width: 750px;
+  max-width: 850px;
   margin: 2.5rem auto;
   background: rgba(212,175,55,0.05);
   border-radius: 0 8px 8px 0;
   font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 2.7;
 }
 
 /* ============================================
@@ -405,7 +410,6 @@ blockquote {
   transform: scale(1.05) translateY(-5px);
   box-shadow: 0 8px 30px rgba(212,175,55,0.35);
 }
-
 /* ============================================
    SECCIÓN INTERACTIVA
    ============================================ */
@@ -493,8 +497,8 @@ footer span {
 
 .autor {
   text-align: center;
-  margin: 2rem 0;
-  font-size: 0.9rem;
+  margin: 5rem 0;
+  font-size: 1.3rem;
   color: #888;
   font-style: italic;
 }
@@ -851,4 +855,17 @@ p, span, div, a {
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
+}
+.contenedor {
+  width: 100%;          /* Ocupa todo el ancho del contenedor padre */
+  max-width: 800px;     /* Limite máximo de ancho */
+  margin: 0 auto;       /* Centra el contenedor */
+  overflow: hidden;     /* Evita que contenido se salga */
+}
+
+.contenedor img {
+  width: 100%;          /* Imagen ocupa todo el ancho del contenedor */
+  height: auto;         /* Mantiene proporción */
+  display: block;       /* Evita espacios debajo de la imagen */
+  object-fit: cover;    /* Opcional: recorta la imagen para llenar el contenedor */
 }

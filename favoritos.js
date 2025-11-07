@@ -32,7 +32,7 @@
       favorites.push(reflexionId);
       saveFavorites(favorites);
       
-      showNotification(`⭐ "${reflexionTitle}" agregada a favoritos`);
+      showNotification(`🌟 "${reflexionTitle}" agregada a favoritos`);
       
       // Registrar en analytics
       if (window.gtag) {
@@ -84,7 +84,7 @@
 
     const favoriteBtn = document.createElement('button');
     favoriteBtn.className = 'favorite-btn';
-    favoriteBtn.innerHTML = isFavorite(reflexionId) ? '⭐ En favoritos' : '☆ Agregar a favoritos';
+    favoriteBtn.innerHTML = isFavorite(reflexionId) ? '🌟 En favoritos' : '⭐ Agregar a favoritos';
     
     if (isFavorite(reflexionId)) {
       favoriteBtn.classList.add('is-favorite');
@@ -94,10 +94,10 @@
       const isFav = toggleFavorite(reflexionId, reflexionTitle);
       
       if (isFav) {
-        favoriteBtn.innerHTML = '⭐ En favoritos';
+        favoriteBtn.innerHTML = '🌟 En favoritos';
         favoriteBtn.classList.add('is-favorite');
       } else {
-        favoriteBtn.innerHTML = '☆ Agregar a favoritos';
+        favoriteBtn.innerHTML = '⭐ Agregar a favoritos';
         favoriteBtn.classList.remove('is-favorite');
       }
     });
@@ -119,7 +119,7 @@
       
       const favoriteIcon = document.createElement('span');
       favoriteIcon.className = 'favorite-icon-small';
-      favoriteIcon.innerHTML = isFavorite(reflexionId) ? '⭐' : '☆';
+      favoriteIcon.innerHTML = isFavorite(reflexionId) ? '🌟' : '⭐'
       favoriteIcon.title = isFavorite(reflexionId) ? 'Quitar de favoritos' : 'Agregar a favoritos';
       
       favoriteIcon.addEventListener('click', (e) => {
@@ -127,7 +127,7 @@
         e.stopPropagation();
         
         const isFav = toggleFavorite(reflexionId, reflexionTitle);
-        favoriteIcon.innerHTML = isFav ? '⭐' : '☆';
+        favoriteIcon.innerHTML = isFav ? '🌟' : '⭐';
         favoriteIcon.title = isFav ? 'Quitar de favoritos' : 'Agregar a favoritos';
       });
       
@@ -149,7 +149,7 @@
       const favLink = document.createElement('a');
       favLink.href = '#favoritos';
       favLink.className = 'favorites-link';
-      favLink.innerHTML = `⭐ Favoritos (${favCount})`;
+      favLink.innerHTML = `🌟 Favoritos (${favCount})`;
       
       favLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -172,7 +172,7 @@
     const modal = document.createElement('div');
     modal.className = 'favorites-modal';
     
-    let favoritesHTML = '<div class="favorites-modal-content"><div class="favorites-modal-header"><h2>⭐ Mis Reflexiones Favoritas</h2><button class="favorites-modal-close">✕</button></div><div class="favorites-list">';
+    let favoritesHTML = '<div class="favorites-modal-content"><div class="favorites-modal-header"><h2>🌟 Mis Reflexiones Favoritas</h2><button class="favorites-modal-close">✕</button></div><div class="favorites-list">';
     
     const reflexionTitles = {
       '1': 'La percepción',
@@ -499,7 +499,7 @@
     addFavoriteLinks();
     addFavoritesLink();
     
-    console.log('⭐ Sistema de favoritos cargado');
+    console.log('🌟 Sistema de favoritos cargado');
   });
 
 })();
