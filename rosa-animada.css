@@ -1,14 +1,12 @@
-/* =============================================
-   SECCIÓN ROSA ANIMADA
-   ============================================= */
+/* ROSA ANIMADA - VERSIÓN CORREGIDA */
 
 .rosa-animada {
   position: relative;
-  max-width: 900px;
+  max-width: 350px;
   margin: 4rem auto;
   padding: 2rem 1rem;
   text-align: center;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .rosa-container {
@@ -16,90 +14,122 @@
   width: 100%;
   max-width: 700px;
   margin: 0 auto 2rem;
-  display: inline-block;
+  display: block;
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  overflow: visible !important;
 }
 
 .rosa-imagen {
   width: 100%;
   height: auto;
   display: block;
-  animation: rosaFloat 4s ease-in-out infinite;
+  border-radius: 12px;
+  animation: rosaFloat 8s ease-in-out infinite !important;
+  animation-play-state: running !important;
   filter: brightness(1.05) contrast(1.1);
 }
+ /* Eliminar el fondo negro usando blend mode */
+ {
+  mix-blend-mode: lighten;
+  filter: drop-shadow(0 8px 20px rgba(220, 38, 38, 0.7))
+          drop-shadow(0 4px 10px rgba(212, 175, 55, 0.5))
+          brightness(1.1)
+          contrast(1.2);
+  animation: rosaFloat 8s ease-in-out infinite;
+  transform-origin: center bottom;
+}
 
-/* Animación de flotación de la rosa */
 @keyframes rosaFloat {
   0%, 100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0px) rotate(-1deg) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) rotate(0.5deg) scale(1.02);
   }
   50% {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-12px) rotate(-0.5deg) scale(1.03);
+  }
+  75% {
+    transform: translateY(-8px) rotate(0.5deg) scale(1.02);
+  }
+}
+@keyframes rosaFloat {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-15px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
   }
 }
 
-/* GOTAS DE LÍQUIDO ROJO */
+/* GOTAS */
 .gota {
   position: absolute;
-  width: 8px;
-  height: 15px;
-  background: linear-gradient(180deg, 
-    rgba(220, 38, 38, 0.9) 0%, 
-    rgba(185, 28, 28, 0.8) 50%,
-    rgba(220, 38, 38, 0.6) 100%
+  width: 12px;
+  height: 20px;
+  background: radial-gradient(ellipse at center, 
+    rgba(220, 38, 38, 1) 0%, 
+    rgba(185, 28, 28, 0.9) 50%,
+    rgba(220, 38, 38, 0.7) 100%
   );
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  border-radius: 40% 40% 40% 40% / 50% 50% 30% 30%;
   opacity: 0;
-  filter: blur(0.5px);
-  animation: gotaCaer 3s ease-in infinite;
-  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
+  animation: gotaCaer 8s ease-in infinite !important;
+  animation-play-state: running !important;
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.8);
+  z-index: 10;
+  pointer-events: none;
 }
 
-/* Posiciones iniciales de las gotas */
 .gota-1 {
-  left: 48%;
-  top: 42%;
-  animation-delay: 0s;
+  left: 47%;
+  top: 45%;
+  animation-delay: 0s !important;
 }
 
 .gota-2 {
   left: 50%;
-  top: 44%;
-  animation-delay: 1s;
+  top: 46%;
+  animation-delay: 1.3s !important;
 }
 
 .gota-3 {
-  left: 52%;
-  top: 43%;
-  animation-delay: 2s;
+  left: 53%;
+  top: 44%;
+  animation-delay: 2.6s !important;
 }
 
-/* Animación de caída de gotas */
 @keyframes gotaCaer {
   0% {
     opacity: 0;
-    transform: translateY(0) scale(0.8);
+    transform: translateY(0px) scale(0.5);
   }
-  10% {
+  5% {
     opacity: 1;
+    transform: translateY(10px) scale(1);
   }
-  20% {
+  15% {
     opacity: 1;
-    transform: translateY(50px) scale(1);
+    transform: translateY(80px) scale(1);
   }
-  80% {
+  50% {
     opacity: 0.8;
-    transform: translateY(400px) scale(0.9);
+    transform: translateY(250px) scale(0.9);
+  }
+  90% {
+    opacity: 0.3;
+    transform: translateY(450px) scale(0.7);
   }
   100% {
     opacity: 0;
-    transform: translateY(500px) scale(0.7);
+    transform: translateY(500px) scale(0.5);
   }
 }
 
-/* TEXTO */
 .rosa-titulo {
   font-family: 'Cinzel', serif;
   font-size: 2rem;
@@ -109,101 +139,35 @@
   letter-spacing: 3px;
   font-weight: 600;
   text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
-  animation: tituloFadeIn 1.5s ease-out;
-}
-
-@keyframes tituloFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .rosa-texto {
   font-family: 'Crimson Pro', serif;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
   line-height: 1.9;
   color: #c9c9c9;
   max-width: 800px;
   margin: 0 auto;
   padding: 0 1.5rem;
   text-align: justify;
-  text-justify: inter-word;
-  animation: textoFadeIn 2s ease-out 0.5s backwards;
 }
 
-@keyframes textoFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .rosa-animada {
     margin: 2rem auto;
-    padding: 1rem;
   }
-
+  
   .rosa-titulo {
     font-size: 1.5rem;
-    letter-spacing: 2px;
   }
-
+  
   .rosa-texto {
     font-size: 1rem;
-    line-height: 1.7;
     text-align: left;
-    padding: 0 1rem;
   }
-
-  .rosa-container {
-    max-width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Ajustar gotas para móvil */
+  
   .gota {
-    width: 6px;
-    height: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .rosa-titulo {
-    font-size: 1.3rem;
-  }
-
-  .rosa-texto {
-    font-size: 0.95rem;
-  }
-}
-
-/* Efecto hover en desktop */
-@media (min-width: 769px) {
-  .rosa-container:hover .rosa-imagen {
-    animation: rosaFloatHover 2s ease-in-out infinite;
-  }
-
-  @keyframes rosaFloatHover {
-    0%, 100% {
-      transform: translateY(0) scale(1);
-    }
-    50% {
-      transform: translateY(-15px) scale(1.03);
-    }
-  }
-
-  .rosa-container:hover .gota {
-    animation-duration: 2.5s;
+    width: 10px;
+    height: 16px;
   }
 }
