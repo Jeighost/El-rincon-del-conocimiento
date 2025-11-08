@@ -1,56 +1,28 @@
 {
-  "name": "El Rincón del Conocimiento",
-  "short_name": "El Rincón",
-  "description": "Reflexiones filosóficas sobre la percepción, conciencia y pensamiento crítico",
-  "start_url": "/",
+  "name": "Jeighost.lat",
+  "short_name": "Jeighost",
+  "description": "Reflexiones, conocimiento y diseño técnico con estilo dorado mate. Un espacio digital creado por Jeighost.lat.",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#d4af37",
   "background_color": "#0b0b0c",
-  "lang": "es-ES",
-  "dir": "ltr",
-  "categories": ["education", "books", "lifestyle"],
+  "theme_color": "#0b0b0c",
+  "lang": "es",
   "icons": [
+    { "src": "/jeighost-icons-pack/icon-72x72.png", "sizes": "72x72", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-96x96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-128x128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-144x144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-256x256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-384x384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "/jeighost-icons-pack/icon-512x512.png", "sizes": "512x512", "type": "image/png" },
     {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icon-512.png",
+      "src": "/jeighost-icons-pack/maskable-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "Ver reflexiones",
-      "short_name": "Reflexiones",
-      "description": "Acceso directo a todas las reflexiones",
-      "url": "/reflexiones.html",
-      "icons": [
-        {
-          "src": "/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Galería",
-      "short_name": "Galería",
-      "description": "Conocimiento en imágenes",
-      "url": "/galeria.html",
-      "icons": [
-        {
-          "src": "/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  ]
 }
