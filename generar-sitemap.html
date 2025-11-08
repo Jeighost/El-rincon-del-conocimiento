@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generar sitemap.xml — Jeighost.lat</title>
+  <style>
+    body {
+      background: #0b0b0c;
+      color: #d4af37;
+      font-family: monospace;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 400px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #d4af37;
+      padding: 10px;
+      font-family: monospace;
+    }
+    button {
+      background: #d4af37;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      font-weight: bold;
+      cursor: pointer;
+      color: #0b0b0c;
+    }
+  </style>
+</head>
+<body>
+  <h2>🧭 Generador de sitemap.xml — Jeighost.lat</h2>
+  <p>Este script escanea tus archivos HTML locales y genera un sitemap actualizado.</p>
+  <button id="generar">Generar Sitemap</button>
+  <textarea id="output" readonly></textarea>
+
+  <script>
+    const dominio = "https://jeighost.lat/";
+
+    document.getElementById("generar").addEventListener("click", async () => {
+      // Pedir permisos para leer archivos locales
+      try {
+        const dirHandle = await window.showDirectoryPicker();
+        let urls = [];
+
+        for await (const [name, handle] of dirHandle.entries()) {
+          if (handle.kind === "file" && name.endsWith(".html")) {
+            urls.push(name);
+          }
+        }
+
+        // Crear el sitemap con fecha actual
+        const fecha = new Date().toISOString().split("T")[0];
+        let sitemap =
+          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+        urls.forEach(file => {
+          sitemap +=
+            `  <url>\n` +
+            `    <loc>${dominio}${file}</loc>\n` +
+            `    <lastmod>${fecha}</lastmod>\n` +
+            `    <changefreq>monthly</changefreq>\n` +
+            `    <priority>${file === "index.html" ? "1.0" : "0.8"}</priority>\n` +
+            `  </url>\n`;
+        });
+
+        sitemap += `</urlset>`;
+
+        document.getElementById("output").value = sitemap;
+
+      } catch (err) {
+        alert("Debes permitir acceso a tu carpeta para leer los archivos HTML.");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
