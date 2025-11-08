@@ -1,141 +1,75 @@
 /* ROSA ANIMADA - VERSIÓN CORREGIDA */
-
-.rosa-animada {
-  position: relative;
-  max-width: 350px;
-  margin: 4rem auto;
-  padding: 2rem 1rem;
-  text-align: center;
-  overflow: visible !important;
-}
-
 .rosa-container {
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 350px;
   margin: 0 auto 2rem;
   display: block;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   overflow: visible !important;
 }
-
 .rosa-imagen {
-  width: 100%;
-  height: auto;
+  position: relative;
   display: block;
-  border-radius: 12px;
-  animation: rosaFloat 8s ease-in-out infinite !important;
-  animation-play-state: running !important;
-  filter: brightness(1.05) contrast(1.1);
-}
- /* Eliminar el fondo negro usando blend mode */
- {
-  mix-blend-mode: lighten;
-  filter: drop-shadow(0 8px 20px rgba(220, 38, 38, 0.7))
-          drop-shadow(0 4px 10px rgba(212, 175, 55, 0.5))
-          brightness(1.1)
-          contrast(1.2);
-  animation: rosaFloat 8s ease-in-out infinite;
-  transform-origin: center bottom;
+  margin: 0 auto;
+  width: 85%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(120, 0, 0, 0.9);
+  animation: resplandorRojo 20s ease-in-out infinite alternate;
+  animation: resplandorRojo 20s ease-in-out infinite alternate;
 }
 
-@keyframes rosaFloat {
-  0%, 100% {
-    transform: translateY(0px) rotate(-1deg) scale(1);
-  }
-  25% {
-    transform: translateY(-8px) rotate(0.5deg) scale(1.02);
-  }
-  50% {
-    transform: translateY(-12px) rotate(-0.5deg) scale(1.03);
-  }
-  75% {
-    transform: translateY(-8px) rotate(0.5deg) scale(1.02);
-  }
-}
-@keyframes rosaFloat {
-  0% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-15px) scale(1.02);
-  }
-  100% {
-    transform: translateY(0px) scale(1);
-  }
-}
-
-/* GOTAS */
-.gota {
+/* capa animada que “sangra” desde arriba */
+.rosa-imagen::after {
+  content: "";
   position: absolute;
-  width: 12px;
-  height: 20px;
-  background: radial-gradient(ellipse at center, 
-    rgba(220, 38, 38, 1) 0%, 
-    rgba(185, 28, 28, 0.9) 50%,
-    rgba(220, 38, 38, 0.7) 100%
-  );
-  border-radius: 40% 40% 40% 40% / 50% 50% 30% 30%;
-  opacity: 0;
-  animation: gotaCaer 8s ease-in infinite !important;
-  animation-play-state: running !important;
-  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.8);
-  z-index: 10;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background: radial-gradient(circle at 50% 0%, rgba(120,0,0,0.7) 0%, rgba(255,0,0,0.5) 25%, transparent 70%),
+              repeating-linear-gradient(180deg, rgba(120,0,0,0.4) 0%, rgba(255,0,0,0.4) 1%, transparent 2%);
+  background-size: 200% 200%;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+  animation: sangreFluyendo 20s ease-in-out infinite;
   pointer-events: none;
+  filter: blur(1px);
 }
 
-.gota-1 {
-  left: 47%;
-  top: 45%;
-  animation-delay: 0s !important;
+/* leve resplandor rojo */
+@keyframes resplandorRojo {
+  0% { filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.7)); }
+  100% { filter: drop-shadow(0 0 18px rgba(255, 0, 0, 0.7)); }
 }
 
-.gota-2 {
-  left: 50%;
-  top: 46%;
-  animation-delay: 1.3s !important;
-}
-
-.gota-3 {
-  left: 53%;
-  top: 44%;
-  animation-delay: 2.6s !important;
-}
-
-@keyframes gotaCaer {
+/* simulación del goteo (movimiento descendente ondulado) */
+@keyframes sangreFluyendo {
   0% {
-    opacity: 0;
-    transform: translateY(0px) scale(0.5);
-  }
-  5% {
-    opacity: 1;
-    transform: translateY(10px) scale(1);
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(80px) scale(1);
+    background-position: 50% 0%;
+    transform: translateY(-2%) scaleY(1.02);
+    opacity: 2;
   }
   50% {
-    opacity: 0.8;
-    transform: translateY(250px) scale(0.9);
-  }
-  90% {
-    opacity: 0.3;
-    transform: translateY(450px) scale(0.7);
+    background-position: 50% 100%;
+    transform: translateY(2%) scaleY(1.06);
+    opacity: 3;
   }
   100% {
-    opacity: 0;
-    transform: translateY(500px) scale(0.5);
+    background-position: 50% 0%;
+    transform: translateY(-2%) scaleY(1.02);
+    opacity: 4;
   }
 }
-
+ 
 .rosa-titulo {
   font-family: 'Cinzel', serif;
   font-size: 2rem;
   color: #d4af37;
   margin: 2rem 0 1rem;
-  text-transform: uppercase;
+  text-align: center;
   letter-spacing: 3px;
   font-weight: 600;
   text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
@@ -163,11 +97,5 @@
   
   .rosa-texto {
     font-size: 1rem;
-    text-align: left;
+    text-align: center;
   }
-  
-  .gota {
-    width: 10px;
-    height: 16px;
-  }
-}

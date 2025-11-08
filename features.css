@@ -1,4 +1,6 @@
 /* ============================================
+/* ============================================
+/* ============================================
    FEATURES.CSS - Estilos de funcionalidades extras
    ============================================ */
 
@@ -184,6 +186,41 @@
   z-index: 100;
   animation: slideInRight 0.5s ease;
 }
+.botones-secundarios {
+  text-align: center;
+  margin: 40px 0;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+}
+
+.boton-contenedor {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.boton-dorado {
+  background: transparent;
+  border: 1.5px solid #d4af37;
+  color: #d4af37;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: 'Crimson Pro', serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.boton-dorado:hover {
+  background: #d4af37;
+  color: #0b0b0c;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
 
 @keyframes slideInRight {
   from {
@@ -340,8 +377,6 @@ body.scrolled .reading-mode-suggestion {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
-}
-
 /* ============================================
    RESPONSIVE
    ============================================ */
