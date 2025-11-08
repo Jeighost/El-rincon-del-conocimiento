@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://jeighost.lat/</loc>
     <lastmod>2025-11-08</lastmod>
@@ -14,10 +15,31 @@
     <priority>0.8</priority>
   </url>
 
+  <url><loc>https://jeighost.lat/reflexion1.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion2.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion3.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion4.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion5.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion6.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion7.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion8.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion9.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion10.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion11.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jeighost.lat/reflexion12.html</loc><lastmod>2025-11-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <url>
-    <loc>https://jeighost.lat/contacto.html</loc>
+    <loc>https://jeighost.lat/sobre-mi.html</loc>
     <lastmod>2025-11-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+
+  <url>
+    <loc>https://jeighost.lat/galeria.html</loc>
+    <lastmod>2025-11-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
