@@ -252,39 +252,6 @@
       ? header.after(audioBtn)
       : document.body.appendChild(audioBtn);
   }
-
-  // ===========================================
-  // 6) Contador de días desde última reflexión
-  // ===========================================
-  function addDayCounter() {
-    if (document.querySelector('.day-counter')) return;
-
-    const isHome =
-      location.pathname.endsWith('index.html') ||
-      location.pathname === '/' ||
-      location.pathname.endsWith('/El-rincon-del-conocimiento/');
-
-    if (!isHome) return;
-
-    const lastReflectionDate = new Date('2025-11-04'); // Actualiza cuando publiques
-    const today = new Date();
-    const daysSince = Math.max(0, Math.floor((today - lastReflectionDate) / 86400000));
-
-    const counter = document.createElement('div');
-    counter.className = 'day-counter';
-    counter.innerHTML = `
-      <div class="counter-content">
-        <span class="counter-number">${daysSince}</span>
-        <span class="counter-label">día${daysSince !== 1 ? 's' : ''} desde la última reflexión</span>
-      </div>`;
-
-    const statsBar = document.querySelector('.stats-bar');
-    (statsBar || document.querySelector('main') || document.body).after
-      ? statsBar.after(counter)
-      : document.body.appendChild(counter);
-  }
-
-  // ===========================================
   // 7) Estilos embebidos (con id para no duplicar)
   // ===========================================
   function addStyles() {
@@ -326,9 +293,9 @@
       body[data-theme="light"] h1, body[data-theme="light"] h2, body[data-theme="light"] h3 { color: #6d5a45; }
       body[data-theme="light"] p, body[data-theme="light"] .texto-reflexion, body[data-theme="light"] .contenido-reflexion, body[data-theme="light"] .bio { color: #2a2a2a; }
       body[data-theme="light"] nav a, body[data-theme="light"] .enlace-reflexion, body[data-theme="light"] .favorite-title { color: #6d5a45 !important; }
-      body[data-theme="light"] .breadcrumb, body[data-theme="light"] .stats-bar, body[data-theme="light"] .reflexion-item {
+      body[data-theme="light"] .breadcrumb, body[data-theme="light"] .reflexion-item {
         background: rgba(139,115,85,0.08); border-color: rgba(139,115,85,0.2); }
-      body[data-theme="light"] .stat-label, body[data-theme="light"] .counter-label, body[data-theme="light"] .subtitulo { color: #666; }
+      body[data-theme="light"] .counter-label, body[data-theme="light"] .subtitulo { color: #666; }
       body[data-theme="light"] .cita, body[data-theme="light"] blockquote { color: #3a3a3a; background: rgba(139,115,85,0.1); border-left-color: #8b7355; }
       body[data-theme="light"] .tag { background: rgba(139,115,85,0.15); color: #6d5a45; border-color: rgba(139,115,85,0.3); }
 
@@ -371,7 +338,6 @@
     initThemeToggle();
     addRelatedReflections();
     addAudioReader();
-    addDayCounter();
     console.log('🚀 Funciones avanzadas cargadas');
   });
 

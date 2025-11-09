@@ -53,32 +53,7 @@
     onScroll();
   }
 
-  // ==========================================
-  // 2. CONTADOR DE REFLEXIONES
-  // ==========================================
-  function addStatsBar() {
-    const isHome = location.pathname.endsWith('index.html') || location.pathname === '/';
-    if (!isHome) return;
-    if (document.querySelector('.stats-bar')) return;
-
-    const header = document.querySelector('header');
-    if (!header) return;
-
-    const statsBar = document.createElement('div');
-    statsBar.className = 'stats-bar';
-    statsBar.innerHTML = `
-      <div class="stat-item"><span class="stat-number">12</span><span class="stat-label">Reflexiones</span></div>
-      <div class="stat-item"><span class="stat-number">8</span><span class="stat-label">Temas</span></div>
-      <div class="stat-item"><span class="stat-number" id="view-count">-</span><span class="stat-label">Visitas</span></div>
-    `;
-    header.after(statsBar);
-
-    const visits = parseInt(localStorage.getItem('counter_visits') || '0', 10);
-    const el = document.getElementById('view-count');
-    if (el) el.textContent = visits > 0 ? String(visits) : '🔥';
-  }
-
-  // ==========================================
+  // ===================================
   // 3. BREADCRUMB (Migas de pan)
   // ==========================================
   function addBreadcrumb() {
