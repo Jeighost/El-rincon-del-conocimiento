@@ -2,21 +2,38 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
   <title>Filosofía, diseño y mente dorada — El rincón del conocimiento</title>
-  <meta name="description" content="Reflexiones y diseño técnico con estética dorado mate. Un espacio filosófico personal con PWA y rendimiento optimizado.">
+  
+  <!-- Meta tags SEO -->
+  <meta name="description" content="Reflexiones filosóficas y diseño técnico con estética dorado mate. Un espacio filosófico personal con PWA y rendimiento optimizado.">
   <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, diseño técnico, Jeison Gonzalez">
   <meta name="author" content="Jeison Gonzalez">
-  <link rel="canonical" href="https://jeighost.lat">
   <meta name="language" content="es">
   <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://jeighost.lat">
 
   <!-- Open Graph -->
+  <meta property="og:type" content="website">
   <meta property="og:title" content="El rincón del conocimiento">
   <meta property="og:description" content="Reflexiones y pensamientos sobre la esencia del ser y el conocimiento.">
   <meta property="og:image" content="https://jeighost.lat/icon-512.png">
   <meta property="og:url" content="https://jeighost.lat">
+  <meta property="og:site_name" content="El rincón del conocimiento">
+  
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="El rincón del conocimiento">
+  <meta name="twitter:description" content="Reflexiones filosóficas y diseño consciente">
+  <meta name="twitter:image" content="https://jeighost.lat/icon-512.png">
+
+  <!-- Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.postimg.cc">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
   <!-- Favicon y PWA -->
   <link rel="icon" href="/jeighost-icons-pack/favicon.ico" type="image/x-icon">
@@ -26,29 +43,85 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="El Rincón">
+  <link rel="apple-touch-icon" href="/icon-192.png">
   <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
 
-  <!-- Fuentes y estilos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="preload" href="style.css" as="style">
-  <link rel="stylesheet" href="rosa-animada.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="splash-screen.css">
-  <link rel="stylesheet" href="menu-mejorado.css">
-  <link rel="stylesheet" href="header-optimizado.css">
-  <link rel="stylesheet" href="features.css">
+  <!-- CSS Crítico Inline (Above the fold) -->
+  <style>
+    body{margin:0;padding:0;font-family:'Crimson Pro',serif;background:#0b0b0c;color:#ddd;min-height:100vh;overflow-x:hidden}
+    header{text-align:center;padding:2rem 1rem;background:rgba(13,13,15,0.95)}
+    h1{font-family:'Cinzel',serif;color:#d4af37;font-size:2.2rem;margin:0}
+    nav{display:flex;justify-content:center;gap:1rem;padding:1rem;flex-wrap:wrap;background:rgba(13,13,15,0.9)}
+    nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
+    .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+  </style>
+
+  <!-- Precargar fuentes críticas -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+  </noscript>
+
+  <!-- Precargar imagen de la rosa (solo en index.html) -->
+  <link rel="preload" as="image" href="https://i.postimg.cc/qqMmH4Mh/1762522436835.jpg" media="(min-width: 768px)" fetchpriority="low">
+
+  <!-- CSS No Crítico con carga diferida -->
+  <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="features.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- CSS específico con media print trick -->
+  <link rel="stylesheet" href="splash-screen.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="menu-mejorado.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="header-optimizado.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="rosa-animada.css" media="print" onload="this.media='all'">
+  
+  <!-- Fallback para navegadores sin JS -->
+  <noscript>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="features.css">
+    <link rel="stylesheet" href="splash-screen.css">
+    <link rel="stylesheet" href="menu-mejorado.css">
+    <link rel="stylesheet" href="header-optimizado.css">
+    <link rel="stylesheet" href="rosa-animada.css">
+  </noscript>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "El rincón del conocimiento",
+    "url": "https://jeighost.lat",
+    "author": {
+      "@type": "Person",
+      "name": "Jeison Gonzalez",
+      "url": "https://jeighost.lat/sobre-mi.html"
+    },
+    "description": "Reflexiones filosóficas y diseño consciente con estética dorada",
+    "inLanguage": "es",
+    "potentialAction": {
+      "@type": "ReadAction",
+      "target": "https://jeighost.lat/reflexiones.html"
+    }
+  }
+  </script>
 </head>
+
 <body class="dark">
-  <object type="image/svg+xml" data="/jeighost-icons-pack/brain-gold.svg" class="logo-animada" aria-label="Ícono animado de cerebro dorado"></object>
+ <object type="image/svg+xml" 
+        data="/jeighost-icons-pack/brain-gold.svg" 
+        class="logo-animada" 
+        width="100" 
+        height="100"
+        aria-label="Ícono animado de cerebro dorado representando el conocimiento"></object>
   <!-- Fondo respirante -->
   <div class="halo"></div>
 
   <header>
     <h1 class="fade-in">El rincón del Conocimiento</h1>
-    <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido solo por mí.</p>
+    <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
   </header>
 
   <nav>
@@ -63,8 +136,8 @@
   <main>
     <section class="intro">
       <h2>Bienvenido a “El rincón del conocimiento”</h2>
-      <p>Un espacio donde la percepción, la conciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
-      Redactan pensamientos esos que han sido silenciados, intentando dar a conocer esas cosas que la boca calla.
+      <p>Un espació dónde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
+      Redactan pensamientos ésos que han sido silenciados, intentando dar a conocer esas cosas que la boca calla.
       Cada reflexión es invitada a verse desde una perspectiva, para instar al lector que la interprete de una forma que pueda ser de beneficio.
       Algunas de las reflexiones no son escritas directamente en base a la vida del autor, pues se usan metáforas para tocar un punto importante.
       Las reflexiones están en constante actualización, eso quiere decir que siempre habrá una nueva.</p>
@@ -76,7 +149,13 @@
     <!-- SECCIÓN ROSA ANIMADA -->
     <section class="rosa-animada">
       <div class="rosa-container">
-        <img src="https://i.postimg.cc/qqMmH4Mh/1762522436835.jpg" alt="Rosa en el bosque - Símbolo de esperanza" class="rosa-imagen">
+       <img src="https://i.postimg.cc/qqMmH4Mh/1762522436835.jpg" 
+     alt="Rosa en el bosque - Símbolo de esperanza y equilibrio mental" 
+     class="rosa-imagen"
+     width="700" 
+     height="700"
+     loading="lazy"
+     decoding="async">
       </div>
       <h3 class="rosa-titulo">COMO LA ROSA</h3>
       <p class="rosa-texto">
@@ -144,24 +223,30 @@
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
 
-  <script src="particles.js"></script>
-  <script src="auto-update.js"></script>
-  <script src="favoritos.js"></script>
-  <script src="advanced-features.js"></script>
-  <script src="auto-notifications.js"></script>
-  <script src="install.js"></script>
-  <script src="notifications.js"></script>
-  <script src="menu.js"></script>
-  <script src="features.js"></script>
-  <script src="analytics.js"></script>
+ <!-- Scripts críticos (cargan inmediatamente) -->
+<script src="menu.js" defer></script>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => console.log('✅ Service Worker registrado con éxito:', reg.scope))
-        .catch(err => console.error('❌ Error al registrar el Service Worker:', err));
-    }
-  </script>
+<!-- Scripts no críticos (cargan después) -->
+<script src="particles.js" defer></script>
+<script src="favoritos.js" defer></script>
+<script src="features.js" defer></script>
+<script src="advanced-features.js" defer></script>
+<script src="auto-update.js" defer></script>
+<script src="install.js" defer></script>
+<script src="notifications.js" defer></script>
+<script src="auto-notifications.js" defer></script>
+<script src="analytics.js" async></script>
+
+<!-- Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg => console.log('✅ SW:', reg.scope))
+      .catch(err => console.error('❌ SW:', err));
+  });
+}
+</script>
 
   <script type="application/ld+json">
   {

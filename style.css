@@ -799,13 +799,11 @@ input, textarea, select {
     max-width: 900px;
   }
 
-  /* Sidebar para contenido largo */
   .floating-nav {
     right: 3rem;
   }
 }
 
-/* Prevenir CLS (Cumulative Layout Shift) */
 .stats-bar,
 .tags,
 .social-share,
@@ -813,18 +811,15 @@ input, textarea, select {
   min-height: fit-content;
 }
 
-/* Mejorar contraste general */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Asegurar visibilidad de todos los textos */
 p, span, div, a {
   text-rendering: optimizeLegibility;
 }
 
-/* Mejorar hover states */
 @media (hover: hover) {
   .reflexion-item:hover,
   .related-card:hover,
@@ -833,7 +828,6 @@ p, span, div, a {
   }
 }
 
-/* Accesibilidad para lectores de pantalla */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -862,4 +856,89 @@ p, span, div, a {
   height: auto;
   display: block;
   margin: 0 auto;
+}
+/* Reservar espacio para stats-bar */
+.stats-bar {
+  min-height: 80px;
+}
+
+/* Reservar espacio para favoritos */
+.favorite-item {
+  min-height: 100px;
+}
+
+/* Evitar que la rosa cause shift */
+.rosa-container {
+  aspect-ratio: 1 / 1;
+  max-width: 700px;
+}
+
+.rosa-imagen {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* ==================== OPTIMIZACIONES DE PERFORMANCE ==================== */
+
+/* Reservar espacio para rosa (evita CLS) */
+.rosa-container {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+
+.rosa-imagen {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Contenedor del logo */
+.logo-animada {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+/* Optimizar animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Font display swap para evitar FOIT */
+@font-face {
+  font-family: 'Cinzel';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Crimson Pro';
+  font-display: swap;
+}
+
+/* Contenedor de stats-bar (si tienes) */
+.stats-bar {
+  min-height: 80px;
+}
+
+/* Will-change para animaciones pesadas */
+.halo {
+  will-change: transform, opacity;
+}
+
+.rosa-imagen {
+  will-change: auto;
+}
+
+/* Optimizar scroll */
+* {
+  scroll-behavior: smooth;
 }

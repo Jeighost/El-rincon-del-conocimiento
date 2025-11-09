@@ -4,35 +4,44 @@
 // Fecha: Revisado y optimizado por ChatGPT (2025)
 
 // --- NOMBRES DE CACHÉ ---
-const CACHE_NAME = "jeighost-cache-v8.0";
-const CACHE_DYNAMIC = "jeighost-dynamic-v8.0";
+// Agregar al inicio
+const CACHE_NAME = 'el-rincon-v7.1'; // ← Cambiar versión
+const CACHE_DYNAMIC = 'el-rincon-dynamic-v7.1';
 
-// --- ARCHIVOS PARA CACHÉ ESTÁTICO ---
-const urlsToCache = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/jeighost-icons-pack/icon-72x72.png",
-  "/jeighost-icons-pack/icon-96x96.png",
-  "/jeighost-icons-pack/icon-128x128.png",
-  "/jeighost-icons-pack/icon-144x144.png",
-  "/jeighost-icons-pack/icon-192x192.png",
-  "/jeighost-icons-pack/icon-256x256.png",
-  "/jeighost-icons-pack/icon-384x384.png",
-  "/jeighost-icons-pack/icon-512x512.png",
-  "/jeighost-icons-pack/favicon.ico",
-  "/jeighost-icons-pack/maskable-icon-512x512.png"
-  "/jeighost-icons-pack/brain-gold.svg",
+// Agregar estos recursos críticos primero
+const CRITICAL_RESOURCES = [
+  '/',
+  '/style.css',
+  '/features.css',
+  '/menu.js',
+  '/index.html',
+  '/manifest.json',
+  '/jeighost-icons-pack/icon-72x72.png',
+  '/jeighost-icons-pack/icon-96x96.png',
+  '/jeighost-icons-pack/icon-128x128.png',
+  '/jeighost-icons-pack/icon-144x144.png',
+  '/jeighost-icons-pack/icon-192x192.png:,
+  '/jeighost-icons-pack/icon-256x256.png',
+  '/jeighost-icons-pack/icon-384x384.png',
+  '/jeighost-icons-pack/icon-512x512.png',
+  '/jeighost-icons-pack/favicon.ico',
+  '/jeighost-icons-pack/maskable-icon-512x512.png'
+  '/jeighost-icons-pack/brain-gold.svg',
 ];
 
-// --- INSTALACIÓN DEL SERVICE WORKER ---
-self.addEventListener("install", (event) => {
-  console.log("[SW] Instalando nueva versión...");
+// En el evento install, priorizar recursos críticos
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("[SW] Archivos cacheados correctamente.");
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        // Cachear críticos primero
+        return cache.addAll(CRITICAL_RESOURCES);
+      })
+      .then(() => {
+        // Luego el resto
+        return caches.open(CACHE_NAME)
+          .then(cache => cache.addAll(urlsToCache));
+      })
   );
   self.skipWaiting();
 });
