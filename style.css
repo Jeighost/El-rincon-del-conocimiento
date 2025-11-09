@@ -942,3 +942,10 @@ p, span, div, a {
 * {
   scroll-behavior: smooth;
 }
+transform: translateY(...);
+will-change: transform;
+body{font-family:'Crimson Pro',serif}
+h1,h2,h3{font-family:'Cinzel',serif}
+@font-face{font-family:'Cinzel';src:local('serif');}
+@font-face{font-family:'Cinzel';src:local('serif')}
+@font-face{font-family:'Crimson Pro';src:local('serif')}.

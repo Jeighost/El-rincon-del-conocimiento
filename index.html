@@ -22,6 +22,7 @@
   <meta property="og:image" content="https://jeighost.lat/icon-512.png">
   <meta property="og:url" content="https://jeighost.lat">
   <meta property="og:site_name" content="El rincón del conocimiento">
+  <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -59,13 +60,15 @@
   </style>
 
   <!-- Precargar fuentes críticas -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style" importance="high">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" media="all">
+
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
   </noscript>
 
   <!-- Precargar imagen de la rosa (solo en index.html) -->
-  <link rel="preload" as="image" href="https://i.postimg.cc/qqMmH4Mh/1762522436835.jpg" media="(min-width: 768px)" fetchpriority="low">
+  <link rel="preload" as="image" href="https://i.postimg.cc/fWSdrghD/1762522436835.webp" media="(min-width: 768px)" fetchpriority="low">
 
   <!-- CSS No Crítico con carga diferida -->
   <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -110,17 +113,11 @@
 </head>
 
 <body class="dark">
- <object type="image/svg+xml" 
-        data="/jeighost-icons-pack/brain-gold.svg" 
-        class="logo-animada" 
-        width="100" 
-        height="100"
-        aria-label="Ícono animado de cerebro dorado representando el conocimiento"></object>
   <!-- Fondo respirante -->
   <div class="halo"></div>
 
   <header>
-    <h1 class="fade-in">El rincón del Conocimiento</h1>
+    <h1 class="fade-in" itemprop="headline">El rincón del conocimiento</h1>
     <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
   </header>
 
@@ -149,13 +146,14 @@
     <!-- SECCIÓN ROSA ANIMADA -->
     <section class="rosa-animada">
       <div class="rosa-container">
-       <img src="https://i.postimg.cc/qqMmH4Mh/1762522436835.jpg" 
+   <img src="https://i.postimg.cc/fWSdrghD/1762522436835.webp" 
      alt="Rosa en el bosque - Símbolo de esperanza y equilibrio mental" 
      class="rosa-imagen"
      width="700" 
      height="700"
      loading="lazy"
-     decoding="async">
+     decoding="async"
+     fetchpriority="high">
       </div>
       <h3 class="rosa-titulo">COMO LA ROSA</h3>
       <p class="rosa-texto">
@@ -191,7 +189,20 @@
   <p class="fecha-auto">Actualización: <span id="ultima-act"></span></p>
 
   <!-- Scripts -->
-  <script>
+ <!-- Scripts críticos (cargan inmediatamente) -->
+<script src="menu.js" defer></script>
+<script src="advanced-features.js" defer></script>
+<script src="features.js" defer></script>
+
+<!-- Scripts no críticos (cargan después) -->
+<script src="particles.js" defer></script>
+<script src="favoritos.js" defer></script>
+<script src="auto-update.js" defer></script>
+<script src="install.js" defer></script>
+<script src="notifications.js" defer></script>
+<script src="auto-notifications.js" defer></script>
+<script src="analytics.js" async></script>
+ <script>
     // Script de la sección interactiva
     const respuestas = [
       "Quizás la vida no se define, se siente.",
@@ -222,20 +233,7 @@
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
-
- <!-- Scripts críticos (cargan inmediatamente) -->
-<script src="menu.js" defer></script>
-
-<!-- Scripts no críticos (cargan después) -->
-<script src="particles.js" defer></script>
-<script src="favoritos.js" defer></script>
-<script src="features.js" defer></script>
-<script src="advanced-features.js" defer></script>
-<script src="auto-update.js" defer></script>
-<script src="install.js" defer></script>
-<script src="notifications.js" defer></script>
-<script src="auto-notifications.js" defer></script>
-<script src="analytics.js" async></script>
+  
 
 <!-- Service Worker -->
 <script>

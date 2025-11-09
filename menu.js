@@ -184,6 +184,10 @@
       animateMenuEntrance();
     }, 100);
   });
+  
+  requestAnimationFrame(() => {
+  // aquí el código que lee geometría
+});
 
   // Actualizar al redimensionar ventana
   let resizeTimeout;
