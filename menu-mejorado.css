@@ -158,18 +158,75 @@ nav a.active::after, nav a.activo::after {
 .install-btn { order: 3; }          /* Instalar */
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 968px) {
-  .nav-container { flex-wrap: wrap; padding: 0.8rem 1rem; }
+/* ============================================
+   🔧 FIX FINAL - ORDEN Y ESPACIO DEL MENÚ MÓVIL
+   ============================================ */
 
+@media (max-width: 968px) {
+
+  /* Contenedor flexible y ordenado */
+  .nav-container {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Acciones (modo oscuro, instalar, notificaciones) a la izquierda */
   .nav-actions {
     order: 1;
-    flex: 0 0 auto;       /* evita “estirarse” */
-    width: auto;
     justify-content: flex-start;
+    flex: 1;
   }
-  .nav-actions button { flex: 0 0 auto; }
-  .nav-actions button::after { display: none; } /* sin ripple en móvil */
 
+  /* Enlaces del menú colapsados por defecto (no ocupan espacio) */
+  .nav-links {
+    order: 2;
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(10,10,10,0.98);
+    border-top: 1px solid rgba(212,175,55,0.2);
+  }
+
+  /* Enlaces cuando el menú está abierto */
+  .nav-links.open {
+    display: flex;
+    max-height: 500px;
+    padding: 1rem 0;
+  }
+
+  /* Botón hamburguesa a la derecha */
+  .nav-toggle {
+    order: 3;
+    margin-left: auto;
+  }
+
+  /* Estilo de los enlaces dentro del menú desplegado */
+  .nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+    border-radius: 0;
+  }
+
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+
+  /* Botón de instalar más compacto en móvil */
+  .install-permanent-btn {
+    padding: 0.5rem 0.8rem;
+  }
+
+  /* Ocultar texto del botón de instalar */
+  .install-text {
+    display: none;
+  }
+} /* sin ripple en móvil */
   .nav-links {
     order: 2;
     flex-basis: 100%;

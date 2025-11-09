@@ -3,7 +3,7 @@
 // Fecha: 2025-11
 
 // -- NOMBRES DE CACHÉ --
-const VERSION = 'v8.1';
+const VERSION = 'v8.2';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 
@@ -174,4 +174,4 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-console.log('%c[SW] Jeighost.lat v8.1 activo', 'color: gold; font-weight: bold;');
+console.log('%c[SW] Jeighost.lat v8.2 activo', 'color: gold; font-weight: bold;');
