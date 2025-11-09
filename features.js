@@ -1,32 +1,65 @@
 // ============================================
-// FEATURES.JS - Sistema completo de funcionalidades
+// FEATURES.JS - Sistema completo de funcionalidades (optimizado)
 // ============================================
-
-(function() {
+(function () {
   'use strict';
+
+  // Guard contra dobles inyecciones
+  if (window.__featuresInit) return;
+  window.__featuresInit = true;
 
   // ==========================================
   // 1. BARRA DE PROGRESO DE LECTURA
   // ==========================================
   function initReadingProgress() {
+    if (document.querySelector('.reading-progress')) return;
+
     const progressBar = document.createElement('div');
     progressBar.className = 'reading-progress';
     document.body.appendChild(progressBar);
 
-    window.addEventListener('scroll', () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight - windowHeight;
-      const scrolled = window.pageYOffset;
-      const progress = (scrolled / documentHeight) * 100;
-      progressBar.style.width = `${Math.min(progress, 100)}%`;
-    });
+    let docHeight = 1;
+    let ticking = false;
+
+    const computeDocHeight = () => {
+      const winH = window.innerHeight;
+      const fullH = document.documentElement.scrollHeight;
+      docHeight = Math.max(1, fullH - winH);
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const progress = Math.min(100, Math.max(0, (y / docHeight) * 100));
+        progressBar.style.width = `${progress}%`;
+        ticking = false;
+      });
+    };
+
+    // Recalcular en resize y tras cargas diferidas (imágenes)
+    const onResize = () => {
+      computeDocHeight();
+      onScroll();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    // Recalcular cuando cargan imágenes
+    window.addEventListener('load', onResize);
+
+    computeDocHeight();
+    onScroll();
   }
 
   // ==========================================
   // 2. CONTADOR DE REFLEXIONES
   // ==========================================
   function addStatsBar() {
-    if (!window.location.pathname.includes('index') && window.location.pathname !== '/') return;
+    const isHome = location.pathname.endsWith('index.html') || location.pathname === '/';
+    if (!isHome) return;
+    if (document.querySelector('.stats-bar')) return;
 
     const header = document.querySelector('header');
     if (!header) return;
@@ -40,8 +73,9 @@
     `;
     header.after(statsBar);
 
-    const visits = parseInt(localStorage.getItem('counter_visits') || '0');
-    document.getElementById('view-count').textContent = visits > 0 ? visits : '🔥';
+    const visits = parseInt(localStorage.getItem('counter_visits') || '0', 10);
+    const el = document.getElementById('view-count');
+    if (el) el.textContent = visits > 0 ? String(visits) : '🔥';
   }
 
   // ==========================================
@@ -51,21 +85,25 @@
     const nav = document.querySelector('nav');
     if (!nav) return;
 
-    const path = window.location.pathname;
-    if (path.includes('index') || path === '/') return;
+    const path = location.pathname;
+    const isHome = path.endsWith('index.html') || path === '/';
+    if (isHome) return;
+    if (document.querySelector('.breadcrumb')) return;
 
     const breadcrumb = document.createElement('div');
     breadcrumb.className = 'breadcrumb';
 
     let html = '<a href="index.html">🏠 Inicio</a>';
-    if (path.includes('galeria')) {
+    if (/galeria/i.test(path)) {
       html += '<span class="breadcrumb-separator">›</span><span>Galería</span>';
-    } else if (path.includes('reflexiones')) {
+    } else if (/reflexiones(\.html)?$/i.test(path)) {
       html += '<span class="breadcrumb-separator">›</span><span>Reflexiones</span>';
-    } else if (path.match(/reflexion\d+/)) {
-      const num = path.match(/reflexion(\d+)/)?.[1];
+    } else if (/reflexion\d+\.html$/i.test(path)) {
+      const num = path.match(/reflexion(\d+)/i)?.[1];
       html += '<span class="breadcrumb-separator">›</span><a href="reflexiones.html">Reflexiones</a>';
       html += `<span class="breadcrumb-separator">›</span><span>Reflexión ${num}</span>`;
+    } else if (/sobre-mi/i.test(path)) {
+      html += '<span class="breadcrumb-separator">›</span><span>Sobre mí</span>';
     }
 
     breadcrumb.innerHTML = html;
@@ -76,6 +114,8 @@
   // 4. TIEMPO DE LECTURA
   // ==========================================
   function addReadingTime() {
+    if (document.querySelector('.reading-time')) return;
+
     const content = document.querySelector('.texto-reflexion, .contenido-reflexion');
     if (!content) return;
 
@@ -87,39 +127,84 @@
     timeElement.textContent = `${readingTime} min de lectura`;
 
     const header = document.querySelector('header');
-    if (header) header.after(timeElement);
+    (header || document.body).after
+      ? header.after(timeElement)
+      : document.body.appendChild(timeElement);
   }
 
   // ==========================================
   // 5. BOTONES DE COMPARTIR
   // ==========================================
   function addSocialShare() {
+    if (document.querySelector('.social-share')) return;
+
     const reflexionContent = document.querySelector('.texto-reflexion, .contenido-reflexion');
     if (!reflexionContent) return;
 
     const shareContainer = document.createElement('div');
     shareContainer.className = 'social-share';
     shareContainer.innerHTML = `
-      <button class="social-btn" onclick="window.features.share('twitter')" title="Compartir en Twitter">🐦</button>
-      <button class="social-btn" onclick="window.features.share('whatsapp')" title="Compartir en WhatsApp">💬</button>
-      <button class="social-btn" onclick="window.features.share('facebook')" title="Compartir en Facebook">📘</button>
-      <button class="social-btn" onclick="window.features.share('copy')" title="Copiar enlace">🔗</button>
+      <button class="social-btn" data-platform="twitter" title="Compartir en Twitter">🐦</button>
+      <button class="social-btn" data-platform="whatsapp" title="Compartir en WhatsApp">💬</button>
+      <button class="social-btn" data-platform="facebook" title="Compartir en Facebook">📘</button>
+      <button class="social-btn" data-platform="copy" title="Copiar enlace">🔗</button>
     `;
 
     const mensajeFinal = document.querySelector('.mensaje-final');
     (mensajeFinal || reflexionContent).before(shareContainer);
+
+    // Delegación de eventos
+    shareContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.social-btn');
+      if (!btn) return;
+      shareContent(btn.dataset.platform);
+    });
   }
 
   function shareContent(platform) {
-    const url = window.location.href;
+    const url = location.href;
     const title = document.title;
     const text = `Leyendo: ${title}`;
 
-    switch(platform) {
-      case 'twitter': window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`); break;
-      case 'whatsapp': window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`); break;
-      case 'facebook': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`); break;
-      case 'copy': navigator.clipboard.writeText(url).then(() => showNotification('✅ Enlace copiado al portapapeles')); break;
+    // Web Share API
+    if (navigator.share && (platform === 'copy' || platform === 'whatsapp')) {
+      navigator
+        .share({ title, text, url })
+        .catch(() => {
+          // si el usuario cancela, no pasa nada
+        });
+      return;
+    }
+
+    // Fallback
+    switch (platform) {
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+        break;
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`);
+        break;
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
+        break;
+      case 'copy':
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => showNotification('✅ Enlace copiado'));
+          } else {
+            // fallback de copia
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            showNotification('✅ Enlace copiado');
+          }
+        } catch {
+          showNotification('❌ No se pudo copiar el enlace');
+        }
+        break;
     }
   }
 
@@ -127,45 +212,62 @@
   // 6. NAVEGACIÓN FLOTANTE
   // ==========================================
   function addFloatingNav() {
-    const match = window.location.pathname.match(/reflexion(\d+)/);
+    if (document.querySelector('.floating-nav')) return;
+
+    const match = location.pathname.match(/reflexion(\d+)\.html/i);
     if (!match) return;
 
-    const current = parseInt(match[1]);
+    const current = parseInt(match[1], 10);
     const total = 12;
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';
-
     floatingNav.innerHTML = `
-      ${current > 1 ? `<button onclick="location.href='reflexion${current - 1}.html'" title="Anterior">↩</button>` : ''}
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Arriba">⬆</button>
-      ${current < total ? `<button onclick="location.href='reflexion${current + 1}.html'" title="Siguiente">↪</button>` : ''}
+      ${current > 1 ? `<button data-go="${current - 1}" title="Anterior">↩</button>` : ''}
+      <button data-top="1" title="Arriba">⬆</button>
+      ${current < total ? `<button data-go="${current + 1}" title="Siguiente">↪</button>` : ''}
     `;
     document.body.appendChild(floatingNav);
+
+    // Delegación
+    floatingNav.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      if (btn.dataset.top) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (btn.dataset.go) {
+        location.href = `reflexion${btn.dataset.go}.html`;
+      }
+    });
   }
 
   // ==========================================
   // 7. FRASE ROTATIVA
   // ==========================================
   function addRotatingQuote() {
-    if (!window.location.pathname.includes('index') && window.location.pathname !== '/') return;
+    const isHome = location.pathname.endsWith('index.html') || location.pathname === '/';
+    if (!isHome) return;
+    if (document.querySelector('.frase-rotativa')) return;
 
     const quotes = [
-      "El conocimiento es el único tesoro que nadie puede quitarte",
-      "La reflexión es el puente entre la ignorancia y la sabiduría",
-      "Cada pensamiento crítico es un paso hacia la verdad",
-      "La percepción moldea nuestra realidad",
-      "Pensar por uno mismo es el acto más revolucionario",
-      "Tu sonrisa hace magia con mi mente",
-      "Estaba perdido pero tu sonrisa fue mi guía",
-      "Sé lo que valgo, y valgo mucho",
-      "Deseo que todos pudieran ser felices"
+      'El conocimiento es el único tesoro que nadie puede quitarte',
+      'La reflexión es el puente entre la ignorancia y la sabiduría',
+      'Cada pensamiento crítico es un paso hacia la verdad',
+      'La percepción moldea nuestra realidad',
+      'Pensar por uno mismo es el acto más revolucionario',
+      'Tu sonrisa hace magia con mi mente',
+      'Estaba perdido pero tu sonrisa fue mi guía',
+      'Sé lo que valgo, y valgo mucho',
+      'Deseo que todos pudieran ser felices'
     ];
 
     const quoteElement = document.createElement('div');
     quoteElement.className = 'frase-rotativa';
     quoteElement.textContent = quotes[0];
+
     const intro = document.querySelector('.intro');
-    if (intro) intro.before(quoteElement);
+    (intro || document.body).before
+      ? intro.before(quoteElement)
+      : document.body.insertBefore(quoteElement, document.body.firstChild);
 
     let i = 0;
     setInterval(() => {
@@ -182,26 +284,30 @@
   // 8. MODO LECTURA SUGERIDO
   // ==========================================
   function addReadingModeSuggestion() {
+    if (document.querySelector('.reading-mode-suggestion')) return;
+
     const suggestion = document.createElement('div');
     suggestion.className = 'reading-mode-suggestion';
-    suggestion.innerHTML = '💡 Modo lectura activado';
+    suggestion.textContent = '💡 Modo lectura activado';
     suggestion.style.display = 'none';
     document.body.appendChild(suggestion);
 
     let shown = false;
     window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 500 && !shown) {
+      if (!shown && (window.pageYOffset || document.documentElement.scrollTop || 0) > 500) {
         shown = true;
         suggestion.style.display = 'block';
-        setTimeout(() => suggestion.style.display = 'none', 3000);
+        setTimeout(() => (suggestion.style.display = 'none'), 3000);
       }
-    });
+    }, { passive: true });
   }
 
   // ==========================================
   // 9. ÍNDICE DE CONTENIDOS
   // ==========================================
   function addTableOfContents() {
+    if (document.querySelector('.table-of-contents')) return;
+
     const content = document.querySelector('.texto-reflexion');
     if (!content || window.innerWidth < 1400) return;
 
@@ -214,13 +320,13 @@
     const ul = toc.querySelector('ul');
 
     headers.forEach((h, i) => {
-      const id = `section-${i}`;
+      const id = h.id || `section-${i}`;
       h.id = id;
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.href = `#${id}`;
-      a.textContent = h.textContent.substring(0, 30) + '...';
-      a.addEventListener('click', e => {
+      a.textContent = (h.textContent || '').trim().slice(0, 30) + (h.textContent.length > 30 ? '…' : '');
+      a.addEventListener('click', (e) => {
         e.preventDefault();
         h.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });

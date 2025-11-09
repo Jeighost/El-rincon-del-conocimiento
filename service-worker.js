@@ -1,162 +1,177 @@
-// === JEIGHOST.LAT SERVICE WORKER v8.0 ===
-// Autor: Jeison Gonzalez
-// Descripción: Controlador de caché, red, notificaciones y PWA
-// Fecha: Revisado y optimizado por ChatGPT (2025)
+// === JEIGHOST.LAT SERVICE WORKER v8.1 ===
+// Autor: Jeison Gonzalez — Ajustado
+// Fecha: 2025-11
 
-// --- NOMBRES DE CACHÉ ---
-// Agregar al inicio
-const CACHE_NAME = 'el-rincon-v7.1'; // ← Cambiar versión
-const CACHE_DYNAMIC = 'el-rincon-dynamic-v7.1';
+// -- NOMBRES DE CACHÉ --
+const VERSION = 'v8.1';
+const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
+const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 
-// Agregar estos recursos críticos primero
-const CRITICAL_RESOURCES = [
-  '/',
+// -- RECURSOS ESTÁTICOS (no HTML/navegaciones) --
+const STATIC_ASSETS = [
   '/style.css',
   '/features.css',
+  '/menu-mejorado.css',
+  '/header-optimizado.css',
+  '/rosa-animada.css',
   '/menu.js',
-  '/index.html',
-  '/manifest.json',
+  '/advanced-features.js',
+  '/features.js',
+  '/install.js',
+  '/notifications.js',
+  '/auto-notifications.js',
   '/jeighost-icons-pack/icon-72x72.png',
   '/jeighost-icons-pack/icon-96x96.png',
   '/jeighost-icons-pack/icon-128x128.png',
   '/jeighost-icons-pack/icon-144x144.png',
-  '/jeighost-icons-pack/icon-192x192.png:,
+  '/jeighost-icons-pack/icon-192x192.png',
   '/jeighost-icons-pack/icon-256x256.png',
   '/jeighost-icons-pack/icon-384x384.png',
   '/jeighost-icons-pack/icon-512x512.png',
   '/jeighost-icons-pack/favicon.ico',
   '/jeighost-icons-pack/maskable-icon-512x512.png'
-  '/jeighost-icons-pack/brain-gold.svg',
 ];
 
-// En el evento install, priorizar recursos críticos
+// -- INSTALL: precache estáticos (sin HTML) --
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        // Cachear críticos primero
-        return cache.addAll(CRITICAL_RESOURCES);
-      })
-      .then(() => {
-        // Luego el resto
-        return caches.open(CACHE_NAME)
-          .then(cache => cache.addAll(urlsToCache));
-      })
+    caches.open(CACHE_STATIC).then((cache) => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-// --- ACTIVACIÓN Y LIMPIEZA DE CACHÉ ---
-self.addEventListener("activate", (event) => {
-  console.log("[SW] Activando y limpiando versiones antiguas...");
+// -- ACTIVATE: limpiar versiones antiguas --
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME && key !== CACHE_DYNAMIC)
-          .map((key) => {
-            console.log("[SW] Eliminando caché antigua:", key);
-            return caches.delete(key);
-          })
+          .filter((k) => k !== CACHE_STATIC && k !== CACHE_DYNAMIC)
+          .map((k) => caches.delete(k))
       )
     )
   );
   self.clients.claim();
 });
 
-// --- INTERCEPCIÓN DE FETCH ---
-self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  if (request.method !== "GET") return;
+// Utilidades
+const isNavigationRequest = (req) =>
+  req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
 
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Estrategia: cache first + actualización en segundo plano
-        staleWhileRevalidate(request);
-        return cachedResponse;
+async function networkFirstForHTML(event) {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const res = await fetch(event.request, { signal: ctrl.signal });
+    clearTimeout(t);
+    // No cacheamos HTML en dev para evitar staleness
+    return res;
+  } catch (err) {
+    // Fallback: intenta una versión estática del index si la tienes cacheada
+    const cachedIndex = await caches.match('/index.html');
+    return cachedIndex || new Response('Sin conexión', { status: 503, statusText: 'Offline' });
+  }
+}
+
+async function staleWhileRevalidateForAsset(event) {
+  const cache = await caches.open(CACHE_DYNAMIC);
+  const cached = await caches.match(event.request);
+  const fetchPromise = fetch(event.request)
+    .then((res) => {
+      // Evitar cachear respuestas inválidas
+      if (res && res.status === 200 && res.type !== 'opaque') {
+        cache.put(event.request, res.clone());
       }
-      // Si no hay caché, intentamos desde red
-      return fetchWithTimeout(request);
+      return res;
     })
-  );
+    .catch(() => cached);
+
+  return cached || fetchPromise;
+}
+
+// -- FETCH: rutas diferenciadas --
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return; // deja pasar POST/PUT etc.
+
+  if (isNavigationRequest(request)) {
+    // Navegaciones (HTML): network first
+    event.respondWith(networkFirstForHTML(event));
+  } else if (new URL(request.url).origin === self.location.origin) {
+    // Mismo origen: SWR para estáticos
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) {
+          // actualizar en segundo plano
+          event.waitUntil(
+            fetch(request)
+              .then((res) => {
+                if (res && res.status === 200 && res.type !== 'opaque') {
+                  return caches.open(CACHE_DYNAMIC).then((c) => c.put(request, res.clone()));
+                }
+              })
+              .catch(() => {})
+          );
+          return cached;
+        }
+        return fetch(request)
+          .then((res) => {
+            if (res && res.status === 200 && res.type !== 'opaque') {
+              return caches.open(CACHE_DYNAMIC).then((c) => {
+                c.put(request, res.clone());
+                return res;
+              });
+            }
+            return res;
+          })
+          .catch(() => caches.match(request));
+      })
+    );
+  } else {
+    // Terceros: ir a red con fallback a caché si ya existe
+    event.respondWith(
+      fetch(request).catch(() => caches.match(request))
+    );
+  }
 });
 
-// --- FUNCIÓN AUXILIAR: staleWhileRevalidate ---
-async function staleWhileRevalidate(request) {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000);
-    const response = await fetch(request, { signal: controller.signal });
-    clearTimeout(timeout);
-    const cache = await caches.open(CACHE_DYNAMIC);
-    cache.put(request, response.clone());
-    return response;
-  } catch (error) {
-    console.warn("[SW] Error en actualización:", error);
-  }
-}
-
-// --- FUNCIÓN AUXILIAR: fetch con timeout ---
-async function fetchWithTimeout(request, timeout = 8000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeout);
-  try {
-    const response = await fetch(request, { signal: controller.signal });
-    clearTimeout(timer);
-    if (!response || response.status !== 200) throw new Error("Respuesta no válida");
-    const cache = await caches.open(CACHE_DYNAMIC);
-    cache.put(request, response.clone());
-    return response;
-  } catch (error) {
-    console.warn("[SW] Error de red o timeout:", error);
-    clearTimeout(timer);
-    return caches.match(request);
-  }
-}
-
-// --- PUSH NOTIFICATIONS ---
-self.addEventListener("push", (event) => {
-  let body = event.data ? event.data.text() : "Nueva notificación desde Jeighost.lat";
+// -- PUSH --
+self.addEventListener('push', (event) => {
+  const body = event.data ? event.data.text() : 'Nueva notificación desde Jeighost.lat';
   const options = {
     body,
-    icon: "/jeighost-icons-pack/icon-192x192.png",
-    badge: "/jeighost-icons-pack/icon-192x192.png",
+    icon: '/jeighost-icons-pack/icon-192x192.png',
+    badge: '/jeighost-icons-pack/icon-192x192.png',
     vibrate: [100, 50, 100],
-    data: { url: "/" },
+    data: { url: '/' },
     actions: [
-      {
-        action: "explore",
-        title: "Leer ahora",
-        icon: "/jeighost-icons-pack/icon-192x192.png"
-      },
-      { action: "close", title: "Cerrar" }
+      { action: 'explore', title: 'Leer ahora', icon: '/jeighost-icons-pack/icon-192x192.png' },
+      { action: 'close', title: 'Cerrar' }
     ]
   };
-  event.waitUntil(self.registration.showNotification("Jeighost.lat", options));
+  event.waitUntil(self.registration.showNotification('Jeighost.lat', options));
 });
 
-// --- CLIC EN NOTIFICACIÓN ---
-self.addEventListener("notificationclick", (event) => {
+// -- CLICK EN NOTIFICACIÓN --
+self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  if (event.action === "explore") {
+  if (event.action === 'explore') {
     event.waitUntil(
-      clients.matchAll({ type: "window" }).then((clientList) => {
-        for (const client of clientList) {
-          if (client.url === "/" && "focus" in client) return client.focus();
+      clients.matchAll({ type: 'window' }).then((clientsArr) => {
+        for (const c of clientsArr) {
+          if (c.url.endsWith('/') || c.url.endsWith('/index.html')) {
+            return c.focus();
+          }
         }
-        if (clients.openWindow) return clients.openWindow("/");
+        return clients.openWindow('/');
       })
     );
   }
 });
 
-// --- MENSAJES ENTRE PÁGINA Y SW ---
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+// -- MENSAJES (skip waiting) --
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-// --- LOG FINAL ---
-console.log("%c[SW] Jeighost.lat v8.0 cargado y optimizado", "color: gold; font-weight: bold;");
+console.log('%c[SW] Jeighost.lat v8.1 activo', 'color: gold; font-weight: bold;');

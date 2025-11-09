@@ -7,7 +7,7 @@
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0b0b0c",
-  "theme_color": "#0b0b0c",
+  "theme_color": "#d4af37",
   "lang": "es",
   "icons": [
     { "src": "/jeighost-icons-pack/icon-72x72.png", "sizes": "72x72", "type": "image/png" },

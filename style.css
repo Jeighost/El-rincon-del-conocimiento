@@ -9,6 +9,8 @@
   box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
   font-family: 'Crimson Pro', serif;
   font-size: 16px;
@@ -17,9 +19,10 @@ body {
   background: linear-gradient(-45deg, #0b0b0c, #121317, #1a1b1f, #0b0c10);
   background-size: 400% 400%;
   animation: noche 60s ease-in-out infinite;
-  scroll-behavior: smooth;
   overflow-x: hidden;
   position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3 {
@@ -29,9 +32,7 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-p {
-  margin-bottom: 1rem;
-}
+p { margin-bottom: 1rem; }
 
 /* ============================================
    EFECTOS DE FONDO
@@ -39,10 +40,7 @@ p {
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 100%),
               radial-gradient(circle at 100% 100%, rgba(255,255,255,0.02), transparent 100%);
   animation: movimientoNiebla 20s infinite alternate;
@@ -62,14 +60,12 @@ body::before {
   animation: respirar 8s infinite ease-in-out;
   z-index: -2;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .fuego-fondo {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: radial-gradient(ellipse at bottom, rgba(212,175,55,0.1), transparent 50%);
   z-index: -3;
   pointer-events: none;
@@ -94,11 +90,11 @@ header h1 {
   margin-bottom: 0.8rem;
   text-shadow: 0 0 12px rgba(212,175,55,0.3);
   animation: aparecer 1.5s ease-out forwards;
+  transition: text-shadow 0.3s ease;
 }
 
 header h1:hover {
   text-shadow: 0 0 20px rgba(212,175,55,0.6);
-  transition: text-shadow 0.3s ease;
 }
 
 header p {
@@ -109,9 +105,7 @@ header p {
   line-height: 1.7;
 }
 
-.fade-in {
-  animation: aparecer 1.5s ease forwards;
-}
+.fade-in { animation: aparecer 1.5s ease forwards; }
 
 .titulo-reflexion {
   font-size: clamp(1.8rem, 5vw, 2.3rem);
@@ -146,9 +140,7 @@ nav a::after {
 
 nav a:hover::after,
 nav a.active::after,
-nav a.activo::after {
-  width: 100%;
-}
+nav a.activo::after { width: 100%; }
 
 nav a:hover {
   color: #fff;
@@ -160,7 +152,7 @@ nav a:hover {
    ============================================ */
 section {
   max-width: 900px;
-  margin: 3rem auto;
+  margin: 2.5rem auto;
   padding: 1.5rem;
   text-align: justify;
   animation: aparecer 1.2s ease forwards;
@@ -182,15 +174,17 @@ section {
 
 h2 {
   color: #d4af37;
-  margin-bottom: 1.5rem;
+  margin: 2rem 0 1.5rem;
   font-size: clamp(1.3rem, 3.5vw, 1.6rem);
 }
+
 .intro h3 {
-  color: ##F0F8FF;
+  color: #F0F8FF; /* FIX: color válido */
   margin-bottom: 0.5rem;
   text-align: center;
-  font-size: clamp(0.9rem, 2.5vw, 0.6rem);
+  font-size: clamp(0.6rem, 2.5vw, 0.9rem); /* FIX: clamp min<=max */
 }
+
 /* ============================================
    CITAS
    ============================================ */
@@ -305,8 +299,7 @@ blockquote {
 
 .mensaje-final {
   text-align: center;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+  margin: 3rem 0 2rem;
   font-style: italic;
   color: #d4af23;
   font-size: 0.8rem;
@@ -398,6 +391,7 @@ blockquote {
   transform: scale(1.05) translateY(-5px);
   box-shadow: 0 8px 30px rgba(212,175,55,0.35);
 }
+
 /* ============================================
    SECCIÓN INTERACTIVA
    ============================================ */
@@ -478,10 +472,7 @@ footer {
   margin-top: 4rem;
 }
 
-footer span {
-  color: #d4af37;
-  font-weight: bold;
-}
+footer span { color: #d4af37; font-weight: bold; }
 
 .autor {
   text-align: center;
@@ -524,25 +515,13 @@ footer span {
 }
 
 @keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes respirarMensaje {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
-  }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
 }
 
 @keyframes moverGradiente {
@@ -554,22 +533,12 @@ footer span {
    RESPONSIVE - MOBILE
    ============================================ */
 @media (max-width: 768px) {
-  body {
-    font-size: 15px;
-  }
+  body { font-size: 15px; line-height: 1.7; }
 
-  header {
-    padding: 2rem 1rem 1.5rem;
-  }
+  header { padding: 2rem 1rem 1.5rem; }
 
-  nav {
-    gap: 1rem;
-    padding: 0.8rem;
-  }
-
-  nav a {
-    font-size: 0.9rem;
-  }
+  nav { gap: 1rem; padding: 0.8rem; }
+  nav a { font-size: 0.9rem; }
 
   section,
   .reflexiones,
@@ -580,18 +549,11 @@ footer span {
     margin: 2rem auto;
   }
 
-  .reflexion-item {
-    padding: 1.5rem;
-  }
+  .reflexion-item { padding: 1.5rem; }
 
-  .galeria {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+  .galeria { grid-template-columns: 1fr; gap: 1rem; }
 
-  .interactivo input {
-    width: 90%;
-  }
+  .interactivo input { width: 90%; }
 
   .navegacion-reflexiones {
     flex-direction: column;
@@ -604,145 +566,12 @@ footer span {
     text-align: center;
   }
 
-  .halo {
-    width: 400px;
-    height: 400px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
-  header h1 {
-    font-size: 1.6rem;
-  }
-
-  .texto-reflexion,
-  .contenido-reflexion p {
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  .cita,
-  blockquote {
-    font-size: 0.95rem;
-    padding: 0.8rem 1rem;
-  }
-}
-img, .stat-number, .halo {
-  content-visibility: auto;
-}
-
-.stats-bar, .tags, .social-share {
-  min-height: 80px; /* Reservar espacio */
-}
-/* OPTIMIZACIONES DE RENDIMIENTO */
-
-/* Prevenir CLS */
-.stats-bar {
-  min-height: 120px;
-}
-
-.social-share {
-  min-height: 90px;
-}
-
-.tags {
-  min-height: 50px;
-}
-
-/* Mejorar contraste de botones */
-.nav-actions button {
-  background: rgba(212,175,55,0.15);
-}
-
-.nav-actions button:hover {
-  background: rgba(212,175,55,0.3);
-}
-
-/* Mejorar legibilidad */
-.breadcrumb {
-  background: rgba(255,255,255,0.05);
-}
-
-/* Optimizar animaciones */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Mejorar carga de fuentes */
-@font-face {
-  font-family: 'Cinzel';
-  font-display: swap;
-}
-
-/* Espaciado más consistente */
-section {
-  margin: 2.5rem auto;
-}
-
-h2 {
-  margin: 2rem 0 1.5rem;
-}
-
-h3 {
-  margin: 1.5rem 0 1rem;
-}
-
-/* Mejorar contraste en modo claro */
-body[data-theme="light"] .breadcrumb {
-  background: rgba(0,0,0,0.05);
-  border-color: rgba(139,115,85,0.2);
-}
-
-body[data-theme="light"] nav a {
-  color: #6d5a45;
-}
-
-/* Botones más visibles */
-.favorite-btn,
-.audio-reader-btn,
-.theme-toggle-btn {
-  box-shadow: 0 2px 8px rgba(212,175,55,0.15);
-}
-
-/* Mejorar hover en móvil */
-@media (hover: none) {
-  .floating-nav button:active {
-    transform: scale(0.95);
-  }
-}
-/* ==========================================
-   CORRECCIONES RESPONSIVE PROFESIONALES
-   ========================================== */
-
-/* Prevenir zoom en inputs iOS */
-input, textarea, select {
-  font-size: 16px !important;
-}
-
-/* Mejorar legibilidad en móvil */
-@media (max-width: 768px) {
-  body {
-    font-size: 15px;
-    line-height: 1.7;
-  }
+  .halo { width: 400px; height: 400px; }
 
   /* Stats más compactos */
-  .stats-bar {
-    gap: 1rem;
-    padding: 1rem 0.5rem;
-  }
+  .stats-bar { gap: 1rem; padding: 1rem 0.5rem; }
 
-  .stat-number {
-    font-size: 1.6rem;
-  }
+  .stat-number { font-size: 1.6rem; }
 
   /* Breadcrumb responsive */
   .breadcrumb {
@@ -760,9 +589,7 @@ input, textarea, select {
     padding: 0.5rem;
   }
 
-  .tag {
-    flex-shrink: 0;
-  }
+  .tag { flex-shrink: 0; }
 
   /* Búsqueda */
   #search-input {
@@ -787,39 +614,64 @@ input, textarea, select {
   }
 }
 
-/* Desktop optimizado */
-@media (min-width: 1200px) {
-  /* Mejor uso del espacio */
-  .stats-bar {
-    max-width: 700px;
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+
+  header h1 { font-size: 1.6rem; }
+
+  .texto-reflexion,
+  .contenido-reflexion p {
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
-  .reflexion-completa,
-  .contenido-reflexion {
-    max-width: 900px;
-  }
-
-  .floating-nav {
-    right: 3rem;
+  .cita,
+  blockquote {
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
   }
 }
 
-.stats-bar,
-.tags,
-.social-share,
-.breadcrumb {
-  min-height: fit-content;
+/* ============================================
+   OPTIMIZACIONES / ACCESIBILIDAD
+   ============================================ */
+
+/* Evitar CLS: reservar espacios coherentes */
+.stats-bar { min-height: 80px; }
+.social-share { min-height: 90px; }
+.tags { min-height: 50px; }
+
+/* Mejorar contraste de botones */
+.nav-actions button { background: rgba(212,175,55,0.15); }
+.nav-actions button:hover { background: rgba(212,175,55,0.3); }
+
+/* Mejorar legibilidad */
+.breadcrumb { background: rgba(255,255,255,0.05); }
+
+/* Soporte “reduce motion” – bloque único */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Modo claro (si lo usas con data-theme) */
+body[data-theme="light"] .breadcrumb {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(139,115,85,0.2);
+}
+body[data-theme="light"] nav a { color: #6d5a45; }
+
+/* Botones destacados */
+.favorite-btn,
+.audio-reader-btn,
+.theme-toggle-btn {
+  box-shadow: 0 2px 8px rgba(212,175,55,0.15);
 }
 
-p, span, div, a {
-  text-rendering: optimizeLegibility;
-}
-
+/* Hover solo en dispositivos con hover */
 @media (hover: hover) {
   .reflexion-item:hover,
   .related-card:hover,
@@ -828,124 +680,24 @@ p, span, div, a {
   }
 }
 
+/* Utilidad accesible */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
 }
-.contenedor {
-  width: 100%;          /* Ocupa todo el ancho del contenedor padre */
-  max-width: 800px;     /* Limite máximo de ancho */
-  margin: 0 auto;       /* Centra el contenedor */
-  overflow: hidden;     /* Evita que contenido se salga */
-}
 
-.contenedor img {
-  width: 100%;          /* Imagen ocupa todo el ancho del contenedor */
-  height: auto;         /* Mantiene proporción */
-  display: block;       /* Evita espacios debajo de la imagen */
-  object-fit: cover;    /* Opcional: recorta la imagen para llenar el contenedor */
-}
-.logo-animada {
-  width: 180px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-/* Reservar espacio para stats-bar */
-.stats-bar {
-  min-height: 80px;
-}
+/* Contenedor de imágenes responsivo */
+.contenedor { width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; }
+.contenedor img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-/* Reservar espacio para favoritos */
-.favorite-item {
-  min-height: 100px;
-}
+/* Reservas de espacio específicas */
+.favorite-item { min-height: 100px; }
+.rosa-container { aspect-ratio: 1 / 1; max-width: 700px; position: relative; margin: 0 auto; }
+.rosa-imagen { width: 100%; height: auto; display: block; will-change: auto; }
 
-/* Evitar que la rosa cause shift */
-.rosa-container {
-  aspect-ratio: 1 / 1;
-  max-width: 700px;
-}
-
-.rosa-imagen {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-/* ==================== OPTIMIZACIONES DE PERFORMANCE ==================== */
-
-/* Reservar espacio para rosa (evita CLS) */
-.rosa-container {
-  position: relative;
-  max-width: 700px;
-  margin: 0 auto;
-  aspect-ratio: 1 / 1;
-}
-
-.rosa-imagen {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Contenedor del logo */
-.logo-animada {
-  display: block;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-}
-
-/* Optimizar animaciones */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Font display swap para evitar FOIT */
-@font-face {
-  font-family: 'Cinzel';
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Crimson Pro';
-  font-display: swap;
-}
-
-/* Contenedor de stats-bar (si tienes) */
-.stats-bar {
-  min-height: 80px;
-}
-
-/* Will-change para animaciones pesadas */
-.halo {
-  will-change: transform, opacity;
-}
-
-.rosa-imagen {
-  will-change: auto;
-}
-
-/* Optimizar scroll */
-* {
-  scroll-behavior: smooth;
-}
-transform: translateY(...);
-will-change: transform;
-body{font-family:'Crimson Pro',serif}
-h1,h2,h3{font-family:'Cinzel',serif}
-@font-face{font-family:'Cinzel';src:local('serif');}
-@font-face{font-family:'Cinzel';src:local('serif')}
-@font-face{font-family:'Crimson Pro';src:local('serif')}.
+/* Contenido pesado: solo para imágenes y números (no halo fijo) */
+img, .stat-number { content-visibility: auto; }

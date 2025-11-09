@@ -1,92 +1,41 @@
 /* ============================================
-   MENÚ MEJORADO - Navegación Profesional
+   MENÚ MEJORADO — Layout final
+   Acciones IZQ · Enlaces centro · Hamburguesa DER
    ============================================ */
 
-/* Contenedor principal del navegador */
+/* Barra */
 nav {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.98);
-  backdrop-filter: blur(15px);
+  background: rgba(10,10,10,0.92);
   border-bottom: 1px solid rgba(212,175,55,0.25);
   box-shadow: 0 4px 20px rgba(0,0,0,0.6);
   z-index: 100;
   padding: 0;
 }
+@supports (backdrop-filter: blur(15px)) {
+  nav { backdrop-filter: blur(15px); }
+}
 
-/* Contenedor interno para mejor organización */
+/* Contenedor interno */
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1.5rem;
   padding: 0.8rem 1.5rem;
-  gap: 1.5rem;
+  position: relative; /* para .nav-indicator */
 }
 
-/* Sección de enlaces principales */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex: 1;
-}
-
-/* Enlaces de navegación */
-nav a {
-  color: #d4af37;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  position: relative;
-  padding: 0.5rem 0.8rem;
-  transition: all 0.3s ease;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
-}
-
-nav a::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #d4af37, transparent);
-  transition: width 0.3s ease;
-}
-
-nav a:hover {
-  color: #fff;
-  background: rgba(212,175,55,0.1);
-}
-
-nav a:hover::before {
-  width: 80%;
-}
-
-nav a.active,
-nav a.activo {
-  color: #fff;
-  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.1));
-  box-shadow: inset 0 0 10px rgba(212,175,55,0.2);
-}
-
-nav a.active::before,
-nav a.activo::before {
-  width: 80%;
-}
-
-/* Sección de botones de acción */
+/* Acciones (IZQUIERDA) */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  flex: 0 0 auto;       /* no crecer */
+  margin-right: 1rem;
 }
-
-/* Botones de acción (instalar, notificaciones) */
 .nav-actions button {
   background: transparent;
   color: #888;
@@ -96,13 +45,14 @@ nav a.activo::before {
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;      /* para ripple */
 }
-
 .nav-actions button:hover {
   border-color: #d4af37;
   color: #d4af37;
@@ -110,7 +60,67 @@ nav a.activo::before {
   transform: translateY(-2px);
 }
 
-/* Botón hamburguesa para móvil */
+/* Enlaces (CENTRO, flexibles) */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1 1 auto;        /* ocupa el espacio medio */
+}
+nav a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;      /* ripple */
+}
+/* Subrayado en hover/activo (no choca con ripple) */
+nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  transition: width 0.3s ease;
+}
+nav a:hover { color: #fff; background: rgba(212,175,55,0.1); }
+nav a:hover::before { width: 80%; }
+nav a.active, nav a.activo {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.1));
+  box-shadow: inset 0 0 10px rgba(212,175,55,0.2);
+}
+nav a.active::before, nav a.activo::before { width: 80%; }
+
+/* Ripple en hover/tap */
+nav a::after {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  width: 0; height: 0; border-radius: 50%;
+  background: rgba(212,175,55,0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  pointer-events: none;
+}
+nav a:hover::after { width: 300px; height: 300px; }
+
+/* Shine sólo en activo (reemplaza ripple mientras activo) */
+@keyframes navShine { 0%{background-position:-200% center} 100%{background-position:200% center} }
+nav a.active::after, nav a.activo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  background-size: 200% 100%;
+  animation: navShine 3s infinite;
+  border-radius: 6px;
+}
+
+/* Hamburguesa (DERECHA) */
 .nav-toggle {
   display: none;
   background: transparent;
@@ -120,39 +130,45 @@ nav a.activo::before {
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  margin-left: auto;     /* al extremo derecho */
 }
+.nav-toggle:hover { border-color: #d4af37; background: rgba(212,175,55,0.1); }
 
-.nav-toggle:hover {
-  border-color: #d4af37;
-  background: rgba(212,175,55,0.1);
-}
-
-/* Indicador de página activa más visible */
+/* Indicador (línea) — lo crea JS, aquí estilo */
 .nav-indicator {
   position: absolute;
-  bottom: -1px;
-  left: 0;
+  bottom: -1px; left: 0;
   height: 3px;
   background: linear-gradient(90deg, transparent, #d4af37, transparent);
-  transition: all 0.3s ease;
+  transition: left 0.3s ease, width 0.3s ease;
   pointer-events: none;
 }
 
-/* ============================================
-   RESPONSIVE - MÓVIL
-   ============================================ */
+/* Separador vertical (lo inserta JS) */
+.nav-separator {
+  width: 1px; height: 24px;
+  background: linear-gradient(to bottom, transparent, rgba(212,175,55,0.3), transparent);
+  margin: 0 0.5rem;
+}
 
+/* Orden sugerido de botones (opcional: usa estas clases en tu HTML) */
+.theme-toggle-btn { order: 1; }     /* Modo oscuro */
+.notification-btn { order: 2; }     /* Notificaciones */
+.install-btn { order: 3; }          /* Instalar */
+
+/* ========== RESPONSIVE ========== */
 @media (max-width: 968px) {
-  .nav-container {
-    flex-wrap: wrap;
-    padding: 0.8rem 1rem;
-  }
+  .nav-container { flex-wrap: wrap; padding: 0.8rem 1rem; }
 
-  .nav-toggle {
-    display: block;
-    order: 3;
+  .nav-actions {
+    order: 1;
+    flex: 0 0 auto;       /* evita “estirarse” */
+    width: auto;
+    justify-content: flex-start;
   }
+  .nav-actions button { flex: 0 0 auto; }
+  .nav-actions button::after { display: none; } /* sin ripple en móvil */
 
   .nav-links {
     order: 2;
@@ -161,13 +177,9 @@ nav a.activo::before {
     gap: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.4s ease, padding 0.3s ease;
   }
-
-  .nav-links.open {
-    max-height: 500px;
-    padding: 1rem 0;
-  }
+  .nav-links.open { max-height: 500px; padding: 1rem 0; }
 
   .nav-links a {
     width: 100%;
@@ -175,151 +187,23 @@ nav a.activo::before {
     border-radius: 0;
     border-bottom: 1px solid rgba(212,175,55,0.1);
   }
+  .nav-links a:last-child { border-bottom: none; }
 
-  .nav-links a:last-child {
-    border-bottom: none;
-  }
+  .nav-toggle { display: block; order: 3; margin-left: auto; }
 
-  .nav-actions {
-    order: 1;
-    flex: 1;
-    justify-content: flex-start;
-  }
-
-  .nav-actions button span {
-    display: none;
-  }
-
-  .nav-actions button {
-    padding: 0.5rem 0.8rem;
-  }
+  /* Sin tooltips en móvil y ocultar línea indicadora */
+  .nav-actions button:hover::before { display: none; }
+  .nav-indicator { display: none; }
 }
 
 @media (max-width: 480px) {
-  .nav-container {
-    padding: 0.6rem 0.8rem;
-  }
-
-  nav a {
-    font-size: 0.9rem;
-  }
-
-  .nav-actions {
-    gap: 0.5rem;
-  }
+  .nav-container { padding: 0.6rem 0.8rem; }
+  nav a { font-size: 0.9rem; }
+  .nav-actions { gap: 0.5rem; }
 }
 
-/* ============================================
-   ANIMACIONES EXTRAS
-   ============================================ */
-
-/* Efecto de brillo al pasar el cursor */
-@keyframes navShine {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-nav a.active::after,
-nav a.activo::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.1),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: navShine 3s infinite;
-  pointer-events: none;
-  border-radius: 6px;
-}
-
-/* Efecto hover suave */
-nav a,
-.nav-actions button {
-  position: relative;
-  overflow: hidden;
-}
-
-nav a::after,
-.nav-actions button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(212,175,55,0.2);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-nav a:hover::after,
-.nav-actions button:hover::after {
-  width: 300px;
-  height: 300px;
-}
-
-/* Separador visual entre secciones */
-.nav-separator {
-  width: 1px;
-  height: 24px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(212,175,55,0.3),
-    transparent
-  );
-  margin: 0 0.5rem;
-}
-
-/* Tooltip para botones en móvil */
-.nav-actions button:hover::before {
-  content: attr(title);
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20,20,20,0.95);
-  color: #d4af37;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  border: 1px solid rgba(212,175,55,0.3);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  z-index: 1000;
-  animation: tooltipFade 0.2s ease;
-}
-
-@keyframes tooltipFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-@media (max-width: 968px) {
-  .nav-actions button:hover::before {
-    display: none;
-  }
-}
-@media (max-width: 768px) {
-  .notification-btn {
-    display: none;
-  }
+/* Accesibilidad: reducir motion */
+@media (prefers-reduced-motion: reduce) {
+  nav a::after { transition: none; }
+  .nav-indicator { transition: none; }
 }
