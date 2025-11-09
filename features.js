@@ -331,7 +331,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     console.log('🎨 Iniciando funcionalidades...');
     initReadingProgress();
-    addStatsBar();
     addBreadcrumb();
     addReadingTime();
     addSocialShare();
