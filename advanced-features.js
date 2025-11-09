@@ -209,7 +209,7 @@
   // ===========================================
   // 5) Audio (TTS)
   // ===========================================
-  udioReader() {
+  function addAudioReader() {
     if (document.querySelector('.audio-reader-btn')) return;
 
     const content = document.querySelector('.texto-reflexion, .contenido-reflexion');
@@ -257,36 +257,32 @@
   // 6) Contador de días desde última reflexión
   // ===========================================
   function addDayCounter() {
-  // Solo en la home
-  const isHome =
-    window.location.pathname.endsWith('/') ||
-    window.location.pathname.endsWith('/index.html') ||
-    window.location.pathname === '/index.html';
+    if (document.querySelector('.day-counter')) return;
 
-  if (!isHome) return;
+    const isHome =
+      location.pathname.endsWith('index.html') ||
+      location.pathname === '/' ||
+      location.pathname.endsWith('/El-rincon-del-conocimiento/');
 
-  const lastReflectionDate = new Date('2025-11-04');
-  const today = new Date();
-  const daysSince = Math.floor((today - lastReflectionDate) / (1000 * 60 * 60 * 24));
+    if (!isHome) return;
 
-  const counter = document.createElement('div');
-  counter.className = 'day-counter';
-  counter.innerHTML = `
-    <div class="counter-content">
-      <span class="counter-number">${daysSince}</span>
-      <span class="counter-label">día${daysSince !== 1 ? 's' : ''} desde la última reflexión</span>
-    </div>
-  `;
+    const lastReflectionDate = new Date('2025-11-04'); // Actualiza cuando publiques
+    const today = new Date();
+    const daysSince = Math.max(0, Math.floor((today - lastReflectionDate) / 86400000));
 
-  const statsBar = document.querySelector('.stats-bar');
-  if (statsBar && typeof statsBar.after === 'function') {
-    statsBar.after(counter);
-  } else {
-    // Fallback seguro para que no rompa
-    const header = document.querySelector('header');
-    (header || document.body).appendChild(counter);
+    const counter = document.createElement('div');
+    counter.className = 'day-counter';
+    counter.innerHTML = `
+      <div class="counter-content">
+        <span class="counter-number">${daysSince}</span>
+        <span class="counter-label">día${daysSince !== 1 ? 's' : ''} desde la última reflexión</span>
+      </div>`;
+
+    const statsBar = document.querySelector('.stats-bar');
+    (statsBar || document.querySelector('main') || document.body).after
+      ? statsBar.after(counter)
+      : document.body.appendChild(counter);
   }
-}
 
   // ===========================================
   // 7) Estilos embebidos (con id para no duplicar)
