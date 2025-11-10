@@ -6,7 +6,6 @@
   'use strict';
 
   let deferredPrompt;
-  let installButton;
   let installBanner;
   let permanentInstallBtn;
 
