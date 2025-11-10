@@ -126,17 +126,6 @@ section {
   border-radius: 10px;
 }
 
-/* Ornamento en header */
-header::before {
-  content: '✦';
-  display: block;
-  color: #d4af37;
-  font-size: 1.2rem;
-  opacity: 0.4;
-  margin-bottom: 0.5rem;
-  animation: brillo 3s infinite;
-}
-
 @keyframes brillo {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
@@ -191,3 +180,55 @@ header h1::after {
     font-size: 0.95rem;
   }
 }
+/* ==================== HEADER UNIFICADO ==================== */
+
+header,
+nav {
+  background: #0a0a0a !important; /* Mismo color negro */
+  border: none;
+}
+
+/* Header con nombre fijo */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  position: relative;
+}
+header h1 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+header p {
+  text-align: center;
+}
+
+/* Nombre "Jeighost" fijo a la izquierda */
+.header-brand {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #d4af40;
+  z-index: 1000;
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-brand {
+    font-size: 1rem;
+    top: 1rem;
+    left: 1rem;
+  }
+
+@media (max-width: 480px) {
+  .header-brand {
+    font-size: 0.9rem;
+  }

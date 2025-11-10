@@ -116,17 +116,23 @@
   <!-- Fondo respirante -->
   <div class="halo"></div>
 
-  <header>
-    <h1 class="fade-in" itemprop="headline">El rincón del conocimiento</h1>
-    <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
-  </header>
-
   <nav>
     <a href="index.html" class="active">Inicio</a>
     <a href="galeria.html">Imágenes</a>
     <a href="reflexiones.html">Reflexiones</a>
     <a href="sobre-mi.html">Sobre mí</a>
   </nav>
+
+  <header>
+  <!-- Nombre fijo izquierda -->
+  <div class="header-brand">Jeighost</div>
+
+  <!-- Título central -->
+  <div style="flex: 1; text-align: center;">
+    <h1 class="fade-in" itemprop="headline">El rincón del Conocimiento</h1>
+    
+    <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
+</header>
 
   <blockquote class="cita">"Hola, ¿Cómo estás hoy?"</blockquote>
 
@@ -194,6 +200,7 @@
 <script src="features.js" defer></script>
 
 <!-- Scripts no críticos (cargan después) -->
+<script src="header-enhanced.js" defer></script>
 <script src="particles.js" defer></script>
 <script src="favoritos.js" defer></script>
 <script src="install.js" defer></script>
