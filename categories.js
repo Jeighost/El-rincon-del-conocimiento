@@ -18,7 +18,8 @@
     9: ['Crecimiento Personal', 'Conciencia'],
     10: ['Filosofía', 'Conciencia'],
     11: ['Propósito', 'Conciencia'],
-    12: ['Filosofía', 'Propósito']
+    12: ['Filosofía', 'Propósito'],
+    13: ['Existencialismo','Melancolia']
   };
 
   // Iconos por categoría
@@ -29,7 +30,8 @@
     'Crecimiento Personal': '🌱',
     'Poesía': '📖',
     'Propósito': '🎯',
-    'Existencialismo': '🌌'
+    'Existencialismo': '🌌',
+    'Melancolia': '🙍'
   };
 
   // Colores por categoría
@@ -40,7 +42,8 @@
     'Crecimiento Personal': '#2ecc71',
     'Poesía': '#f39c12',
     'Propósito': '#1abc9c',
-    'Existencialismo': '#34495e'
+    'Existencialismo': '#34495e',
+    'Melancolia': '#0000FF'
   };
 
   function addCategoriesToReflection() {

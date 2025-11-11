@@ -193,7 +193,7 @@
     if (!match) return;
 
     const current = parseInt(match[1], 10);
-    const total = 12;
+    const total = 13;
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';
     floatingNav.innerHTML = `
@@ -232,7 +232,8 @@
       'Tu sonrisa hace magia con mi mente',
       'Estaba perdido pero tu sonrisa fue mi guía',
       'Sé lo que valgo, y valgo mucho',
-      'Deseo que todos pudieran ser felices'
+      'Deseo que todos pudieran ser felices',
+      'No voy a llegar al cielo'
     ];
 
     const quoteElement = document.createElement('div');
@@ -253,28 +254,6 @@
         quoteElement.style.opacity = '1';
       }, 400);
     }, 8000);
-  }
-
-  // ==========================================
-  // 8. MODO LECTURA SUGERIDO
-  // ==========================================
-  function addReadingModeSuggestion() {
-    if (document.querySelector('.reading-mode-suggestion')) return;
-
-    const suggestion = document.createElement('div');
-    suggestion.className = 'reading-mode-suggestion';
-    suggestion.textContent = '💡 Modo lectura activado';
-    suggestion.style.display = 'none';
-    document.body.appendChild(suggestion);
-
-    let shown = false;
-    window.addEventListener('scroll', () => {
-      if (!shown && (window.pageYOffset || document.documentElement.scrollTop || 0) > 500) {
-        shown = true;
-        suggestion.style.display = 'block';
-        setTimeout(() => (suggestion.style.display = 'none'), 3000);
-      }
-    }, { passive: true });
   }
 
   // ==========================================
