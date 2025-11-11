@@ -1,5 +1,5 @@
 /* ROSA ANIMADA - VERSIÓN CORREGIDA */
-.rosa-container {
+.rosa-container
   .rosa-container {
     width:700px;
     height:700px;
@@ -63,14 +63,14 @@
 }
  
 .rosa-titulo {
+  text-align: center;
   font-family: 'Cinzel', serif;
   font-size: 2rem;
   color: #d4af37;
   margin: 2rem 0 1rem;
-  text-align: center;
   letter-spacing: 3px;
   font-weight: 600;
-  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.03);
 }
 
 .rosa-texto {

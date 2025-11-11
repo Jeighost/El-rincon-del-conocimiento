@@ -186,7 +186,9 @@
       '9': 'Desgaste invisible',
       '10': 'La identidad',
       '11': 'La conciencia que se basta asi misma',
-      '12': 'El mundo que sueño'
+      '12': 'El mundo que sueño',
+      '13': '6:50',
+      '14': 'El espejo y la sombra'
     };
     
     favorites.forEach(id => {

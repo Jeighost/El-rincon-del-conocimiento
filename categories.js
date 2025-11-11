@@ -9,7 +9,7 @@
   const reflexionCategories = {
     1: ['Filosofía', 'Conciencia'],
     2: ['Filosofía', 'Existencialismo'],
-    3: ['Amor y Relaciones', 'Poesía'],
+    3: ['Amor', 'Relaciones', 'Poesía'],
     4: ['Propósito', 'Crecimiento Personal'],
     5: ['Crecimiento Personal', 'Propósito'],
     6: ['Existencialismo', 'Conciencia'],
@@ -19,31 +19,36 @@
     10: ['Filosofía', 'Conciencia'],
     11: ['Propósito', 'Conciencia'],
     12: ['Filosofía', 'Propósito'],
-    13: ['Existencialismo','Melancolia']
+    13: ['Poesía', 'Melancolia'],
+    14: ['Relaciones', 'Engaño']
   };
 
   // Iconos por categoría
   const categoryIcons = {
     'Filosofía': '🧠',
     'Conciencia': '💭',
-    'Amor y Relaciones': '❤️',
-    'Crecimiento Personal': '🌱',
+    'Amor': '❤️',
+    'Relaciones': '✨',   
+    'recimiento Personal': '🌱',
     'Poesía': '📖',
     'Propósito': '🎯',
     'Existencialismo': '🌌',
-    'Melancolia': '🙍'
+    'Melancolia': '🙍',
+    'Engaño': '🪤'
   };
 
   // Colores por categoría
   const categoryColors = {
     'Filosofía': '#9b59b6',
     'Conciencia': '#3498db',
-    'Amor y Relaciones': '#e74c3c',
+    'Amor': '#e74c3c',
     'Crecimiento Personal': '#2ecc71',
     'Poesía': '#f39c12',
     'Propósito': '#1abc9c',
     'Existencialismo': '#34495e',
-    'Melancolia': '#0000FF'
+    'Melancolia': '#0000FF',
+    'Relaciones': '#FF00FF',
+    'Engaño': '#FFFF00'
   };
 
   function addCategoriesToReflection() {
