@@ -25,9 +25,9 @@
   font-size: 0.85rem;
   color: #888;
   background: rgba(255,255,255,0.02);
-  border-bottom: 1px solid rgba(212,175,55,0.1);
+  border-bottom: 2px solid rgba(212,175,55,0.1);
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 1;
   flex-wrap: wrap;
 }
 
@@ -64,36 +64,6 @@
 .reading-time::before {
   content: '⏱️';
   margin-right: 0.5rem;
-}
-
-/* 5. TAGS */
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin: 1rem auto;
-  justify-content: center;
-  max-width: 600px;
-  padding: 0 1rem;
-}
-
-.tag {
-  background: rgba(212,175,55,0.1);
-  color: #d4af37;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  border: 1px solid rgba(212,175,55,0.3);
-  transition: all 0.3s ease;
-  cursor: default;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.tag:hover {
-  background: rgba(212,175,55,0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(212,175,55,0.2);
 }
 
 /* 6. BOTONES DE COMPARTIR */
@@ -231,7 +201,6 @@
   border-radius: 8px;
   border-left: 3px solid rgba(212,175,55,0.3);
 }
-
 /* 9. ÍNDICE DE CONTENIDOS */
 .table-of-contents {
   position: fixed;
@@ -490,6 +459,8 @@ body[data-theme="light"] .comments-section {
   }
 }
 
+
+/* ============================================
 /* 10. MODO LECTURA SUGERIDO */
 .reading-mode-suggestion {
   position: fixed;
@@ -541,19 +512,6 @@ body.scrolled .reading-mode-suggestion {
 }
 
 @media (max-width: 968px) {
-  .stats-bar {
-    gap: 1.5rem;
-    padding: 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.6rem;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-  }
-
   .floating-nav {
     bottom: 1rem;
     right: 1rem;
@@ -578,28 +536,9 @@ body.scrolled .reading-mode-suggestion {
 }
 
 @media (max-width: 480px) {
-  .stats-bar {
-    gap: 1rem;
-    padding: 0.8rem;
-    flex-wrap: wrap;
-  }
-
-  .stat-number {
-    font-size: 1.4rem;
-  }
-
   .breadcrumb {
     font-size: 0.75rem;
     padding: 0.5rem 0.8rem;
-  }
-
-  .tags {
-    gap: 0.4rem;
-  }
-
-  .tag {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.8rem;
   }
 
   .frase-rotativa {
@@ -639,35 +578,3 @@ body.scrolled .reading-mode-suggestion {
     transform: translateY(0);
   }
 }
-
-/* Pulso sutil en stats */
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.stat-number {
-  animation: pulse 3s infinite ease-in-out;
-}
-
-/* Brillo en tags al cargar */
-@keyframes tagGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 rgba(212,175,55,0);
-  }
-  50% {
-    box-shadow: 0 0 10px rgba(212,175,55,0.3);
-  }
-}
-
-.tag {
-  animation: tagGlow 2s infinite;
-}
-
-.tag:nth-child(1) { animation-delay: 0s; }
-.tag:nth-child(2) { animation-delay: 0.2s; }
-.tag:nth-child(3) { animation-delay: 0.4s; }

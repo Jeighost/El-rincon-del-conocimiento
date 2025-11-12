@@ -1,48 +1,23 @@
 // ============================================
-// INSTALL.JS - Sistema de instalación PWA OPTIMIZADO
+// INSTALL.JS - Sistema de instalación PWA
 // ============================================
 
 (function() {
   'use strict';
 
   let deferredPrompt;
+  let installButton;
   let installBanner;
-  let permanentInstallBtn;
 
-  // Detectar ruta base del proyecto
-  const BASE_PATH = window.location.pathname.includes('El-rincon-del-conocimiento') 
-    ? '/El-rincon-del-conocimiento' 
-    : '';
-
+  // Esperar a que el DOM esté listo
   document.addEventListener('DOMContentLoaded', () => {
     createInstallUI();
     registerServiceWorker();
-    addPermanentInstallStyles();
-    addPermanentInstallButton();
   });
-
-  // Registrar Service Worker con ruta corregida
-  function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      const swPath = `${BASE_PATH}/service-worker.js`;
-      
-      navigator.serviceWorker.register(swPath)
-        .then((registration) => {
-          console.log('✅ Service Worker registrado:', registration.scope);
-          
-          // Verificar actualizaciones cada 60 segundos
-          setInterval(() => {
-            registration.update();
-          }, 60000);
-        })
-        .catch((error) => {
-          console.log('❌ Error al registrar Service Worker:', error);
-        });
-    }
-  }
 
   // Crear interfaz de instalación
   function createInstallUI() {
+    // Banner de instalación
     installBanner = document.createElement('div');
     installBanner.id = 'install-banner';
     installBanner.style.display = 'none';
@@ -60,6 +35,7 @@
       </div>
     `;
 
+    // Estilos del banner
     const style = document.createElement('style');
     style.textContent = `
       #install-banner {
@@ -189,6 +165,7 @@
     document.head.appendChild(style);
     document.body.appendChild(installBanner);
 
+    // Event listeners
     installButton = document.getElementById('install-button');
     const dismissButton = document.getElementById('dismiss-button');
 
@@ -196,40 +173,39 @@
     dismissButton.addEventListener('click', dismissBanner);
   }
 
+  // Registrar Service Worker
+  function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/El-rincon-del-conocimiento/service-worker.js')
+        .then((registration) => {
+          console.log('✅ Service Worker registrado:', registration);
+        })
+        .catch((error) => {
+          console.log('❌ Error al registrar Service Worker:', error);
+        });
+    }
+  }
+
   // Capturar evento de instalación
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    console.log('📱 Evento de instalación capturado');
 
+    // Verificar si ya fue instalada o descartada
     const dismissed = localStorage.getItem('install-dismissed');
-    const dismissTime = localStorage.getItem('install-dismiss-time');
     const installed = localStorage.getItem('app-installed');
 
-    // Si fue descartado hace menos de 7 días, no mostrar
-    if (dismissTime) {
-      const daysSinceDismiss = (Date.now() - parseInt(dismissTime)) / (1000 * 60 * 60 * 24);
-      if (daysSinceDismiss < 7) {
-        return;
-      }
-    }
-
     if (!dismissed && !installed) {
+      // Mostrar banner después de 3 segundos
       setTimeout(() => {
         installBanner.style.display = 'block';
       }, 3000);
     }
-
-    updatePermanentButton();
   });
 
   // Función para instalar
   function installApp() {
-    if (!deferredPrompt) {
-      console.log('❌ No hay prompt de instalación disponible');
-      showInstallInstructions();
-      return;
-    }
+    if (!deferredPrompt) return;
 
     deferredPrompt.prompt();
 
@@ -238,15 +214,6 @@
         console.log('✅ Usuario aceptó instalar');
         localStorage.setItem('app-installed', 'true');
         showSuccessMessage();
-        updatePermanentButton();
-        
-        // Analytics
-        if (window.gtag) {
-          gtag('event', 'pwa_install_success', {
-            'event_category': 'PWA',
-            'event_label': 'Instalación completada'
-          });
-        }
       } else {
         console.log('❌ Usuario canceló la instalación');
       }
@@ -260,7 +227,11 @@
   function dismissBanner() {
     installBanner.style.display = 'none';
     localStorage.setItem('install-dismissed', 'true');
-    localStorage.setItem('install-dismiss-time', Date.now().toString());
+
+    // Permitir mostrar nuevamente después de 7 días
+    setTimeout(() => {
+      localStorage.removeItem('install-dismissed');
+    }, 7 * 24 * 60 * 60 * 1000);
   }
 
   // Mensaje de éxito
@@ -297,170 +268,16 @@
     }, 3000);
   }
 
-  // Estilos para botón permanente
-  function addPermanentInstallStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .install-permanent-btn {
-        background: transparent;
-        color: #d4af37;
-        border: 1px solid rgba(212,175,55,0.3);
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        white-space: nowrap;
-      }
-
-      .install-permanent-btn:hover {
-        border-color: #d4af37;
-        background: rgba(212,175,55,0.1);
-        transform: translateY(-2px);
-      }
-
-      .install-permanent-btn.installed {
-        color: #90ee90;
-        border-color: rgba(144,238,144,0.3);
-        cursor: default;
-      }
-
-      .install-permanent-btn.installed:hover {
-        border-color: #90ee90;
-        background: rgba(45,80,22,0.2);
-        transform: none;
-      }
-
-      @media (max-width: 768px) {
-        .install-text {
-          display: none;
-        }
-        
-        .install-permanent-btn {
-          padding: 0.5rem 0.8rem;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Agregar botón permanente
-  function addPermanentInstallButton() {
-    const checkNav = setInterval(() => {
-      const nav = document.querySelector('nav');
-      if (nav) {
-        clearInterval(checkNav);
-        
-        permanentInstallBtn = document.createElement('button');
-        permanentInstallBtn.id = 'permanent-install-btn';
-        permanentInstallBtn.className = 'install-permanent-btn';
-        permanentInstallBtn.title = 'Instalar aplicación';
-        
-        updatePermanentButton();
-        
-        permanentInstallBtn.addEventListener('click', handlePermanentButtonClick);
-        
-        nav.appendChild(permanentInstallBtn);
-        console.log('✅ Botón permanente agregado');
-      }
-    }, 100);
-
-    setTimeout(() => clearInterval(checkNav), 5000);
-  }
-
-  // Manejar clic en botón permanente
-  function handlePermanentButtonClick() {
-    const isInstalled = localStorage.getItem('app-installed') === 'true';
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
-    
-    if (isInstalled || isPWA) {
-      showInstalledMessage();
-    } else if (deferredPrompt) {
-      installApp();
-    } else {
-      showInstallInstructions();
-    }
-  }
-
-  // Actualizar estado del botón permanente
-  function updatePermanentButton() {
-    if (!permanentInstallBtn) return;
-
-    const isInstalled = localStorage.getItem('app-installed') === 'true';
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
-    
-    if (isInstalled || isPWA) {
-      permanentInstallBtn.innerHTML = '✅ <span class="install-text">App instalada</span>';
-      permanentInstallBtn.classList.add('installed');
-      permanentInstallBtn.title = 'La app ya está instalada';
-    } else {
-      permanentInstallBtn.innerHTML = '📱 <span class="install-text">Instalar App</span>';
-      permanentInstallBtn.classList.remove('installed');
-      permanentInstallBtn.title = 'Instalar como aplicación';
-    }
-  }
-
-  // Mensaje cuando ya está instalada
-  function showInstalledMessage() {
-    showInfoMessage('✅', '¡App ya instalada!', 'Puedes acceder desde tu pantalla de inicio');
-  }
-
-  // Instrucciones si no se puede instalar automáticamente
-  function showInstallInstructions() {
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    
-    if (isIOS && isSafari) {
-      showInfoMessage('💡', 'Cómo instalar en iOS', 'Toca el botón Compartir (□↑) y selecciona "Agregar a pantalla de inicio"');
-    } else {
-      showInfoMessage('💡', 'Cómo instalar', 'Abre el menú del navegador (⋮) y selecciona "Instalar app" o "Agregar a pantalla de inicio"');
-    }
-  }
-
-  // Mostrar mensaje informativo genérico
-  function showInfoMessage(icon, title, message) {
-    const infoMsg = document.createElement('div');
-    infoMsg.style.cssText = `
-      position: fixed;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(20,20,20,0.98);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(212,175,55,0.3);
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      z-index: 10000;
-      max-width: 90%;
-      width: 400px;
-      animation: slideDown 0.4s ease;
-    `;
-    
-    infoMsg.innerHTML = `
-      <div style="display: flex; align-items: flex-start; gap: 1rem;">
-        <div style="font-size: 2rem; line-height: 1;">${icon}</div>
-        <div style="flex: 1;">
-          <strong style="color: #d4af37; font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">${title}</strong>
-          <p style="color: #ccc; font-size: 0.9rem; margin: 0; line-height: 1.5;">${message}</p>
-        </div>
-        <button onclick="this.parentElement.parentElement.remove()" style="background: transparent; border: none; color: #888; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">✕</button>
-      </div>
-    `;
-    
-    document.body.appendChild(infoMsg);
-    setTimeout(() => infoMsg.remove(), 8000);
-  }
-
   // Detectar si ya está instalada
   window.addEventListener('appinstalled', () => {
     console.log('✅ PWA instalada exitosamente');
     localStorage.setItem('app-installed', 'true');
-    updatePermanentButton();
+    
+    // Actualizar botón permanente
+    const permanentBtn = document.getElementById('permanent-install-btn');
+    if (permanentBtn) {
+      updateInstallButtonState(permanentBtn);
+    }
   });
 
   // Actualizar estado al cargar si ya está instalada como PWA

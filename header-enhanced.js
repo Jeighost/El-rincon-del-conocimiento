@@ -16,17 +16,11 @@
     document.body.appendChild(brand);
 
     // Mover botones existentes a contenedor temporal
-    const installBtn = document.querySelector('[data-action="install"]');
-    const notifBtn = document.querySelector('[data-action="notifications"]');
     
     if (installBtn || notifBtn) {
       const tempButtons = document.createElement('div');
       tempButtons.className = 'header-temp-buttons';
-      
-      if (installBtn) {
-        tempButtons.appendChild(installBtn.cloneNode(true));
-        installBtn.remove();
-      }
+    
       
       if (notifBtn) {
         tempButtons.appendChild(notifBtn.cloneNode(true));
@@ -49,12 +43,6 @@
     // Crear contenedor de controles permanentes
     const controls = document.createElement('div');
     controls.className = 'header-controls';
-    
-    // Mover botón de menú hamburguesa
-    const menuBtn = document.querySelector('.menu-toggle, [data-action="menu"]');
-    if (menuBtn) {
-      controls.appendChild(menuBtn);
-    }
     
     // Mover botón de tema
     const themeBtn = document.querySelector('.theme-toggle-btn, [data-action="theme"]');

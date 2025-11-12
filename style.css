@@ -18,7 +18,7 @@ body {
   line-height: 1.8;
   background: linear-gradient(-45deg, #0b0b0c, #121317, #1a1b1f, #0b0c10);
   background-size: 400% 400%;
-  animation: noche 60s ease-in-out infinite;
+  animation: noche 30s ease-in-out infinite;
   overflow-x: hidden;
   position: relative;
   -webkit-font-smoothing: antialiased;
@@ -62,15 +62,6 @@ body::before {
   pointer-events: none;
   will-change: transform, opacity;
 }
-
-.fuego-fondo {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at bottom, rgba(212,175,55,0.1), transparent 50%);
-  z-index: -3;
-  pointer-events: none;
-}
-
 /* ============================================
    HEADER
    ============================================ */
@@ -191,16 +182,16 @@ h2 {
 .cita,
 blockquote {
   border-right: 5px solid #d4af37;
-  padding: 7rem 1.5rem;
+  padding: 4rem 1.5rem;
   font-style: italic;
   color: #fff;
   text-align: center;
   max-width: 600px;
-  margin: 2.5rem auto;
+  margin: 1.5rem auto;
   background: rgba(212,175,55,0.05);
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 5px 5px 0;
   font-size: 1.05rem;
-  line-height: 2.7;
+  line-height: 2;
 }
 
 /* ============================================
@@ -305,49 +296,11 @@ blockquote {
   color: #d4af23;
   font-size: 0.8rem;
   opacity: 0.7;
-  animation: respirarMensaje 8s infinite ease-in-out;
+  animation: respirarMensaje 5s infinite ease-in-out;
 }
 
 /* ============================================
-   NAVEGACIÓN ENTRE REFLEXIONES
-   ============================================ */
-.navegacion-reflexiones {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  max-width: 850px;
-  margin: 3rem auto 2rem;
-  padding: 1rem;
-}
 
-.btn-volver,
-.btn-siguiente {
-  color: #d4af37;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.05rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
-
-.btn-volver:hover,
-.btn-siguiente:hover {
-  color: #fff;
-  text-shadow: 0 0 10px #d4af37;
-  border-color: #d4af37;
-  background: rgba(212,175,55,0.1);
-}
-
-.separador {
-  width: 20px;
-  display: inline-block;
-}
-
-/* ============================================
    NOTAS ESPECIALES
    ============================================ */
 .nota {
@@ -510,11 +463,6 @@ footer span { color: #d4af37; font-weight: bold; }
   }
 }
 
-@keyframes movimientoNiebla {
-  0% { background-position: 0% 0%, 0% 0%; }
-  100% { background-position: 100% 100%, 50% 50%; }
-}
-
 @keyframes aparecer {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -569,11 +517,6 @@ footer span { color: #d4af37; font-weight: bold; }
 
   .halo { width: 400px; height: 400px; }
 
-  /* Stats más compactos */
-  .stats-bar { gap: 1rem; padding: 1rem 0.5rem; }
-
-  .stat-number { font-size: 1.6rem; }
-
   /* Breadcrumb responsive */
   .breadcrumb {
     font-size: 0.8rem;
@@ -581,16 +524,6 @@ footer span { color: #d4af37; font-weight: bold; }
     overflow-x: auto;
     white-space: nowrap;
   }
-
-  /* Tags en móvil */
-  .tags {
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding: 0.5rem;
-  }
-
-  .tag { flex-shrink: 0; }
 
   /* Búsqueda */
   #search-input {
@@ -638,9 +571,7 @@ footer span { color: #d4af37; font-weight: bold; }
    ============================================ */
 
 /* Evitar CLS: reservar espacios coherentes */
-.stats-bar { min-height: 80px; }
 .social-share { min-height: 90px; }
-.tags { min-height: 50px; }
 
 /* Mejorar contraste de botones */
 .nav-actions button { background: rgba(212,175,55,0.15); }
@@ -701,4 +632,7 @@ body[data-theme="light"] nav a { color: #6d5a45; }
 .rosa-imagen { width: 100%; height: auto; display: block; will-change: auto; }
 
 /* Contenido pesado: solo para imágenes y números (no halo fijo) */
-img, .stat-number { content-visibility: auto; }
+img { content-visibility: auto; }
+@media (prefers-reduced-motion: reduce), (max-width: 500px) {
+  body { animation: none; background-position: 50% 50%; }
+}

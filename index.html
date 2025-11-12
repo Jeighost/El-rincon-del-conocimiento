@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
+
   <title>Filosofía, diseño y mente dorada — El rincón del conocimiento</title>
-  
+
   <!-- Meta tags SEO -->
   <meta name="description" content="Reflexiones filosóficas y diseño técnico con estética dorado mate. Un espacio filosófico personal con PWA y rendimiento optimizado.">
   <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, diseño técnico, Jeison Gonzalez">
@@ -23,7 +23,7 @@
   <meta property="og:url" content="https://jeighost.lat">
   <meta property="og:site_name" content="El rincón del conocimiento">
   <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
-  
+
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="El rincón del conocimiento">
@@ -73,13 +73,13 @@
   <!-- CSS No Crítico con carga diferida -->
   <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="features.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  <!-- CSS específico con media print trick -->
   <link rel="stylesheet" href="splash-screen.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="menu-mejorado.css" media="print" onload="this.media='all'">
+
+  <!-- CSS específico con media print trick -->
   <link rel="stylesheet" href="header-optimizado.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="rosa-animada.css" media="print" onload="this.media='all'">
-  
+
   <!-- Fallback para navegadores sin JS -->
   <noscript>
     <link rel="stylesheet" href="style.css">
@@ -124,22 +124,15 @@
   </nav>
 
   <header>
-  <!-- Nombre fijo izquierda -->
-  <div class="header-brand">Jeighost</div>
 
   <!-- Título central -->
   <div style="flex: 1; text-align: center;">
     <h1 class="fade-in" itemprop="headline">El rincón del Conocimiento</h1>
-    
+
     <p class="fade-in">Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
 </header>
 
   <blockquote class="cita">"Hola, ¿Cómo estás hoy?"</blockquote>
-<div class="boton-contenedor">
-  <button id="btn-instalar-pwa" class="boton-dorado" style="display:none;">
-    Instalar WebApp
-  </button>
-</div>
   <main>
     <section class="intro">
       <h2>Bienvenido a “El rincón del conocimiento”</h2>
@@ -185,6 +178,11 @@
         <a href="sobre-mi.html" class="boton-dorado">Sobre mí</a>
         <a href="galeria.html" class="boton-dorado">Galería</a>
       </div>
+      <div class="boton-contenedor">
+  <button id="btn-instalar-pwa" class="boton-dorado" style="display:none;">
+    Instalar WebApp
+  </button>
+</div>
     </div>
     <!-- Opciones de instalación -->
   </main>
@@ -240,7 +238,7 @@
     const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
     document.getElementById("ultima-act").textContent = fecha.toLocaleDateString('es-ES', opciones);
   </script>
-  
+
 
 <!-- Service Worker -->
 <script>
@@ -290,6 +288,6 @@ if (btnPWA) {
 }
 </script>
   <!-- Fin del contenido principal -->
-  
+
 </body>
 </html>
