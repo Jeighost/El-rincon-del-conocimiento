@@ -193,7 +193,7 @@
     if (!match) return;
 
     const current = parseInt(match[1], 10);
-    const total = 14;
+    const total = 15;
     const floatingNav = document.createElement('div');
     floatingNav.className = 'floating-nav';
     floatingNav.innerHTML = `

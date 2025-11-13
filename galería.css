@@ -11,7 +11,7 @@
 
 /* Contenedor de galería */
 .galeria {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
   margin: 0 auto;

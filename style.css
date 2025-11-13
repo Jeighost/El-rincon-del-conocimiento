@@ -636,3 +636,37 @@ img { content-visibility: auto; }
 @media (prefers-reduced-motion: reduce), (max-width: 500px) {
   body { animation: none; background-position: 50% 50%; }
 }
+/* === ESTILOS DEL SUMMARY (AL FINAL) === */
+  summary {
+  cursor: pointer;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(212,175,55,0.2);
+  font-size: 1.1rem;
+  color: #d4af37;
+  font-weight: 600;
+  outline: none;
+  list-style: none;
+  user-select: none;
+}
+summary::after {
+  float: right;
+  transition: transform 0.3s ease;
+  color: #d4af37;
+  font-size: 1.2rem;
+}
+details {
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+}
+
+details > div {
+  padding: 1rem 1.3rem;
+  background: rgba(255,255,255,0.03);
+  border-left: 2px solid red;
+  margin-top: 0.5rem;
+  color: #ddd;
+  line-height: 1.8;
+  border-radius: 6px;
+}

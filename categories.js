@@ -20,7 +20,8 @@
     11: ['Propósito', 'Conciencia'],
     12: ['Filosofía', 'Propósito'],
     13: ['Poesía', 'Melancolia'],
-    14: ['Relaciones', 'Engaño']
+    14: ['Relaciones', 'Engaño'],
+    15: ['Poesía', 'Melancolia']
   };
 
   // Iconos por categoría
