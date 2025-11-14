@@ -25,7 +25,7 @@
   background: rgba(255,255,255,0.02);
   border-bottom: 2px solid rgba(212,175,55,0.1);
   max-width: 1200px;
-  margin: 1;
+  margin: 0;
   flex-wrap: wrap;
 }
 
@@ -459,7 +459,7 @@ body[data-theme="light"] .comments-section {
 
 
 /* ============================================
-/* 10. MODO LECTURA SUGERIDO */
+10. MODO LECTURA SUGERIDO */
 .reading-mode-suggestion {
   position: fixed;
   bottom: 1.5rem;
@@ -499,6 +499,7 @@ body.scrolled .reading-mode-suggestion {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
 /* ============================================
    RESPONSIVE
    ============================================ */

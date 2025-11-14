@@ -262,7 +262,6 @@ nav a.active::after, nav a.activo::after {
   /* Sin tooltips en móvil y ocultar línea indicadora */
   .nav-actions button:hover::before { display: none; }
   .nav-indicator { display: none; }
-}
 
 @media (max-width: 480px) {
   .nav-container { padding: 0.6rem 0.8rem; }
