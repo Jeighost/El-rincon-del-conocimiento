@@ -63,80 +63,8 @@ body::before {
   will-change: transform, opacity;
 }
 /* ============================================
-   HEADER
-   ============================================ */
-header {
-  position: relative;
-  z-index: 10;
-  background: linear-gradient(180deg, rgba(15,15,15,0.95), rgba(15,15,15,0.85));
-  text-align: center;
-  padding: 3rem 1.5rem 2.5rem;
-  border-bottom: 1px solid rgba(212,175,55,0.2);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-}
-
-header h1 {
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  color: #d4af37;
-  margin-bottom: 0.8rem;
-  text-shadow: 0 0 12px rgba(212,175,55,0.3);
-  animation: aparecer 1.5s ease-out forwards;
-  transition: text-shadow 0.3s ease;
-}
-
-header h1:hover {
-  text-shadow: 0 0 20px rgba(212,175,55,0.6);
-}
-
-header p {
-  color: #d0d0d0;
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  max-width: 750px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-.fade-in { animation: aparecer 1.5s ease forwards; }
-
-.titulo-reflexion {
-  font-size: clamp(1.8rem, 5vw, 2.3rem);
-  color: #d4af37;
-  text-align: center;
-  margin: 2rem 0 1rem;
-}
-
+   
 /* ============================================
-   NAVEGACIÓN
-   ============================================ */
-nav a {
-  color: #d4af37;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-  position: relative;
-  padding: 0.3rem 0;
-  transition: color 0.3s ease;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #d4af37;
-  transition: width 0.3s ease;
-}
-
-nav a:hover::after,
-nav a.active::after,
-nav a.activo::after { width: 100%; }
-
-nav a:hover {
-  color: #fff;
-  text-shadow: 0 0 10px #d4af37;
-}
 
 /* ============================================
    SECCIONES
@@ -484,8 +412,6 @@ footer span { color: #d4af37; font-weight: bold; }
 @media (max-width: 768px) {
   body { font-size: 15px; line-height: 1.7; }
 
-  header { padding: 2rem 1rem 1.5rem; }
-
   nav { gap: 1rem; padding: 0.8rem; }
   nav a { font-size: 0.9rem; }
 
@@ -550,8 +476,6 @@ footer span { color: #d4af37; font-weight: bold; }
 
 @media (max-width: 480px) {
   body { font-size: 14px; }
-
-  header h1 { font-size: 1.6rem; }
 
   .texto-reflexion,
   .contenido-reflexion p {

@@ -116,6 +116,13 @@
   <!-- Fondo respirante -->
   <div class="halo"></div>
 
+  <header>
+  <!-- Título central -->
+    <h1 class="fade-in" itemprop="headline">EL RINCÓN DEL CONOCIMIENTO </h1>
+
+    <p class="fade-in"> Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
+</header>
+
   <nav>
     <a href="index.html" class="active">Inicio</a>
     <a href="galeria.html">Imágenes</a>
@@ -123,17 +130,8 @@
     <a href="sobre-mi.html">Sobre mí</a>
   </nav>
 
-  <header>
-
-  <!-- Título central -->
-  <div style="flex: 1; text-align: center;">
-    <h1 class="fade-in" itemprop="headline">EL RINCÓN DEL CONOCIMIENTO </h1>
-
-    <p class="fade-in"> Mis poemas directamente a tus ojos. Explora un rincón de mi conocimiento, un rincón conocido sólo por mí.</p>
-    </div>
-</header>
-
   <blockquote class="cita">"Hola, ¿Cómo estás hoy?"</blockquote>
+  
   <main>
     <section class="intro">
       <h2>Bienvenido a “El rincón del conocimiento”</h2>
@@ -149,7 +147,7 @@
       El creador siempre buscará la forma para que sus reflexiones sean bien recibidas, pero que no malinterpreten la intención. El autor no busca ser aceptado por los criterios de la sociedad, escribirá en base a su propio criterio, pero siempre buscando la mejor forma.
       El rincón del conocimiento es esa página que busca enseñar.</p>
       </div>
-      </datalist>
+      </details>
     </section>
 
     <!-- SECCIÓN ROSA ANIMADA -->
@@ -158,8 +156,6 @@
    <img src="imagen-principal.jpg" 
      alt="Rosa en el bosque - Símbolo de esperanza y equilibrio mental" 
      class="rosa-imagen"
-     width="700" 
-     height="700"
      loading="lazy"
      decoding="async"
      fetchpriority="high">
@@ -184,13 +180,13 @@
         <a href="sobre-mi.html" class="boton-dorado">Sobre mí</a>
         <a href="galeria.html" class="boton-dorado">Galería</a>
       </div>
-      <div class="boton-contenedor">
+          <!-- Opciones de instalación -->
+          <div class="boton-contenedor">
   <button id="btn-instalar-pwa" class="boton-dorado" style="display:none;">
     Instalar WebApp
   </button>
 </div>
     </div>
-    <!-- Opciones de instalación -->
   </main>
 
   <footer>
@@ -205,7 +201,6 @@
 <script src="features.js" defer></script>
 
 <!-- Scripts no críticos (cargan después) -->
-<script src="header-enhanced.js" defer></script>
 <script src="menu.js" defer></script>
 <script src="particles.js" defer></script>
 <script src="favoritos.js" defer></script>

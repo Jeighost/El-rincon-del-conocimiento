@@ -11,57 +11,11 @@
   position: relative;
   display: block;
   margin: 0 auto;
-  width: 85%;
-  border-radius: 14px;
+  width: 80%;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 25px rgba(120, 0, 0, 0.9);
-  animation: resplandorRojo 20s ease-in-out infinite alternate;
-  animation: resplandorRojo 20s ease-in-out infinite alternate;
 }
-
-/* capa animada que “sangra” desde arriba */
-.rosa-imagen::after {
-  content: "";
-  position: absolute;
-  top: -10%;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background: radial-gradient(circle at 50% 0%, rgba(120,0,0,0.7) 0%, rgba(255,0,0,0.5) 25%, transparent 70%),
-              repeating-linear-gradient(180deg, rgba(120,0,0,0.4) 0%, rgba(255,0,0,0.4) 1%, transparent 2%);
-  background-size: 200% 200%;
-  mix-blend-mode: multiply;
-  opacity: 0.85;
-  animation: sangreFluyendo 20s ease-in-out infinite;
-  pointer-events: none;
-  filter: blur(1px);
-}
-
-/* leve resplandor rojo */
-@keyframes resplandorRojo {
-  0% { filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.7)); }
-  100% { filter: drop-shadow(0 0 18px rgba(255, 0, 0, 0.7)); }
-}
-
-/* simulación del goteo (movimiento descendente ondulado) */
-@keyframes sangreFluyendo {
-  0% {
-    background-position: 50% 0%;
-    transform: translateY(-2%) scaleY(1.02);
-    opacity: 2;
-  }
-  50% {
-    background-position: 50% 100%;
-    transform: translateY(2%) scaleY(1.06);
-    opacity: 3;
-  }
-  100% {
-    background-position: 50% 0%;
-    transform: translateY(-2%) scaleY(1.02);
-    opacity: 4;
-  }
-}
- 
 .rosa-titulo {
   text-align: center;
   font-family: 'Cinzel', serif;
@@ -85,9 +39,6 @@
 }
 
 @media (max-width: 768px) {
-  .rosa-animada {
-    margin: 2rem auto;
-  }
   
   .rosa-titulo {
     font-size: 1.5rem;
