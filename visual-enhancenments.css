@@ -1,0 +1,475 @@
+/* ============================================
+   VISUAL-ENHANCEMENTS.CSS
+   Mejoras visuales premium sin conflictos
+   
+   INSTALACIÓN:
+   1. Crear este archivo en tu carpeta de CSS
+   2. Agregar en el <head> DESPUÉS de tus otros CSS:
+      <link rel="stylesheet" href="visual-enhancements.css">
+   3. ¡Listo! Las mejoras se aplicarán automáticamente
+   
+   DESACTIVAR:
+   - Simplemente comenta o elimina la línea del <link>
+   ============================================ */
+
+/* ==========================================
+   1. EFECTOS DE PROFUNDIDAD EN REFLEXIONES
+   Agrega sombras sutiles y efectos 3D
+   ========================================== */
+
+.reflexion-item {
+  /* Sombra suave de profundidad */
+  box-shadow: 
+    0 4px 20px rgba(0,0,0,0.3),
+    0 1px 3px rgba(212,175,55,0.1) !important;
+  
+  /* Borde sutil dorado */
+  border: 1px solid rgba(212,175,55,0.2) !important;
+  
+  /* Transición suave */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.reflexion-item:hover {
+  /* Elevación al hacer hover */
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.4),
+    0 4px 12px rgba(212,175,55,0.25) !important;
+  
+  /* Borde más visible */
+  border-color: rgba(212,175,55,0.5) !important;
+}
+
+/* ==========================================
+   2. ANIMACIONES DE ENTRADA ESCALONADAS
+   Las reflexiones aparecen una por una
+   ========================================== */
+
+@keyframes fadeInUpSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reflexion-item:nth-child(1) { animation: fadeInUpSmooth 0.6s ease 0.1s backwards; }
+.reflexion-item:nth-child(2) { animation: fadeInUpSmooth 0.6s ease 0.2s backwards; }
+.reflexion-item:nth-child(3) { animation: fadeInUpSmooth 0.6s ease 0.3s backwards; }
+.reflexion-item:nth-child(4) { animation: fadeInUpSmooth 0.6s ease 0.4s backwards; }
+.reflexion-item:nth-child(5) { animation: fadeInUpSmooth 0.6s ease 0.5s backwards; }
+.reflexion-item:nth-child(6) { animation: fadeInUpSmooth 0.6s ease 0.6s backwards; }
+.reflexion-item:nth-child(7) { animation: fadeInUpSmooth 0.6s ease 0.7s backwards; }
+.reflexion-item:nth-child(8) { animation: fadeInUpSmooth 0.6s ease 0.8s backwards; }
+.reflexion-item:nth-child(9) { animation: fadeInUpSmooth 0.6s ease 0.9s backwards; }
+.reflexion-item:nth-child(10) { animation: fadeInUpSmooth 0.6s ease 1s backwards; }
+.reflexion-item:nth-child(11) { animation: fadeInUpSmooth 0.6s ease 1.1s backwards; }
+.reflexion-item:nth-child(12) { animation: fadeInUpSmooth 0.6s ease 1.2s backwards; }
+
+/* ==========================================
+   3. EFECTO DE BRILLO EN TÍTULOS
+   Los títulos tienen un gradiente animado
+   ========================================== */
+
+.enlace-reflexion {
+  background: linear-gradient(
+    90deg,
+    #d4af37 0%,
+    #f4d683 25%,
+    #d4af37 50%,
+    #f4d683 75%,
+    #d4af37 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  position: relative;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.enlace-reflexion:hover {
+  animation: shimmer 1.5s linear infinite;
+  filter: brightness(1.2);
+}
+
+/* ==========================================
+   4. SCROLLBAR PERSONALIZADO ELEGANTE
+   Barra de scroll dorada que combina con tu diseño
+   ========================================== */
+
+/* Para Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgba(10,10,10,0.95), rgba(15,15,15,0.95));
+  border-left: 1px solid rgba(212,175,55,0.15);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(212,175,55,0.7),
+    rgba(212,175,55,0.4)
+  );
+  border-radius: 5px;
+  border: 2px solid rgba(10,10,10,0.5);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(212,175,55,0.9),
+    rgba(212,175,55,0.6)
+  );
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.6) rgba(10,10,10,0.95);
+}
+
+/* ==========================================
+   5. PRIMERA LETRA GRANDE (DROP CAP)
+   La primera letra de cada reflexión es especial
+   ========================================== */
+
+.texto-reflexion > p:first-of-type::first-letter,
+.contenido-reflexion > p:first-of-type::first-letter {
+  font-size: 4em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.05em 0.15em 0 0;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  
+  /* Fondo sutil */
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), transparent);
+  padding: 0.1em 0.15em;
+  border-radius: 4px;
+}
+
+/* ==========================================
+   6. CITAS MÁS ELEGANTES
+   Mejora visual de blockquotes
+   ========================================== */
+
+.cita, blockquote {
+  position: relative;
+  box-shadow: 
+    -4px 0 12px rgba(212,175,55,0.15),
+    0 4px 20px rgba(0,0,0,0.4) !important;
+  
+  /* Línea decorativa izquierda más gruesa */
+  border-left: 4px solid #d4af37 !important;
+}
+
+/* Comillas decorativas grandes */
+.cita::before, blockquote::before {
+  content: '"';
+  position: absolute;
+  left: -10px;
+  top: -15px;
+  font-size: 5rem;
+  color: rgba(212,175,55,0.15);
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ==========================================
+   7. HEADER CON EFECTO DE RESPLANDOR
+   El header tiene un resplandor sutil animado
+   ========================================== */
+
+header h1 {
+  text-shadow: 
+    0 0 20px rgba(212,175,55,0.4),
+    0 0 40px rgba(212,175,55,0.2),
+    0 2px 4px rgba(0,0,0,0.6) !important;
+  
+  animation: gentleGlow 4s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+  0%, 100% {
+    text-shadow: 
+      0 0 20px rgba(212,175,55,0.4),
+      0 0 40px rgba(212,175,55,0.2),
+      0 2px 4px rgba(0,0,0,0.6);
+  }
+  50% {
+    text-shadow: 
+      0 0 25px rgba(212,175,55,0.5),
+      0 0 50px rgba(212,175,55,0.3),
+      0 2px 4px rgba(0,0,0,0.6);
+  }
+}
+
+/* ==========================================
+   8. GALERÍA MEJORADA CON OVERLAY
+   Las imágenes tienen un efecto elegante al hover
+   ========================================== */
+
+.galeria img {
+  position: relative;
+  filter: brightness(0.92) contrast(1.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.galeria img:hover {
+  filter: brightness(1.1) contrast(1.15) saturate(1.1);
+  box-shadow: 
+    0 15px 50px rgba(212,175,55,0.3),
+    0 5px 15px rgba(0,0,0,0.5) !important;
+}
+
+/* ==========================================
+   9. BOTONES CON EFECTO RIPPLE
+   Efecto de onda al hacer click en botones
+   ========================================== */
+
+button, .btn, [type="button"], .social-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+button::after, .btn::after, .social-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  pointer-events: none;
+}
+
+button:active::after, .btn:active::after, .social-btn:active::after {
+  width: 200px;
+  height: 200px;
+  transition: width 0s, height 0s;
+}
+
+/* ==========================================
+   10. INTRO SECTION MÁS ELEGANTE
+   Sección de introducción con bordes suaves
+   ========================================== */
+
+.intro {
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 0 0 1px rgba(212,175,55,0.1) !important;
+  
+  border: 1px solid rgba(212,175,55,0.15) !important;
+}
+
+.intro h2 {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+/* Línea decorativa debajo del título */
+.intro h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #d4af37,
+    transparent
+  );
+}
+
+/* ==========================================
+   11. FOOTER CON BORDE SUPERIOR ELEGANTE
+   Footer más distintivo
+   ========================================== */
+
+footer {
+  position: relative;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5) !important;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212,175,55,0.6) 20%,
+    rgba(212,175,55,0.6) 80%,
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(212,175,55,0.4);
+}
+
+/* ==========================================
+   12. TEXTO MÁS LEGIBLE CON SOMBRAS SUTILES
+   Mejora la legibilidad sin cambiar tamaños
+   ========================================== */
+
+.texto-reflexion p,
+.contenido-reflexion p {
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* ==========================================
+   13. NAVEGACIÓN FLOTANTE MÁS ELEGANTE
+   Botones flotantes con mejor diseño
+   ========================================== */
+
+.floating-nav button {
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 
+    0 4px 15px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(212,175,55,0.2) !important;
+}
+
+.floating-nav button:hover {
+  box-shadow: 
+    0 8px 25px rgba(212,175,55,0.5),
+    0 0 0 1px rgba(212,175,55,0.4) !important;
+}
+
+/* ==========================================
+   14. MODO CLARO - AJUSTES AUTOMÁTICOS
+   Si usas tema claro, estos ajustes se aplican
+   ========================================== */
+
+body[data-theme="light"] .reflexion-item {
+  box-shadow: 
+    0 4px 20px rgba(139,115,85,0.2),
+    0 1px 3px rgba(139,115,85,0.15) !important;
+  border-color: rgba(139,115,85,0.25) !important;
+}
+
+body[data-theme="light"] .reflexion-item:hover {
+  box-shadow: 
+    0 12px 40px rgba(139,115,85,0.3),
+    0 4px 12px rgba(139,115,85,0.2) !important;
+  border-color: rgba(139,115,85,0.4) !important;
+}
+
+body[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(139,115,85,0.7),
+    rgba(139,115,85,0.4)
+  );
+}
+
+/* ==========================================
+   15. RESPONSIVE - MANTIENE LA ELEGANCIA
+   En móviles, las mejoras se adaptan
+   ========================================== */
+
+@media (max-width: 768px) {
+  .texto-reflexion > p:first-of-type::first-letter,
+  .contenido-reflexion > p:first-of-type::first-letter {
+    font-size: 3em;
+  }
+  
+  .cita::before, blockquote::before {
+    font-size: 3.5rem;
+    left: -8px;
+    top: -10px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* ==========================================
+   16. ANIMACIÓN SUTIL DEL HALO DE FONDO
+   El halo respira más suavemente
+   ========================================== */
+
+.halo {
+  animation: breatheHalo 10s ease-in-out infinite !important;
+}
+
+@keyframes breatheHalo {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* ==========================================
+   17. TRANSICIONES GLOBALES MEJORADAS
+   Todo se mueve más suavemente
+   ========================================== */
+
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ==========================================
+   18. EFECTO DE SELECCIÓN PERSONALIZADO
+   Cuando el usuario selecciona texto
+   ========================================== */
+
+::selection {
+  background: rgba(212,175,55,0.3);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+::-moz-selection {
+  background: rgba(212,175,55,0.3);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* ==========================================
+   19. PERFORMANCE - Sin afectar velocidad
+   Estas propiedades optimizan el rendimiento
+   ========================================== */
+
+.reflexion-item,
+.galeria img,
+button,
+.enlace-reflexion {
+  will-change: auto;
+  contain: layout style paint;
+}
+
+/* ==========================================
+   FIN DE LAS MEJORAS VISUALES
+   ¡Tu sitio ahora se ve increíble! 🎨✨
+   ========================================== */
