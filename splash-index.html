@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando...</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0b0c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Cinzel', serif;
+    }
+
+    .splash-container {
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    /* Cerebro animado */
+    .brain-wrapper {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .brain-wrapper svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.6));
+    }
+
+    /* Título */
+    .splash-title {
+      color: #d4af37;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .splash-subtitle {
+      color: #999;
+      font-size: 0.95rem;
+      font-family: 'Crimson Pro', serif;
+      margin-bottom: 2rem;
+    }
+
+    /* Barra de progreso */
+    .progress-bar {
+      width: 200px;
+      height: 3px;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #f4d03f);
+      border-radius: 10px;
+      width: 0%;
+      animation: loading 2s ease-out forwards;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+    }
+
+    /* Puntos de carga */
+    .loading-dots {
+      color: #d4af37;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      letter-spacing: 4px;
+    }
+
+    .loading-dots span {
+      animation: blink 1.4s infinite;
+    }
+
+    .loading-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+      }
+      50% {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.8),
+                     0 0 30px rgba(212, 175, 55, 0.6);
+      }
+    }
+
+    @keyframes loading {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes blink {
+      0%, 20%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    /* Fade out cuando termina */
+    .splash-container.fade-out {
+      animation: fadeOut 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container" id="splashContainer">
+    
+    <!-- Cerebro SVG -->
+    <div class="brain-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" width="260" height="260">
+        <defs>
+          <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.26" />
+            <stop offset="60%" stop-color="#0b0b0c" stop-opacity="0" />
+          </radialGradient>
+
+          <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feColorMatrix in="blur" type="matrix"
+              values="1 0 0 0 0  0 0.84 0 0 0  0 0.6 0 0 0  0 0 0 1 0"
+              result="glow"/>
+            <feMerge>
+              <feMergeNode in="glow"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <style>
+            .brain-outline {
+              stroke: #d4af37;
+              stroke-width: 3;
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-dasharray: 720;
+              stroke-dashoffset: 720;
+              animation: drawBrain 2s ease-out forwards;
+            }
+            .connection {
+              stroke: #b18b2f;
+              stroke-width: 1.5;
+              stroke-opacity: 0.45;
+            }
+            .node {
+              fill: #d4af37;
+              filter: url(#goldGlow);
+            }
+            @keyframes drawBrain {
+              to { stroke-dashoffset: 0; }
+            }
+          </style>
+        </defs>
+
+        <circle cx="130" cy="115" r="95" fill="url(#bgGlow)" />
+
+        <g class="connections">
+          <line x1="105" y1="80" x2="70" y2="60" class="connection">
+            <animate attributeName="stroke-opacity" values="0.15;0.7;0.15" dur="3s" repeatCount="indefinite"/>
+          </line>
+          <line x1="150" y1="70" x2="185" y2="55" class="connection">
+            <animate attributeName="stroke-opacity" values="0.15;0.8;0.15" dur="2.6s" repeatCount="indefinite" begin="0.3s"/>
+          </line>
+          <line x1="120" y1="120" x2="80" y2="130" class="connection">
+            <animate attributeName="stroke-opacity" values="0.15;0.8;0.15" dur="3.2s" repeatCount="indefinite" begin="0.6s"/>
+          </line>
+        </g>
+
+        <g class="nodes">
+          <circle class="node" cx="70" cy="60" r="3">
+            <animate attributeName="r" values="3;5;3" dur="2.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle class="node" cx="185" cy="55" r="3">
+            <animate attributeName="r" values="3;5;3" dur="2.4s" repeatCount="indefinite" begin="0.5s"/>
+          </circle>
+          <circle class="node" cx="80" cy="130" r="3">
+            <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="0.8s"/>
+          </circle>
+        </g>
+
+        <g filter="url(#goldGlow)">
+          <path class="brain-outline"
+            d="M110 55 C 95 55, 80 65, 75 80 C 63 80, 55 90, 55 105 C 43 115, 40 135, 50 150 
+               C 48 165, 55 180, 70 188 C 75 205, 92 215, 110 212 C 120 225, 140 225, 152 212 
+               C 170 215, 187 205, 192 188 C 207 180, 214 165, 212 150 C 222 135, 219 115, 207 105 
+               C 207 90, 199 80, 187 80 C 182 65, 167 55, 152 55 C 145 45, 135 40, 122 42 
+               C 118 40, 114 40, 110 42 Z"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Textos -->
+    <h1 class="splash-title">JEIGHOST</h1>
+    <p class="splash-subtitle">El rincón del conocimiento</p>
+
+    <!-- Barra de progreso -->
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+
+    <!-- Puntos animados -->
+    <div class="loading-dots">
+      <span>•</span><span>•</span><span>•</span>
+    </div>
+
+  </div>
+
+  <script>
+    // Después de 2.2 segundos, hacer fade out y redirigir
+    setTimeout(() => {
+      const splash = document.getElementById('splashContainer');
+      splash.classList.add('fade-out');
+      
+      // Redirigir al index después del fade
+      setTimeout(() => {
+        window.location.href = '/index.html';
+      }, 500);
+    }, 2200);
+  </script>
+</body>
+</html>
