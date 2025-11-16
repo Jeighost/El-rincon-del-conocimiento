@@ -21,7 +21,8 @@
     12: ['Filosofía', 'Propósito'],
     13: ['Poesía', 'Melancolia'],
     14: ['Relaciones', 'Engaño'],
-    15: ['Poesía', 'Melancolia']
+    15: ['Poesía', 'Melancolia'],
+    16: ['Melancolia', 'Tristeza']
   };
 
   // Iconos por categoría
@@ -35,7 +36,8 @@
     'Propósito': '🎯',
     'Existencialismo': '🌌',
     'Melancolia': '🙍',
-    'Engaño': '🪤'
+    'Engaño': '🪤',
+    'Tristeza': '🥀'
   };
 
   // Colores por categoría
@@ -49,7 +51,8 @@
     'Existencialismo': '#34495e',
     'Melancolia': '#0000FF',
     'Relaciones': '#FF00FF',
-    'Engaño': '#FFFF00'
+    'Engaño': '#FFFF00',
+    'Tristeza': '#0D0D0D'
   };
 
   function addCategoriesToReflection() {

@@ -189,7 +189,8 @@
       '12': 'El mundo que sueño',
       '13': '6:50',
       '14': 'El espejo y la sombra',
-      '15': 'Vacío'
+      '15': 'Vacío',
+      '16': '¿Desea reiniciar?'
     };
     
     favorites.forEach(id => {
