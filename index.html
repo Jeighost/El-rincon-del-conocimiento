@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Filosofía El rincón del conocimiento</title>
+  <title>El rincón del conocimiento</title>
 
   <!-- Meta tags SEO -->
-  <meta name="description" content="Reflexiones filosóficas y poesías. Un espacio filosófico personal.">
+  <meta name="description" content="Reflexiones filosóficas y poesías, un espacio filosófico personal">
   <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, diseño técnico, Jeison Gonzalez">
   <meta name="author" content="Jeison Gonzalez">
   <meta name="language" content="es">
@@ -74,6 +74,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="features.css">
   <link rel="stylesheet" href="visual-enhancements.css">
+  <link rel="stylesheet" href="splash-screen.css">
 </head>
 
 <body class="theme-dark">
@@ -82,6 +83,16 @@
 
   <!-- CONTENEDOR GLOBAL -->
   <div class="layout">
+    <div id="splash-screen">
+  <div class="splash-logo">
+    <img src="icon-192.png" alt="Logo">
+  </div>
+
+  <h1 class="splash-title">Jeighost</h1>
+  <p class="splash-subtitle">Cargando...</p>
+
+  <div class="splash-loader"></div>
+</div>
 
     <!-- HEADER -->
     <header class="site-header">
@@ -520,5 +531,13 @@ if ('serviceWorker' in navigator) {
     "inLanguage": "es"
   }
   </script>
+  <script>
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash-screen");
+  setTimeout(() => {
+    splash.classList.add("hidden");
+  }, 800); // medio segundo de visibilidad extra
+});
+</script>
 </body>
 </html>
