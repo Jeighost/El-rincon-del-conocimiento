@@ -2,7 +2,7 @@
   "name": "Jeighost.lat - Reflexiones y Poesía",
   "short_name": "Jeighost",
   "description": "Reflexiones, poesías y un punto de vista fuerte creado por Jeighost.lat.",
-  "start_url": "/splash-index.html",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
