@@ -1,25 +1,45 @@
-// === JEIGHOST.LAT SERVICE WORKER v8.1 ===
-// Autor: Jeison Gonzalez — Ajustado
-// Fecha: 2025-11
+// === JEIGHOST.LAT SERVICE WORKER v10.0 MEJORADO ===
+// Autor: Jeison Gonzalez — Optimizado por Claude
+// Fecha: 2025-11-16
 
-// -- NOMBRES DE CACHÉ --
-const VERSION = 'v9.0';
+// -- CONFIGURACIÓN --
+const VERSION = 'v10.0';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
+const CACHE_IMAGES  = `el-rincon-images-${VERSION}`;
+const MAX_DYNAMIC_ITEMS = 50; // Límite de items en caché dinámico
+const MAX_IMAGE_ITEMS = 30;   // Límite de imágenes
 
-// -- RECURSOS ESTÁTICOS (no HTML/navegaciones) --
+// -- RECURSOS ESTÁTICOS CRÍTICOS --
 const STATIC_ASSETS = [
+  // HTML principal (para offline)
+  '/',
+  '/index.html',
+  
+  // CSS
+  '/styles.css',
   '/style.css',
   '/features.css',
+  '/visual-enhancements.css',
+  '/app-native-features.css',
   '/menu-mejorado.css',
   '/header-optimizado.css',
   '/rosa-animada.css',
+  '/splash-screen.css',
+  
+  // JavaScript
   '/menu.js',
   '/advanced-features.js',
   '/features.js',
+  '/app-native-features.js',
   '/install.js',
   '/notifications.js',
   '/auto-notifications.js',
+  '/particles.js',
+  '/favoritos.js',
+  '/analytics.js',
+  
+  // Iconos
   '/jeighost-icons-pack/icon-72x72.png',
   '/jeighost-icons-pack/icon-96x96.png',
   '/jeighost-icons-pack/icon-128x128.png',
@@ -28,150 +48,400 @@ const STATIC_ASSETS = [
   '/jeighost-icons-pack/icon-256x256.png',
   '/jeighost-icons-pack/icon-384x384.png',
   '/jeighost-icons-pack/icon-512x512.png',
-  '/jeighost-icons-pack/favicon.ico',
-  '/jeighost-icons-pack/maskable-icon-512x512.png'
+  '/jeighost-icons-pack/maskable-icon-512x512.png',
+  '/favicon.ico',
+  
+  // Manifest
+  '/manifest.json'
 ];
 
-// -- INSTALL: precache estáticos (sin HTML) --
+// -- PÁGINAS HTML PARA PRECARGA --
+const HTML_PAGES = [
+  '/reflexiones.html',
+  '/galeria.html',
+  '/sobre-mi.html'
+];
+
+// -- UTILIDADES --
+const isNavigationRequest = (req) =>
+  req.mode === 'navigate' || 
+  (req.method === 'GET' && (req.headers.get('accept') || '').includes('text/html'));
+
+const isImageRequest = (req) => {
+  const url = new URL(req.url);
+  return /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(url.pathname);
+};
+
+// Limitar tamaño de caché
+async function limitCacheSize(cacheName, maxItems) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  
+  if (keys.length > maxItems) {
+    // Borrar los más viejos
+    const toDelete = keys.slice(0, keys.length - maxItems);
+    await Promise.all(toDelete.map(key => cache.delete(key)));
+    console.log(`[SW] Limpieza de ${cacheName}: ${toDelete.length} items eliminados`);
+  }
+}
+
+// -- INSTALL: Precarga de recursos críticos --
 self.addEventListener('install', (event) => {
+  console.log('[SW] Instalando v10.0...');
+  
   event.waitUntil(
-    caches.open(CACHE_STATIC).then((cache) => cache.addAll(STATIC_ASSETS))
+    Promise.all([
+      // Cachear recursos estáticos
+      caches.open(CACHE_STATIC).then(async (cache) => {
+        console.log('[SW] Cacheando recursos estáticos...');
+        try {
+          await cache.addAll(STATIC_ASSETS);
+          console.log('[SW] ✓ Recursos estáticos cacheados');
+        } catch (error) {
+          console.error('[SW] Error cacheando estáticos:', error);
+          // Intentar uno por uno
+          for (const asset of STATIC_ASSETS) {
+            try {
+              await cache.add(asset);
+            } catch (e) {
+              console.warn('[SW] No se pudo cachear:', asset);
+            }
+          }
+        }
+      }),
+      
+      // Precachear páginas HTML importantes
+      caches.open(CACHE_DYNAMIC).then(async (cache) => {
+        console.log('[SW] Precacheando páginas HTML...');
+        for (const page of HTML_PAGES) {
+          try {
+            await cache.add(page);
+          } catch (e) {
+            console.warn('[SW] No se pudo precachear:', page);
+          }
+        }
+      })
+    ])
   );
+  
   self.skipWaiting();
 });
 
-// -- ACTIVATE: limpiar versiones antiguas --
+// -- ACTIVATE: Limpieza de cachés antiguos --
 self.addEventListener('activate', (event) => {
+  console.log('[SW] Activando v10.0...');
+  
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => k !== CACHE_STATIC && k !== CACHE_DYNAMIC)
-          .map((k) => caches.delete(k))
-      )
-    )
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((cacheName) => {
+            return cacheName.startsWith('el-rincon-') && 
+                   cacheName !== CACHE_STATIC && 
+                   cacheName !== CACHE_DYNAMIC &&
+                   cacheName !== CACHE_IMAGES;
+          })
+          .map((cacheName) => {
+            console.log('[SW] Eliminando caché antigua:', cacheName);
+            return caches.delete(cacheName);
+          })
+      );
+    }).then(() => {
+      console.log('[SW] ✓ Activado y cachés limpios');
+      return self.clients.claim();
+    })
   );
-  self.clients.claim();
 });
 
-// Utilidades
-const isNavigationRequest = (req) =>
-  req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+// -- ESTRATEGIAS DE CACHÉ --
 
-async function networkFirstForHTML(event) {
+// Network First con timeout y fallback robusto
+async function networkFirstStrategy(request) {
   try {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 6000);
-    const res = await fetch(event.request, { signal: ctrl.signal });
-    clearTimeout(t);
-    // No cacheamos HTML en dev para evitar staleness
-    return res;
-  } catch (err) {
-    // Fallback: intenta una versión estática del index si la tienes cacheada
-    const cachedIndex = await caches.match('/index.html');
-    return cachedIndex || new Response('Sin conexión', { status: 503, statusText: 'Offline' });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(request, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
+    // Cachear la respuesta exitosa
+    if (response && response.status === 200) {
+      const cache = await caches.open(CACHE_DYNAMIC);
+      cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch (error) {
+    console.log('[SW] Network failed, buscando en caché:', request.url);
+    
+    // Buscar en caché
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    // Si es navegación, devolver index.html
+    if (isNavigationRequest(request)) {
+      const indexCache = await caches.match('/index.html');
+      if (indexCache) {
+        return indexCache;
+      }
+    }
+    
+    // Último recurso: página offline
+    return new Response(
+      `<!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sin conexión - Jeighost.lat</title>
+        <style>
+          body {
+            font-family: 'Crimson Pro', serif;
+            background: #0b0b0c;
+            color: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 2rem;
+          }
+          h1 { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 1rem; }
+          p { color: #999; line-height: 1.6; }
+          button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #d4af37;
+            color: #0b0b0c;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+          }
+        </style>
+      </head>
+      <body>
+        <div>
+          <h1>📡 Sin conexión</h1>
+          <p>No hay conexión a internet en este momento.</p>
+          <p>Por favor, verifica tu conexión e intenta nuevamente.</p>
+          <button onclick="window.location.reload()">Reintentar</button>
+        </div>
+      </body>
+      </html>`,
+      {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: new Headers({
+          'Content-Type': 'text/html; charset=utf-8',
+        }),
+      }
+    );
   }
 }
 
-async function staleWhileRevalidateForAsset(event) {
-  const cache = await caches.open(CACHE_DYNAMIC);
-  const cached = await caches.match(event.request);
-  const fetchPromise = fetch(event.request)
-    .then((res) => {
-      // Evitar cachear respuestas inválidas
-      if (res && res.status === 200 && res.type !== 'opaque') {
-        cache.put(event.request, res.clone());
-      }
-      return res;
-    })
-    .catch(() => cached);
-
-  return cached || fetchPromise;
+// Cache First con actualización en segundo plano
+async function cacheFirstStrategy(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cachedResponse = await cache.match(request);
+  
+  if (cachedResponse) {
+    // Actualizar en segundo plano
+    fetch(request)
+      .then((response) => {
+        if (response && response.status === 200 && response.type !== 'opaque') {
+          cache.put(request, response.clone());
+        }
+      })
+      .catch(() => {}); // Silenciar errores de actualización
+    
+    return cachedResponse;
+  }
+  
+  // Si no está en caché, ir a la red
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200 && response.type !== 'opaque') {
+      cache.put(request, response.clone());
+      
+      // Limitar tamaño del caché
+      limitCacheSize(cacheName, cacheName === CACHE_IMAGES ? MAX_IMAGE_ITEMS : MAX_DYNAMIC_ITEMS);
+    }
+    return response;
+  } catch (error) {
+    console.log('[SW] No se pudo obtener:', request.url);
+    throw error;
+  }
 }
 
-// -- FETCH: rutas diferenciadas --
+// -- FETCH: Enrutamiento inteligente --
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  if (request.method !== 'GET') return; // deja pasar POST/PUT etc.
-
-  if (isNavigationRequest(request)) {
-    // Navegaciones (HTML): network first
-    event.respondWith(networkFirstForHTML(event));
-  } else if (new URL(request.url).origin === self.location.origin) {
-    // Mismo origen: SWR para estáticos
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) {
-          // actualizar en segundo plano
-          event.waitUntil(
-            fetch(request)
-              .then((res) => {
-                if (res && res.status === 200 && res.type !== 'opaque') {
-                  return caches.open(CACHE_DYNAMIC).then((c) => c.put(request, res.clone()));
-                }
-              })
-              .catch(() => {})
-          );
-          return cached;
-        }
-        return fetch(request)
-          .then((res) => {
-            if (res && res.status === 200 && res.type !== 'opaque') {
-              return caches.open(CACHE_DYNAMIC).then((c) => {
-                c.put(request, res.clone());
-                return res;
-              });
-            }
-            return res;
-          })
-          .catch(() => caches.match(request));
-      })
-    );
-  } else {
-    // Terceros: ir a red con fallback a caché si ya existe
-    event.respondWith(
-      fetch(request).catch(() => caches.match(request))
-    );
+  const url = new URL(request.url);
+  
+  // Solo manejar GET requests
+  if (request.method !== 'GET') return;
+  
+  // Ignorar URLs de extensiones de navegador
+  if (url.protocol === 'chrome-extension:' || url.protocol === 'moz-extension:') {
+    return;
   }
+  
+  // 1. Navegaciones HTML: Network First
+  if (isNavigationRequest(request)) {
+    event.respondWith(networkFirstStrategy(request));
+    return;
+  }
+  
+  // 2. Imágenes: Cache First
+  if (isImageRequest(request)) {
+    event.respondWith(cacheFirstStrategy(request, CACHE_IMAGES));
+    return;
+  }
+  
+  // 3. Recursos del mismo origen: Cache First
+  if (url.origin === self.location.origin) {
+    event.respondWith(cacheFirstStrategy(request, CACHE_DYNAMIC));
+    return;
+  }
+  
+  // 4. Recursos de terceros (CDN): Network First con caché
+  event.respondWith(
+    fetch(request)
+      .then((response) => {
+        if (response && response.status === 200) {
+          const cache = caches.open(CACHE_DYNAMIC);
+          cache.then(c => c.put(request, response.clone()));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
+  );
 });
 
-// -- PUSH --
+// -- NOTIFICACIONES PUSH --
 self.addEventListener('push', (event) => {
-  const body = event.data ? event.data.text() : 'Nueva notificación desde Jeighost.lat';
+  let data = { title: 'Jeighost.lat', body: 'Nueva reflexión disponible' };
+  
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+  
   const options = {
-    body,
+    body: data.body || 'Nueva reflexión disponible',
     icon: '/jeighost-icons-pack/icon-192x192.png',
     badge: '/jeighost-icons-pack/icon-192x192.png',
-    vibrate: [100, 50, 100],
-    data: { url: '/' },
+    vibrate: [200, 100, 200],
+    data: { url: data.url || '/' },
+    tag: 'jeighost-notification',
+    requireInteraction: false,
     actions: [
-      { action: 'explore', title: 'Leer ahora', icon: '/jeighost-icons-pack/icon-192x192.png' },
+      { action: 'open', title: '📖 Leer ahora', icon: '/jeighost-icons-pack/icon-192x192.png' },
       { action: 'close', title: 'Cerrar' }
     ]
   };
-  event.waitUntil(self.registration.showNotification('Jeighost.lat', options));
+  
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Jeighost.lat', options)
+  );
 });
 
 // -- CLICK EN NOTIFICACIÓN --
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  if (event.action === 'explore') {
+  
+  if (event.action === 'open' || event.action === '') {
+    const urlToOpen = event.notification.data?.url || '/';
+    
     event.waitUntil(
-      clients.matchAll({ type: 'window' }).then((clientsArr) => {
-        for (const c of clientsArr) {
-          if (c.url.endsWith('/') || c.url.endsWith('/index.html')) {
-            return c.focus();
+      clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then((clientList) => {
+          // Buscar ventana existente
+          for (const client of clientList) {
+            if (client.url === urlToOpen && 'focus' in client) {
+              return client.focus();
+            }
           }
-        }
-        return clients.openWindow('/');
+          // Abrir nueva ventana
+          if (clients.openWindow) {
+            return clients.openWindow(urlToOpen);
+          }
+        })
+    );
+  }
+});
+
+// -- MENSAJES DEL CLIENTE --
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  
+  // Comando para limpiar cachés
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    event.waitUntil(
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter(name => name.startsWith('el-rincon-'))
+            .map(name => caches.delete(name))
+        );
+      }).then(() => {
+        console.log('[SW] Cachés limpiados');
+      })
+    );
+  }
+  
+  // Obtener info de cachés
+  if (event.data && event.data.type === 'GET_CACHE_INFO') {
+    event.waitUntil(
+      Promise.all([
+        caches.open(CACHE_STATIC).then(c => c.keys()),
+        caches.open(CACHE_DYNAMIC).then(c => c.keys()),
+        caches.open(CACHE_IMAGES).then(c => c.keys())
+      ]).then(([staticKeys, dynamicKeys, imageKeys]) => {
+        event.ports[0].postMessage({
+          static: staticKeys.length,
+          dynamic: dynamicKeys.length,
+          images: imageKeys.length,
+          total: staticKeys.length + dynamicKeys.length + imageKeys.length
+        });
       })
     );
   }
 });
 
-// -- MENSAJES (skip waiting) --
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+// -- SINCRONIZACIÓN EN SEGUNDO PLANO --
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-content') {
+    event.waitUntil(
+      // Actualizar contenido cuando vuelva la conexión
+      caches.open(CACHE_DYNAMIC).then(cache => {
+        return cache.keys().then(requests => {
+          return Promise.all(
+            requests.map(request => {
+              return fetch(request)
+                .then(response => {
+                  if (response && response.status === 200) {
+                    return cache.put(request, response);
+                  }
+                })
+                .catch(() => {});
+            })
+          );
+        });
+      })
+    );
+  }
 });
 
-console.log('%c[SW] Jeighost.lat v9.0 activo', 'color: gold; font-weight: bold;');
+console.log('%c[SW] 🚀 Jeighost.lat v10.0 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
+console.log('[SW] Estrategias: Network First (HTML) | Cache First (Assets/Imágenes)');
+console.log('[SW] Límites: Dinámico=' + MAX_DYNAMIC_ITEMS + ' | Imágenes=' + MAX_IMAGE_ITEMS);
