@@ -108,7 +108,7 @@
 
   // Agregar enlaces de favorito en la lista de reflexiones
   function addFavoriteLinks() {
-    if (!window.location.pathname.includes('reflexiones.html')) return;
+    if (!window.location.pathname.includes('/reflexiones/')) return;
 
     const reflexionItems = document.querySelectorAll('.reflexion-item');
     
@@ -197,7 +197,7 @@
       const title = reflexionTitles[id] || `Reflexión ${id}`;
       favoritesHTML += `
         <div class="favorite-item">
-          <a href="reflexion${id}.html">
+          <a href="/reflexion${id}/">
             <span class="favorite-number">${id}</span>
             <span class="favorite-title">${title}</span>
             <span class="favorite-arrow">→</span>

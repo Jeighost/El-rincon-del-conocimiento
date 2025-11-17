@@ -64,13 +64,22 @@
   // Tracking de lectura de reflexiones
   function trackReflectionViews() {
     const reflexionPages = [
-      'reflexion1.html',
-      'reflexion2.html',
-      'reflexion3.html',
-      'reflexion4.html',
-      'reflexion5.html',
-      'reflexion6.html',
-      'reflexion7.html'
+      '/reflexion1/',
+      '/reflexion2/',
+      '/reflexion3/',
+      '/reflexion4/',
+      '/reflexion5/',
+      '/reflexion6',
+      '/reflexion7',
+      '/reflexion8/',
+      '/reflexion9/',
+      '/reflexion10/',
+      '/reflexion11/',
+      '/reflexion12/',
+      '/reflexion13/',
+      '/reflexion14/',
+       '/reflexion15/',
+      '/reflexion16/'
     ];
 
     const currentPage = window.location.pathname;

@@ -74,7 +74,7 @@
     
     categories.forEach(category => {
       const categoryBadge = document.createElement('a');
-      categoryBadge.href = `reflexiones.html?categoria=${encodeURIComponent(category)}`;
+      categoryBadge.href = `/reflexiones/?categoria=${encodeURIComponent(category)}`;
       categoryBadge.className = 'category-badge';
       categoryBadge.setAttribute('data-category', category);
       categoryBadge.style.borderColor = categoryColors[category];
@@ -86,7 +86,7 @@
   }
 
   function addCategoryFilterToReflexionesPage() {
-    if (!window.location.pathname.includes('reflexiones.html')) return;
+    if (!window.location.pathname.includes('/reflexiones/')) return;
 
     const header = document.querySelector('header, .encabezado');
     if (!header) return;
@@ -129,9 +129,9 @@
         
         // Actualizar URL
         if (category === 'all') {
-          window.history.pushState({}, '', 'reflexiones.html');
+          window.history.pushState({}, '', '/reflexiones/');
         } else {
-          window.history.pushState({}, '', `reflexiones.html?categoria=${encodeURIComponent(category)}`);
+          window.history.pushState({}, '', `/reflexiones/?categoria=${encodeURIComponent(category)}`);
         }
       });
     });

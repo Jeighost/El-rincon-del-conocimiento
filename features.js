@@ -69,15 +69,15 @@
     breadcrumb.className = 'breadcrumb';
 
     let html = '<a href="index.html">🏠 Inicio</a>';
-    if (/galeria/i.test(path)) {
+    if (/galeria/.test(path)) {
       html += '<span class="breadcrumb-separator">›</span><span>Galería</span>';
-    } else if (/reflexiones(\.html)?$/i.test(path)) {
+    } else if (/reflexiones(\./)?$/i.test(path)) {
       html += '<span class="breadcrumb-separator">›</span><span>Reflexiones</span>';
-    } else if (/reflexion\d+\.html$/i.test(path)) {
+    } else if (/reflexion\d+\./$/i.test(path)) {
       const num = path.match(/reflexion(\d+)/i)?.[1];
       html += '<span class="breadcrumb-separator">›</span><a href="reflexiones.html">Reflexiones</a>';
       html += `<span class="breadcrumb-separator">›</span><span>Reflexión ${num}</span>`;
-    } else if (/sobre-mi/i.test(path)) {
+    } else if (/sobre-mi/.test(path)) {
       html += '<span class="breadcrumb-separator">›</span><span>Sobre mí</span>';
     }
 
@@ -210,7 +210,7 @@
       if (btn.dataset.top) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (btn.dataset.go) {
-        location.href = `reflexion${btn.dataset.go}.html`;
+        location.href = `reflexion${btn.dataset.go}/`;
       }
     });
   }

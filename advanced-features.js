@@ -36,7 +36,7 @@
   // 2) Buscador de reflexiones
   // ===========================================
   function addSearchBar() {
-    if (!location.pathname.includes('reflexiones.html')) return;
+    if (!location.pathname.includes('/reflexiones/')) return;
     if (document.querySelector('.search-container')) return;
 
     const header = document.querySelector('header');
@@ -99,7 +99,7 @@
       results.forEach(ref => {
         html += `
           <div class="search-result-item">
-            <a href="reflexion${ref.id}.html">
+            <a href="/reflexion${ref.id}/">
               <span class="result-number">${ref.id}</span>
               <div class="result-content">
                 <h3>${ref.title}</h3>
@@ -198,7 +198,7 @@
     let html = '<h3>📚 Reflexiones relacionadas</h3><div class="related-grid">';
     related.forEach(ref => {
       html += `
-        <a href="reflexion${ref.id}.html" class="related-card">
+        <a href="/reflexion${ref.id}/" class="related-card">
           <span class="related-number">${ref.id}</span>
           <h4>${ref.title}</h4>
           <p>${ref.preview}</p>

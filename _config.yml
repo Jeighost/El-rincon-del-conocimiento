@@ -1,0 +1,46 @@
+# Configuración de Jekyll para GitHub Pages
+# Jeighost.lat
+
+# Permalinks limpios (sin .html)
+permalink: /:basename
+
+# Excluir archivos innecesarios
+exclude:
+  - README.md
+  - LICENSE
+  - node_modules
+  - package.json
+  - .gitignore
+  - .git
+
+# Incluir archivos que empiezan con punto
+include:
+  - .htaccess
+  - .nojekyll
+
+# Configuración de URLs
+baseurl: ""
+url: "https://jeighost.lat"
+
+# Procesamiento
+markdown: kramdown
+highlighter: rouge
+
+# No procesar estos archivos
+keep_files:
+  - audios
+  - jeighost-icons-pack
+  - imagenes
+
+# Configuración de plugins (GitHub Pages los activa automáticamente)
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Idioma del sitio
+lang: es
+
+# Información del sitio
+title: "El rincón del conocimiento"
+description: "Reflexiones filosóficas y poesías, un espacio filosófico personal"
+author: "Jeison Gonzalez"
