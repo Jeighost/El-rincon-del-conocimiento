@@ -210,52 +210,301 @@
     anchor.parentNode.insertBefore(relatedSection, anchor);
   }
 
-  // ===========================================
-  // 5) Audio (TTS)
-  // ===========================================
-  function addAudioReader() {
-    if (document.querySelector('.audio-reader-btn')) return;
+// ===========================================
+// SISTEMA DE AUDIO MINIMALISTA
+// ElevenLabs + TTS Nativo como fallback
+// ===========================================
 
-    const content = document.querySelector('.texto-reflexion, .contenido-reflexion');
-    if (!content || !('speechSynthesis' in window)) return;
+function addAudioReader() {
+  if (document.querySelector('.audio-player-mini')) return;
 
-    const audioBtn = document.createElement('button');
-    audioBtn.className = 'audio-reader-btn';
-    audioBtn.innerHTML = '🔊 Escuchar';
-    audioBtn.title = 'Escuchar reflexión';
+  const content = document.querySelector('.texto-reflexion, .contenido-reflexion');
+  if (!content) return;
 
-    let isPlaying = false;
-    let utterance = null;
+  // Detectar número de reflexión actual
+  const match = location.pathname.match(/reflexion(\d+)/i);
+  if (!match) return;
+  
+  const reflexionId = parseInt(match[1], 10);
+  const audioPath = `/audios/reflexion${reflexionId}.mp3`;
 
-    audioBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        window.speechSynthesis.cancel();
-        audioBtn.innerHTML = '🔊 Escuchar';
-        isPlaying = false;
-      } else {
-        const text = content.textContent || '';
-        utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
+  // Verificar si existe el audio de ElevenLabs
+  checkAudioExists(audioPath).then(exists => {
+    if (exists) {
+      createMiniPlayer(audioPath, 'elevenlabs');
+    } else {
+      createMiniPlayer(null, 'tts', content);
+    }
+  });
+}
 
-        utterance.onend = () => {
-          audioBtn.innerHTML = '🔊 Escuchar';
-          isPlaying = false;
-        };
-
-        window.speechSynthesis.cancel(); // detener cualquier síntesis previa
-        window.speechSynthesis.speak(utterance);
-        audioBtn.innerHTML = '⏸️ Pausar';
-        isPlaying = true;
-      }
-    });
-
-    const header = document.querySelector('header');
-    (header || document.body).after
-      ? header.after(audioBtn)
-      : document.body.appendChild(audioBtn);
+// Verificar si existe el archivo de audio
+async function checkAudioExists(url) {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    return false;
   }
+}
+
+// REPRODUCTOR MINIMALISTA UNIFICADO
+function createMiniPlayer(audioPath, type, content) {
+  const container = document.createElement('div');
+  container.className = 'audio-player-mini';
+  
+  if (type === 'elevenlabs') {
+    container.innerHTML = `
+      <div class="mini-player">
+        <button class="mini-play-btn" id="miniPlayBtn">▶</button>
+        <div class="mini-progress-wrapper">
+          <div class="mini-progress-bar" id="miniProgressBar">
+            <div class="mini-progress-fill" id="miniProgressFill"></div>
+          </div>
+          <div class="mini-time">
+            <span id="miniCurrentTime">0:00</span> / <span id="miniTotalTime">0:00</span>
+          </div>
+        </div>
+        <audio id="miniAudio" preload="metadata">
+          <source src="${audioPath}" type="audio/mpeg">
+        </audio>
+      </div>
+    `;
+  } else {
+    // TTS Nativo
+    container.innerHTML = `
+      <div class="mini-player">
+        <button class="mini-play-btn" id="miniPlayBtn">▶</button>
+        <div class="mini-progress-wrapper">
+          <span class="mini-label">Escuchar con voz nativa</span>
+        </div>
+      </div>
+    `;
+  }
+
+  const header = document.querySelector('header');
+  if (header && header.nextSibling) {
+    header.parentNode.insertBefore(container, header.nextSibling);
+  } else {
+    document.body.insertBefore(container, document.body.firstChild);
+  }
+
+  if (type === 'elevenlabs') {
+    initMiniAudioControls();
+  } else {
+    initTTSControls(content);
+  }
+}
+
+// Controles para audio MP3
+function initMiniAudioControls() {
+  const audio = document.getElementById('miniAudio');
+  const playBtn = document.getElementById('miniPlayBtn');
+  const progressBar = document.getElementById('miniProgressBar');
+  const progressFill = document.getElementById('miniProgressFill');
+  const currentTimeEl = document.getElementById('miniCurrentTime');
+  const totalTimeEl = document.getElementById('miniTotalTime');
+
+  // Play/Pause
+  playBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      playBtn.textContent = '⏸';
+    } else {
+      audio.pause();
+      playBtn.textContent = '▶';
+    }
+  });
+
+  // Actualizar progreso
+  audio.addEventListener('timeupdate', () => {
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = percent + '%';
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+  });
+
+  // Duración cargada
+  audio.addEventListener('loadedmetadata', () => {
+    totalTimeEl.textContent = formatTime(audio.duration);
+  });
+
+  // Finalizado
+  audio.addEventListener('ended', () => {
+    playBtn.textContent = '▶';
+    progressFill.style.width = '0%';
+  });
+
+  // Click en barra de progreso
+  progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percent = (x / rect.width) * 100;
+    audio.currentTime = (percent / 100) * audio.duration;
+  });
+
+  // Atajo de teclado
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.code === 'Space') {
+      e.preventDefault();
+      playBtn.click();
+    }
+  });
+}
+
+// Controles para TTS nativo
+function initTTSControls(content) {
+  if (!('speechSynthesis' in window)) return;
+
+  const playBtn = document.getElementById('miniPlayBtn');
+  let isPlaying = false;
+  let utterance = null;
+
+  playBtn.addEventListener('click', () => {
+    if (isPlaying) {
+      window.speechSynthesis.cancel();
+      playBtn.textContent = '▶';
+      isPlaying = false;
+    } else {
+      const text = content.textContent || '';
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+
+      utterance.onend = () => {
+        playBtn.textContent = '▶';
+        isPlaying = false;
+      };
+
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+      playBtn.textContent = '⏸';
+      isPlaying = true;
+    }
+  });
+}
+
+// Formatear tiempo
+function formatTime(seconds) {
+  if (isNaN(seconds)) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ESTILOS MINIMALISTAS
+function addAudioStyles() {
+  if (document.getElementById('audio-player-styles')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'audio-player-styles';
+  style.textContent = `
+    .audio-player-mini {
+      max-width: 600px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .mini-player {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50px;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s;
+    }
+
+    .mini-player:hover {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .mini-play-btn {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #d4af37;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+
+    .mini-play-btn:hover {
+      background: rgba(212, 175, 55, 0.3);
+      transform: scale(1.1);
+    }
+
+    .mini-progress-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .mini-progress-bar {
+      height: 4px;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #f4d03f);
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.1s;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+    }
+
+    .mini-time {
+      color: #d4af37;
+      font-size: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .mini-label {
+      color: #d4af37;
+      font-size: 0.9rem;
+      text-align: center;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .mini-player {
+        padding: 0.7rem 1rem;
+      }
+      
+      .mini-play-btn {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .mini-time {
+        font-size: 0.7rem;
+      }
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// Inicializar estilos
+document.addEventListener('DOMContentLoaded', () => {
+  addAudioStyles();
+});
   // 7) Estilos embebidos (con id para no duplicar)
   // ===========================================
   function addStyles() {
