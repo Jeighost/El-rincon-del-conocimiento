@@ -3,7 +3,7 @@
 // Fecha: 2025-11-16
 
 // -- CONFIGURACIÓN --
-const VERSION = 'v10.0';
+const VERSION = 'v10.1';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 const CACHE_IMAGES  = `el-rincon-images-${VERSION}`;
@@ -57,9 +57,10 @@ const STATIC_ASSETS = [
 
 // -- PÁGINAS HTML PARA PRECARGA --
 const HTML_PAGES = [
-  '/reflexiones.html',
-  '/galeria.html',
-  '/sobre-mi.html'
+  '/reflexiones/',
+  '/galeria/',
+  '/sobre-mi/',
+  '/videos/'
 ];
 
 // -- UTILIDADES --
@@ -442,6 +443,6 @@ self.addEventListener('sync', (event) => {
   }
 });
 
-console.log('%c[SW] 🚀 Jeighost.lat v10.0 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
+console.log('%c[SW] 🚀 Jeighost.lat v10.1 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
 console.log('[SW] Estrategias: Network First (HTML) | Cache First (Assets/Imágenes)');
 console.log('[SW] Límites: Dinámico=' + MAX_DYNAMIC_ITEMS + ' | Imágenes=' + MAX_IMAGE_ITEMS);

@@ -86,7 +86,7 @@
       "name": "Últimos Poemas",
       "short_name": "Poemas",
       "description": "Ver los últimos poemas publicados",
-      "url": "/poemas.html",
+      "url": "/reflexionX/",
       "icons": [
         {
           "src": "/jeighost-icons-pack/icon-192x192.png",
@@ -98,7 +98,7 @@
       "name": "Reflexiones",
       "short_name": "Reflexiones",
       "description": "Leer reflexiones filosóficas",
-      "url": "/reflexiones.html",
+      "url": "/reflexiones/",
       "icons": [
         {
           "src": "/jeighost-icons-pack/icon-192x192.png",
