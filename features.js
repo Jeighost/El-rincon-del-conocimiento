@@ -4,24 +4,23 @@
 (function () {
   'use strict';
 
-  // Guard contra dobles inyecciones
   if (window.__featuresInit) return;
   window.__featuresInit = true;
 
   // ==========================================
-  // 1. BARRA DE PROGRESO DE LECTURA
+  // 1. BARRA DE PROGRESO
   // ==========================================
   function initReadingProgress() {
     if (document.querySelector('.reading-progress')) return;
 
-    const progressBar = document.createElement('div');
-    progressBar.className = 'reading-progress';
-    document.body.appendChild(progressBar);
+    const bar = document.createElement('div');
+    bar.className = 'reading-progress';
+    document.body.appendChild(bar);
 
     let docHeight = 1;
     let ticking = false;
 
-    const computeDocHeight = () => {
+    const compute = () => {
       const winH = window.innerHeight;
       const fullH = document.documentElement.scrollHeight;
       docHeight = Math.max(1, fullH - winH);
@@ -30,63 +29,66 @@
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
+
       requestAnimationFrame(() => {
-        const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const y = window.pageYOffset || 0;
         const progress = Math.min(100, Math.max(0, (y / docHeight) * 100));
-        progressBar.style.width = `${progress}%`;
+        bar.style.width = `${progress}%`;
         ticking = false;
       });
     };
 
-    // Recalcular en resize y tras cargas diferidas (imágenes)
-    const onResize = () => {
-      computeDocHeight();
-      onScroll();
-    };
-
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize);
-    // Recalcular cuando cargan imágenes
-    window.addEventListener('load', onResize);
+    window.addEventListener('resize', compute);
+    window.addEventListener('load', compute);
 
-    computeDocHeight();
+    compute();
     onScroll();
   }
 
   // ===================================
-  // 3. BREADCRUMB (Migas de pan)
+  // 2. BREADCRUMB - RUTAS CORREGIDAS
   // ==========================================
   function addBreadcrumb() {
     const nav = document.querySelector('nav');
     if (!nav) return;
 
     const path = location.pathname;
-    const isHome = path.endsWith('index.html') || path === '/';
+
+    const isHome =
+      path.endsWith("index.html") ||
+      path === "/" ||
+      path === "/index.html";
+
     if (isHome) return;
-    if (document.querySelector('.breadcrumb')) return;
+    if (document.querySelector(".breadcrumb")) return;
 
-    const breadcrumb = document.createElement('div');
-    breadcrumb.className = 'breadcrumb';
+    const crumbs = document.createElement("div");
+    crumbs.className = "breadcrumb";
 
-    let html = '<a href="index.html">🏠 Inicio</a>';
+    let html = `<a href="../index.html">🏠 Inicio</a>`;
+
     if (/galeria/.test(path)) {
-      html += '<span class="breadcrumb-separator">›</span><span>Galería</span>';
-    } else if (/reflexiones(\./)?$/i.test(path)) {
-      html += '<span class="breadcrumb-separator">›</span><span>Reflexiones</span>';
-    } else if (/reflexion\d+\./$/i.test(path)) {
-      const num = path.match(/reflexion(\d+)/i)?.[1];
-      html += '<span class="breadcrumb-separator">›</span><a href="reflexiones.html">Reflexiones</a>';
-      html += `<span class="breadcrumb-separator">›</span><span>Reflexión ${num}</span>`;
-    } else if (/sobre-mi/.test(path)) {
-      html += '<span class="breadcrumb-separator">›</span><span>Sobre mí</span>';
+      html += ' › <span>Galería</span>';
+    } 
+    else if (/reflexiones/.test(path)) {
+      html += ' › <span>Reflexiones</span>';
+    }
+    else if (/reflexion\d+\//.test(path)) {
+      const num = path.match(/reflexion(\d+)\//)?.[1];
+      html += ' › <a href="../reflexiones/index.html">Reflexiones</a>';
+      html += ` › <span>Reflexión ${num}</span>`;
+    }
+    else if (/sobre-mi/.test(path)) {
+      html += ' › <span>Sobre mí</span>';
     }
 
-    breadcrumb.innerHTML = html;
-    nav.after(breadcrumb);
+    crumbs.innerHTML = html;
+    nav.after(crumbs);
   }
 
   // ==========================================
-  // 4. TIEMPO DE LECTURA
+  // 3. TIEMPO DE LECTURA
   // ==========================================
   function addReadingTime() {
     if (document.querySelector('.reading-time')) return;
@@ -95,41 +97,38 @@
     if (!content) return;
 
     const words = content.textContent.trim().split(/\s+/).length;
-    const readingTime = Math.ceil(words / 200);
+    const minutes = Math.ceil(words / 200);
 
-    const timeElement = document.createElement('div');
-    timeElement.className = 'reading-time';
-    timeElement.textContent = `${readingTime} min de lectura`;
+    const block = document.createElement('div');
+    block.className = 'reading-time';
+    block.textContent = `${minutes} min de lectura`;
 
     const header = document.querySelector('header');
-    (header || document.body).after
-      ? header.after(timeElement)
-      : document.body.appendChild(timeElement);
+    if (header) header.after(block);
   }
 
   // ==========================================
-  // 5. BOTONES DE COMPARTIR
+  // 4. COMPARTIR
   // ==========================================
   function addSocialShare() {
     if (document.querySelector('.social-share')) return;
 
-    const reflexionContent = document.querySelector('.texto-reflexion, .contenido-reflexion');
-    if (!reflexionContent) return;
+    const ref = document.querySelector('.texto-reflexion, .contenido-reflexion');
+    if (!ref) return;
 
-    const shareContainer = document.createElement('div');
-    shareContainer.className = 'social-share';
-    shareContainer.innerHTML = `
-      <button class="social-btn" data-platform="twitter" title="Compartir en Twitter">🐦</button>
-      <button class="social-btn" data-platform="whatsapp" title="Compartir en WhatsApp">💬</button>
-      <button class="social-btn" data-platform="facebook" title="Compartir en Facebook">📘</button>
-      <button class="social-btn" data-platform="copy" title="Copiar enlace">🔗</button>
+    const box = document.createElement('div');
+    box.className = 'social-share';
+
+    box.innerHTML = `
+      <button class="social-btn" data-platform="twitter">🐦</button>
+      <button class="social-btn" data-platform="whatsapp">💬</button>
+      <button class="social-btn" data-platform="facebook">📘</button>
+      <button class="social-btn" data-platform="copy">🔗</button>
     `;
 
-    const mensajeFinal = document.querySelector('.mensaje-final');
-    (mensajeFinal || reflexionContent).before(shareContainer);
+    ref.before(box);
 
-    // Delegación de eventos
-    shareContainer.addEventListener('click', (e) => {
+    box.addEventListener('click', (e) => {
       const btn = e.target.closest('.social-btn');
       if (!btn) return;
       shareContent(btn.dataset.platform);
@@ -141,149 +140,136 @@
     const title = document.title;
     const text = `Leyendo: ${title}`;
 
-    // Web Share API
-    if (navigator.share && (platform === 'copy' || platform === 'whatsapp')) {
-      navigator
-        .share({ title, text, url })
-        .catch(() => {
-          // si el usuario cancela, no pasa nada
-        });
+    if (navigator.share && (platform === "copy" || platform === "whatsapp")) {
+      navigator.share({ title, text, url }).catch(() => {});
       return;
     }
 
-    // Fallback
     switch (platform) {
-      case 'twitter':
+      case "twitter":
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
         break;
-      case 'whatsapp':
+      case "whatsapp":
         window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`);
         break;
-      case 'facebook':
+      case "facebook":
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
         break;
-      case 'copy':
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(() => showNotification('✅ Enlace copiado'));
-          } else {
-            // fallback de copia
-            const ta = document.createElement('textarea');
-            ta.value = url;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-            showNotification('✅ Enlace copiado');
-          }
-        } catch {
-          showNotification('❌ No se pudo copiar el enlace');
-        }
+      case "copy":
+        navigator.clipboard.writeText(url);
         break;
     }
   }
 
   // ==========================================
-  // 6. NAVEGACIÓN FLOTANTE
+  // 5. NAVEGACIÓN FLOTANTE - RUTAS CORREGIDAS
   // ==========================================
   function addFloatingNav() {
     if (document.querySelector('.floating-nav')) return;
 
-    const match = location.pathname.match(/reflexion(\d+)\.html/i);
+    const match = location.pathname.match(/reflexion(\d+)\//);
     if (!match) return;
 
-    const current = parseInt(match[1], 10);
+    const id = parseInt(match[1]);
     const total = 16;
-    const floatingNav = document.createElement('div');
-    floatingNav.className = 'floating-nav';
-    floatingNav.innerHTML = `
-      ${current > 1 ? `<button data-go="${current - 1}" title="Anterior">↩</button>` : ''}
-      <button data-top="1" title="Arriba">⬆</button>
-      ${current < total ? `<button data-go="${current + 1}" title="Siguiente">↪</button>` : ''}
-    `;
-    document.body.appendChild(floatingNav);
 
-    // Delegación
-    floatingNav.addEventListener('click', (e) => {
+    const nav = document.createElement('div');
+    nav.className = 'floating-nav';
+
+    nav.innerHTML = `
+      ${id > 1 ? `<button data-go="${id - 1}" title="Anterior">↩</button>` : ""}
+      <button data-top="1" title="Arriba">⬆</button>
+      ${id < total ? `<button data-go="${id + 1}" title="Siguiente">↪</button>` : ""}
+    `;
+
+    document.body.appendChild(nav);
+
+    nav.addEventListener('click', (e) => {
       const btn = e.target.closest('button');
       if (!btn) return;
+
       if (btn.dataset.top) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (btn.dataset.go) {
-        location.href = `reflexion${btn.dataset.go}/`;
+        location.href = `../reflexion${btn.dataset.go}/`;
       }
     });
   }
 
   // ==========================================
-  // 7. FRASE ROTATIVA
+  // 6. FRASE ROTATIVA
   // ==========================================
   function addRotatingQuote() {
-    const isHome = location.pathname.endsWith('index.html') || location.pathname === '/';
-    if (!isHome) return;
-    if (document.querySelector('.frase-rotativa')) return;
+    const home =
+      location.pathname.endsWith("index.html") ||
+      location.pathname === "/" ||
+      location.pathname === "/index.html";
 
-    const quotes = [
+    if (!home) return;
+    if (document.querySelector(".frase-rotativa")) return;
+
+    const frases = [
       'El conocimiento es el único tesoro que nadie puede quitarte',
       'La reflexión es el puente entre la ignorancia y la sabiduría',
       'Cada pensamiento crítico es un paso hacia la verdad',
       'La percepción moldea nuestra realidad',
       'Pensar por uno mismo es el acto más revolucionario',
-      'Tu sonrisa hace magia con mi mente',
-      'Estaba perdido pero tu sonrisa fue mi guía',
-      'Sé lo que valgo, y valgo mucho',
-      'Deseo que todos pudieran ser felices',
-      'No voy a llegar al cielo'
+      'Deseo que todos pudieran ser felices'
     ];
 
-    const quoteElement = document.createElement('div');
-    quoteElement.className = 'frase-rotativa';
-    quoteElement.textContent = quotes[0];
+    const el = document.createElement("div");
+    el.className = "frase-rotativa";
+    el.textContent = frases[0];
 
-    const intro = document.querySelector('.intro');
-    (intro || document.body).before
-      ? intro.before(quoteElement)
-      : document.body.insertBefore(quoteElement, document.body.firstChild);
+    const intro = document.querySelector(".intro-text");
+    intro.before(el);
 
     let i = 0;
     setInterval(() => {
-      i = (i + 1) % quotes.length;
-      quoteElement.style.opacity = '0';
+      i = (i + 1) % frases.length;
+      el.style.opacity = "0";
       setTimeout(() => {
-        quoteElement.textContent = quotes[i];
-        quoteElement.style.opacity = '1';
+        el.textContent = frases[i];
+        el.style.opacity = "1";
       }, 400);
     }, 8000);
   }
 
   // ==========================================
-  // 9. ÍNDICE DE CONTENIDOS
+  // 7. ÍNDICE DE CONTENIDOS
   // ==========================================
   function addTableOfContents() {
     if (document.querySelector('.table-of-contents')) return;
 
     const content = document.querySelector('.texto-reflexion');
-    if (!content || window.innerWidth < 1400) return;
+    if (!content) return;
+    if (window.innerWidth < 1400) return;
 
     const headers = content.querySelectorAll('b, strong');
     if (headers.length < 2) return;
 
-    const toc = document.createElement('div');
-    toc.className = 'table-of-contents';
-    toc.innerHTML = '<h3>En esta reflexión</h3><ul></ul>';
-    const ul = toc.querySelector('ul');
+    const toc = document.createElement("div");
+    toc.className = "table-of-contents";
+    toc.innerHTML = "<h3>En esta reflexión</h3><ul></ul>";
+    const ul = toc.querySelector("ul");
 
     headers.forEach((h, i) => {
       const id = h.id || `section-${i}`;
       h.id = id;
-      const li = document.createElement('li');
-      const a = document.createElement('a');
+
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+
       a.href = `#${id}`;
-      a.textContent = (h.textContent || '').trim().slice(0, 30) + (h.textContent.length > 30 ? '…' : '');
-      a.addEventListener('click', (e) => {
+      a.textContent =
+        h.textContent.trim().slice(0, 25) +
+        (h.textContent.length > 25 ? "…" : "");
+
+      a.addEventListener("click", (e) => {
         e.preventDefault();
-        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        h.scrollIntoView({ behavior: "smooth" });
       });
+
       li.appendChild(a);
       ul.appendChild(li);
     });
@@ -292,31 +278,15 @@
   }
 
   // ==========================================
-  // UTILIDAD DE NOTIFICACIÓN
+  // BOOT
   // ==========================================
-  function showNotification(msg) {
-    const notif = document.createElement('div');
-    notif.className = 'notif';
-    notif.textContent = msg;
-    document.body.appendChild(notif);
-    setTimeout(() => notif.remove(), 2000);
-  }
-
-  // ==========================================
-  // EXPONER Y EJECUTAR
-  // ==========================================
-  window.features = { share: shareContent };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎨 Iniciando funcionalidades...');
+  document.addEventListener("DOMContentLoaded", () => {
     initReadingProgress();
     addBreadcrumb();
     addReadingTime();
     addSocialShare();
     addFloatingNav();
     addRotatingQuote();
-    addReadingModeSuggestion();
     addTableOfContents();
-    console.log('✅ Funcionalidades cargadas');
   });
 })();
