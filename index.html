@@ -54,12 +54,47 @@
   <!-- CSS Crítico Inline (Above the fold) -->
   <style>
     body{margin:0;padding:0;font-family:'Crimson Pro',serif;background:#0b0b0c;color:#ddd;min-height:100vh;overflow-x:hidden}
+    .logo-initial{animation:logoFadeIn 1s ease-out;display:inline-block}
+@keyframes logoFadeIn{0%{opacity:0;transform:scale(0.8) rotateY(90deg)}100%{opacity:1;transform:scale(1) rotateY(0)}}
     header{text-align:center;padding:2rem 1rem;background:rgba(13,13,15,0.95)}
     h1{font-family:'Cinzel',serif;color:#d4af37;font-size:2.2rem;margin:0}
     nav{display:flex;justify-content:center;gap:1rem;padding:1rem;flex-wrap:wrap;background:rgba(13,13,15,0.9)}
     nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
     .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
     @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+    /* Animaciones para sección interactiva */
+.interactive-output.thinking::after {
+  content: '...';
+  animation: dots 1.5s steps(4) infinite;
+}
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+.interactive-output.reveal {
+  animation: fadeInUp 0.6s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mejora de contraste para imagen hero */
+.rosa-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.4) 50%,
+    rgba(0,0,0,0.85) 100%
+  );
+}
+.rosa-caption h3,
+.rosa-caption p {
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8),
+               0 0 20px rgba(0,0,0,0.6);
+}
+    
   </style>
 
   <!-- Precargar fuentes críticas -->
@@ -78,6 +113,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="features.css">
   <link rel="stylesheet" href="app-native-features.css">
+  
 </head>
 
 <body class="theme-dark">
@@ -105,11 +141,11 @@
 
     <!-- NAVEGACIÓN PRINCIPAL -->
     <nav class="main-nav">
-      <a href="index.html" class="nav-link">Inicio</a>
-      <a href="/reflexiones/" class="nav-link">Reflexiones</a>
-      <a href="/galeria/" class="nav-link">Galería</a>
-          <a href="/videos/" class="nav-link">Videos</a>
-      <a href="/sobre-mi/" class="nav-link">Sobre mí</a>
+<a href="/" class="nav-link">Inicio</a>
+<a href="/reflexiones/" class="nav-link">Reflexiones</a>
+<a href="/galeria/" class="nav-link">Galería</a>
+<a href="/videos/" class="nav-link">Videos</a>
+<a href="/sobre-mi/" class="nav-link">Sobre mí</a>
     </nav>
 
     <!-- HERO / INTRO -->
@@ -255,35 +291,53 @@
  
   <script>
    // Interacción: ¿Qué es la vida?
-    (function() {
-      const respuestas = [
-        "Quizás la vida no se define, se siente.",
-        "La vida es aquello que ocurre mientras intentas entenderla.",
-        "No hay una sola respuesta; cada mente escribe la suya.",
-        "La vida no espera: se vive, incluso cuando no la comprendes.",
-        "A veces la vida es solo silencio esperando ser escuchado.",
-        "La vida es arriesgar cada minuto para que parezca que todo fue único.",
-        "Cada día es un fragmento del infinito que fingimos entender.",
-        "La vida es la pregunta que nadie responde, pero todos sienten.",
-        "Tal vez la vida eres tú, intentando no rendirte hoy."
-      ];
+   document.addEventListener('DOMContentLoaded', function() {
+  // Interacción: ¿Qué es la vida?
+  const respuestas = [
+    "Quizás la vida no se define, se siente.",
+    "La vida es aquello que ocurre mientras intentas entenderla.",
+    "No hay una sola respuesta; cada mente escribe la suya.",
+    "La vida no espera: se vive, incluso cuando no la comprendes.",
+    "A veces la vida es solo silencio esperando ser escuchado.",
+    "La vida es arriesgar cada minuto para que parezca que todo fue único.",
+    "Cada día es un fragmento del infinito que fingimos entender.",
+    "La vida es la pregunta que nadie responde, pero todos sienten.",
+    "Tal vez la vida eres tú, intentando no rendirte hoy."
+  ];
 
-      const input = document.getElementById('respuesta');
-      const btn = document.getElementById('enviar');
-      const out = document.getElementById('resultado');
+  const input = document.getElementById('respuesta');
+  const btn = document.getElementById('enviar');
+  const out = document.getElementById('resultado');
 
-      if (!input || !btn || !out) return;
+  if (!input || !btn || !out) {
+    console.error('Error: Elementos de interacción no encontrados');
+    return;
+  }
 
-      btn.addEventListener('click', () => {
-        const texto = input.value.trim();
-        if (!texto) {
-          out.textContent = "Antes de responderle a la vida, escúchate a ti mismo.";
-          return;
-        }
-        const aleatoria = respuestas[Math.floor(Math.random() * respuestas.length)];
-        out.textContent = aleatoria;
-      });
-    })();
+  btn.addEventListener('click', () => {
+    const texto = input.value.trim();
+    if (!texto) {
+      out.textContent = "Antes de responderle a la vida, escúchate a ti mismo.";
+      out.style.animation = 'none';
+      setTimeout(() => out.style.animation = '', 10);
+      return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = 'Pensando...';
+    out.textContent = '';
+    out.classList.add('thinking');
+    
+    setTimeout(() => {
+      const aleatoria = respuestas[Math.floor(Math.random() * respuestas.length)];
+      out.textContent = aleatoria;
+      out.classList.remove('thinking');
+      out.classList.add('reveal');
+      btn.disabled = false;
+      btn.textContent = 'Descubrir';
+    }, 800);
+  });
+});
 
     // Fecha automática
     (function() {
@@ -316,7 +370,7 @@ if ('serviceWorker' in navigator) {
     "author": {
       "@type": "Person",
       "name": "Jeison Gonzalez",
-      "url": "https://jeighost.lat/sobre-mi.html"
+      "url": "https://jeighost.lat/sobre-mi/"
     },
     "description": "Reflexiones filosóficas y diseño consciente con estética dorada.",
     "inLanguage": "es"

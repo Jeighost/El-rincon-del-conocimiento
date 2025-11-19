@@ -139,26 +139,31 @@
 
   // Crear página de favoritos (enlace en menú)
   function addFavoritesLink() {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
+  const nav = document.querySelector('nav');
+  if (!nav || document.querySelector('.favorites-link')) return;
 
-    const favCount = getFavorites().length;
-    
-    // Solo agregar si hay favoritos
-    if (favCount > 0) {
-      const favLink = document.createElement('a');
-      favLink.href = '#favoritos';
-      favLink.className = 'favorites-link';
-      favLink.innerHTML = `🌟 Favoritos (${favCount})`;
-      
-      favLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showFavoritesModal();
-      });
-      
-      nav.appendChild(favLink);
-    }
+  const favCount = getFavorites().length;
+  
+  const favLink = document.createElement('a');
+  favLink.href = '#favoritos';
+  favLink.className = 'favorites-link';
+  favLink.innerHTML = `🌟 Favoritos <span class="fav-count">${favCount}</span>`;
+  
+  if (favCount === 0) {
+    favLink.classList.add('empty');
   }
+  
+  favLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (favCount === 0) {
+      showNotification('Aún no tienes favoritos. Explora las reflexiones y marca las que te inspiren.');
+    } else {
+      showFavoritesModal();
+    }
+  });
+  
+  nav.appendChild(favLink);
+}
 
   // Modal de favoritos
   function showFavoritesModal() {
@@ -309,6 +314,18 @@
         border-radius: 20px;
         font-size: 0.85rem !important;
       }
+      /* Badge de contador de favoritos */
+.fav-count {
+  background: rgba(212,175,55,0.3);
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-left: 0.3rem;
+  font-size: 0.8rem;
+}
+.favorites-link.empty {
+  opacity: 0.6;
+}
 
       /* Modal de favoritos */
       .favorites-modal {
