@@ -137,33 +137,46 @@
     });
   }
 
-  // Crear página de favoritos (enlace en menú)
+// Crear página de favoritos (enlace en menú)
   function addFavoritesLink() {
-  const nav = document.querySelector('nav');
-  if (!nav || document.querySelector('.favorites-link')) return;
+    // CAMBIO: Buscamos el contenedor de enlaces, no el nav general
+    const navLinksContainer = document.querySelector('.nav-links'); 
+    
+    // Si no existe el contenedor (por si acaso), no hacemos nada
+    if (!navLinksContainer || document.querySelector('.favorites-link')) return;
 
-  const favCount = getFavorites().length;
-  
-  const favLink = document.createElement('a');
-  favLink.href = '#favoritos';
-  favLink.className = 'favorites-link';
-  favLink.innerHTML = `🌟 Favoritos <span class="fav-count">${favCount}</span>`;
-  
-  if (favCount === 0) {
-    favLink.classList.add('empty');
-  }
-  
-  favLink.addEventListener('click', (e) => {
-    e.preventDefault();
+    const favCount = getFavorites().length;
+    
+    const favLink = document.createElement('a');
+    favLink.href = '#favoritos';
+    favLink.className = 'favorites-link nav-link'; // Agregamos clase 'nav-link' para que herede estilos
+    favLink.innerHTML = `🌟 Favoritos <span class="fav-count">${favCount}</span>`;
+    
     if (favCount === 0) {
-      showNotification('Aún no tienes favoritos. Explora las reflexiones y marca las que te inspiren.');
-    } else {
-      showFavoritesModal();
+      favLink.classList.add('empty');
     }
-  });
-  
-  nav.appendChild(favLink);
-}
+    
+    favLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Cerrar el menú móvil si está abierto (UX pro)
+      const navLinks = document.querySelector('.nav-links');
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      if (navLinks && navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        if(menuBtn) menuBtn.textContent = '☰';
+      }
+
+      if (favCount === 0) {
+        showNotification('Aún no tienes favoritos. Explora las reflexiones.');
+      } else {
+        showFavoritesModal();
+      }
+    });
+    
+    // Insertar al final de la lista de enlaces
+    navLinksContainer.appendChild(favLink);
+  }
 
   // Modal de favoritos
   function showFavoritesModal() {
@@ -307,22 +320,41 @@
       }
 
       /* Link de favoritos en menú */
-      .favorites-link {
+.favorites-link {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         color: #d4af37 !important;
-        background: rgba(212,175,55,0.1);
-        padding: 0.4rem 0.8rem !important;
-        border-radius: 20px;
-        font-size: 0.85rem !important;
+        cursor: pointer;
+        /* Hereda estilos de nav-link en móvil */
       }
       /* Badge de contador de favoritos */
 .fav-count {
-  background: rgba(212,175,55,0.3);
-  padding: 0.1rem 0.5rem;
-  border-radius: 10px;
-  font-weight: bold;
-  margin-left: 0.3rem;
-  font-size: 0.8rem;
-}
+        background: rgba(212,175,55,0.2);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+      /* Solo para Escritorio (Pantallas grandes) */
+      @media (min-width: 769px) {
+        .favorites-link {
+          background: rgba(212,175,55,0.1);
+          padding: 0.4rem 1rem !important;
+          border-radius: 20px;
+          border: 1px solid rgba(212,175,55,0.2);
+          transition: all 0.3s ease;
+          font-size: 0.9rem !important;
+          margin-left: 1rem; /* Separarlo un poco del resto */
+        }
+        
+        .favorites-link:hover {
+          background: rgba(212,175,55,0.25);
+          transform: translateY(-2px);
+        }
+      }
 .favorites-link.empty {
   opacity: 0.6;
 }

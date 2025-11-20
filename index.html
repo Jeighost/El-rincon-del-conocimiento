@@ -139,48 +139,63 @@
       </div>
     </header>
 
-    <!-- NAVEGACIÓN PRINCIPAL -->
+<!-- NAVEGACIÓN PRINCIPAL (CORREGIDA) -->
     <nav class="main-nav">
-<a href="/" class="nav-link">Inicio</a>
-<a href="/reflexiones/" class="nav-link">Reflexiones</a>
-<a href="/galeria/" class="nav-link">Galería</a>
-<a href="/videos/" class="nav-link">Videos</a>
-<a href="/sobre-mi/" class="nav-link">Sobre mí</a>
+      <!-- Botón Hamburguesa (Solo visible en móvil) -->
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
+        ☰
+      </button>
+      
+      <!-- Enlaces (Agrupados en un div para poder ocultarlos) -->
+      <div class="nav-links" id="nav-links">
+        <a href="/" class="nav-link">Inicio</a>
+        <a href="/reflexiones/" class="nav-link">Reflexiones</a>
+        <a href="/galeria/" class="nav-link">Galería</a>
+        <a href="/videos/" class="nav-link">Videos</a>
+        <a href="/sobre-mi/" class="nav-link">Sobre mí</a>
+      </div>
     </nav>
 
-    <!-- HERO / INTRO -->
+    <!-- HERO / INTRO (ORTOGRAFÍA CORREGIDA) -->
     <main>
       <section class="hero">
         <div class="hero-text">
           <h2>Un rincón de mi conocimiento</h2>
+          <!-- Texto corregido: Ortografía y gramática mejorada -->
           <p>
-            Un espació dónde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas. Redactan pensamientos ésos que han sido silenciados, intentando dar a conocer esas cosas que la boca calla. Cada reflexión es invitada a verse desde una perspectiva, para instar al lector que la interprete de una forma que pueda ser de beneficio. Algunas de las reflexiones no son escritas directamente en base a la vida del autor, pues se usan metáforas para tocar un punto importante. Las reflexiones están en constante actualización, eso quiere decir que siempre habrá una nueva.
+            Un espacio donde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
+          </p>
+          <p>
+            Se redactan pensamientos —esos que han sido silenciados— intentando dar a conocer lo que la boca calla. Cada reflexión es una invitación a mirar desde otra perspectiva, instando al lector a interpretar de la forma que le sea de mayor beneficio. 
+          </p>
+          <p>
+            Algunas reflexiones usan metáforas y no siempre se basan directamente en la vida del autor. Este espacio está en constante actualización: siempre habrá algo nuevo por descubrir.
           </p>
 
           <div class="hero-buttons">
             <a href="/reflexiones/" class="btn btn-primary">Leer reflexiones</a>
-            <a href="/galeria/" class="btn btn-ghost">Ver imágenes conceptuales</a>
+            <a href="/galeria/" class="btn btn-ghost">Ver imágenes</a>
           </div>
-
         </div>
 
         <div class="hero-image-card">
           <div class="rosa-frame">
+            <!-- Asegúrate de que la ruta de la imagen sea correcta -->
             <img
-              src="imagen-principal.jpg"
-              alt="Rosa roja en un bosque oscuro, símbolo de esperanza y equilibrio mental"
+              src="https://i.postimg.cc/fWSdrghD/1762522436835.webp"
+              alt="Rosa roja en un bosque oscuro"
               class="hero-rosa"
               loading="lazy"
-              decoding="async"
             >
             <div class="rosa-overlay"></div>
             <div class="rosa-caption">
               <h3>Como la rosa</h3>
-              <p>Bellaza frágil en medio de un bosque oscuro, con su color estando en armonía</p>
+              <p>Belleza frágil en medio de un bosque oscuro.</p>
             </div>
           </div>
         </div>
       </section>
+
 
       <!-- TEXTO PRINCIPAL CON DETAILS -->
       <section class="intro-text">
@@ -376,5 +391,26 @@ if ('serviceWorker' in navigator) {
     "inLanguage": "es"
   }
   </script>
+  <script>
+  // Lógica del Menú Hamburguesa
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    if(menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        // Alternar clase 'active' para mostrar/ocultar menú
+        navLinks.classList.toggle('active');
+        
+        // Cambiar el ícono de ☰ a X
+        if (navLinks.classList.contains('active')) {
+          menuBtn.textContent = '✕';
+        } else {
+          menuBtn.textContent = '☰';
+        }
+      });
+    }
+  });
+</script>
 </body>
 </html>

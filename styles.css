@@ -148,52 +148,6 @@ header p {
   background: rgba(212,175,55,0.2);
   transform: translateY(-1px);
 }
-
-nav {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2.2rem;
-  padding: 1rem 0;
-  background: rgba(10,10,10,0.72);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(212,175,55,0.18);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-nav a {
-  color: #d4af37;
-  font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  text-decoration: none;
-  padding: 0.4rem 0.2rem;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 2px;
-  background: #d4af37;
-  transition: width 0.3s ease;
-}
-
-nav a:hover::after,
-nav a.active::after {
-  width: 100%;
-}
-
-nav a:hover {
-  color: #fff6c7;
-}
 /* Hero */
 .hero {
   display: grid;
@@ -209,12 +163,6 @@ nav a:hover {
   text-align: center;
   color: #d4af37;
   margin-bottom: 0.75rem;
-}
-
-.hero-text p {
-  color: #dcdcdc;
-  font-size: 0.98rem;
-  margin-bottom: 1.4rem;
 }
 
 .hero-buttons {
@@ -279,15 +227,6 @@ nav a:hover {
 .hero-image-card {
   display: flex;
   justify-content: center;
-}
-
-.rosa-frame {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid red;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.9);
-  max-width: 420px;
 }
 
 .hero-rosa {
@@ -465,16 +404,6 @@ nav a:hover {
   align-items: center;
 }
 
-.interactive-input {
-  flex: 1 1 220px;
-  min-width: 0;
-  padding: 0.7rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(212,175,55,0.4);
-  background: rgba(8,8,10,0.96);
-  color: #f0f0f0;
-}
-
 .interactive-output {
   margin-top: 1rem;
   font-style: italic;
@@ -585,36 +514,7 @@ nav a:hover {
    (mejoran la lectura y hacen el nav más atractivo)
    ============================================ */
 
-/* NAV más claro y con pastillas doradas */
-.main-nav {
-  background: radial-gradient(circle at top, rgba(212,175,55,0.20), rgba(9,9,11,0.96));
-  border: 1px solid rgba(212,175,55,0.45);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-  gap: 1.4rem;
-}
 
-.nav-link {
-  position: relative;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #f8f2d0;
-  padding: 0.45rem 1.1rem;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: background 0.22s ease, color 0.22s ease, transform 0.15s ease;
-}
-
-/* quitamos subrayado anterior */
-.nav-link::after { display: none; }
-
-.nav-link:hover,
-.nav-link.active {
-  background: rgba(212,175,55,0.20);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
 
 /* seccion “¿Qué encontrarás aquí?” un poco más destacada */
 .intro-text {
@@ -709,4 +609,106 @@ footer a {
 
 footer a:hover {
   color: #fff6c7;
+}
+/* =========================================
+   CORRECCIÓN 1: EL MENÚ HAMBURGUESA (NUEVO)
+   ========================================= */
+.nav-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center; /* Centrado en escritorio */
+  align-items: center;
+}
+
+.menu-toggle {
+  display: none; /* Oculto en PC */
+  background: none;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  font-size: 1.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem; /* Ajustar según tu header */
+  z-index: 100;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* ESTILOS MÓVIL (Menú colapsado) */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Aparece el botón */
+  }
+
+  .nav-links {
+    display: none; /* Oculto por defecto */
+    width: 100%;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    position: absolute;
+    top: 100%; /* Justo debajo del header */
+    left: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.9);
+  }
+
+  .nav-links.active {
+    display: flex; /* Se muestra al activar JS */
+  }
+
+  .nav-link {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  
+  /* Ajuste del contenedor del nav */
+  nav.main-nav {
+    padding: 1rem;
+    position: relative; /* Necesario para posicionar el menú desplegable */
+    justify-content: space-between;
+  }
+}
+
+/* =========================================
+   CORRECCIÓN 2: TEXTOS Y DETALLES VISUALES
+   ========================================= */
+
+/* Texto alineado a la izquierda para leer mejor */
+.hero-text p {
+  text-align: left; /* Crucial para lectura */
+  text-align-last: left;
+  hyphens: auto;
+  color: #dcdcdc;
+  font-size: 1rem;
+  margin-bottom: 1.4rem;
+  line-height: 1.7;
+}
+
+/* Borde rojo eliminado -> Ahora es dorado sutil */
+.rosa-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Dorado sutil */
+  box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+  max-width: 420px;
+  margin: 0 auto; /* Centrar imagen */
+}
+
+/* Input más visible */
+.interactive-input {
+  border: 1px solid #d4af37;
+  background: #1a1a1a; /* Fondo gris oscuro, no negro */
+  color: #fff;
 }
