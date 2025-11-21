@@ -208,7 +208,8 @@
       '13': '6:50',
       '14': 'El espejo y la sombra',
       '15': 'Vacío',
-      '16': '¿Desea reiniciar?'
+      '16': '¿Desea reiniciar?',
+      '17': 'Egoísmo'
     };
     
     favorites.forEach(id => {

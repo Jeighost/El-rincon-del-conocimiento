@@ -171,7 +171,7 @@
     if (!match) return;
 
     const id = parseInt(match[1]);
-    const total = 16;
+    const total = 17;
 
     const nav = document.createElement('div');
     nav.className = 'floating-nav';

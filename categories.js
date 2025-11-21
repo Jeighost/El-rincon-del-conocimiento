@@ -22,7 +22,8 @@
     13: ['Poesía', 'Melancolia'],
     14: ['Relaciones', 'Engaño'],
     15: ['Poesía', 'Melancolia'],
-    16: ['Melancolia', 'Tristeza']
+    16: ['Melancolia', 'Tristeza'],
+    17: ['Filosofía', 'Propósito']
   };
 
   // Iconos por categoría
