@@ -3,7 +3,7 @@
 // Fecha: 2025-11-16
 
 // -- CONFIGURACIÓN --
-const VERSION = 'v10.1';
+const VERSION = 'v11';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 const CACHE_IMAGES  = `el-rincon-images-${VERSION}`;
@@ -38,6 +38,7 @@ const STATIC_ASSETS = [
   '/particles.js',
   '/favoritos.js',
   '/analytics.js',
+  '/autoplay-reflexiones.js',
   
   // Iconos
   '/jeighost-icons-pack/icon-72x72.png',
@@ -443,6 +444,6 @@ self.addEventListener('sync', (event) => {
   }
 });
 
-console.log('%c[SW] 🚀 Jeighost.lat v10.1 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
+console.log('%c[SW] 🚀 Jeighost.lat v11 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
 console.log('[SW] Estrategias: Network First (HTML) | Cache First (Assets/Imágenes)');
 console.log('[SW] Límites: Dinámico=' + MAX_DYNAMIC_ITEMS + ' | Imágenes=' + MAX_IMAGE_ITEMS);
