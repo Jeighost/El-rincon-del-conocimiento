@@ -108,58 +108,31 @@
   }
 
   // ==========================================
-  // 4. COMPARTIR
-  // ==========================================
-  function addSocialShare() {
-    if (document.querySelector('.social-share')) return;
+function addSocialShare() {
+  if (document.querySelector('.social-share')) return;
 
-    const ref = document.querySelector('.texto-reflexion, .contenido-reflexion');
-    if (!ref) return;
+  const ref = document.querySelector('.texto-reflexion, .contenido-reflexion');
+  if (!ref) return;
 
-    const box = document.createElement('div');
-    box.className = 'social-share';
+  const box = document.createElement('div');
+  box.className = 'social-share';
 
-    box.innerHTML = `
-      <button class="social-btn" data-platform="twitter">🐦</button>
-      <button class="social-btn" data-platform="whatsapp">💬</button>
-      <button class="social-btn" data-platform="facebook">📘</button>
-      <button class="social-btn" data-platform="copy">🔗</button>
-    `;
+  box.innerHTML = `
+    <button class="social-btn" data-platform="twitter">🐦</button>
+    <button class="social-btn" data-platform="whatsapp">💬</button>
+    <button class="social-btn" data-platform="facebook">📘</button>
+    <button class="social-btn" data-platform="copy">🔗</button>
+  `;
 
-    ref.before(box);
+  // ESTA ES LA LÍNEA CORRECTA
+  ref.after(box);
 
-    box.addEventListener('click', (e) => {
-      const btn = e.target.closest('.social-btn');
-      if (!btn) return;
-      shareContent(btn.dataset.platform);
-    });
-  }
-
-  function shareContent(platform) {
-    const url = location.href;
-    const title = document.title;
-    const text = `Leyendo: ${title}`;
-
-    if (navigator.share && (platform === "copy" || platform === "whatsapp")) {
-      navigator.share({ title, text, url }).catch(() => {});
-      return;
-    }
-
-    switch (platform) {
-      case "twitter":
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
-      case "whatsapp":
-        window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`);
-        break;
-      case "facebook":
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
-        break;
-      case "copy":
-        navigator.clipboard.writeText(url);
-        break;
-    }
-  }
+  box.addEventListener('click', (e) => {
+    const btn = e.target.closest('.social-btn');
+    if (!btn) return;
+    shareContent(btn.dataset.platform);
+  });
+}
 
   // ==========================================
   // 5. NAVEGACIÓN FLOTANTE - RUTAS CORREGIDAS

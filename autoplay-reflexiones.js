@@ -312,7 +312,7 @@
     setTimeout(() => {
       addAutoplayControls();
       setupAutoplayListeners();
-    }, 500);
+    }, 300);
 
     console.log('🎵 Sistema de autoplay inicializado');
   }

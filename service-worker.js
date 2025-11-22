@@ -89,7 +89,7 @@ async function limitCacheSize(cacheName, maxItems) {
 
 // -- INSTALL: Precarga de recursos críticos --
 self.addEventListener('install', (event) => {
-  console.log('[SW] Instalando v10.0...');
+  console.log('[SW] Instalando v11...');
   
   event.waitUntil(
     Promise.all([
@@ -131,7 +131,7 @@ self.addEventListener('install', (event) => {
 
 // -- ACTIVATE: Limpieza de cachés antiguos --
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activando v10.0...');
+  console.log('[SW] Activando v11...');
   
   event.waitUntil(
     caches.keys().then((cacheNames) => {
