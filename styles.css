@@ -62,7 +62,8 @@ header {
 
 header h1 {
   font-family: 'Cinzel', serif;
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 3vw, 2rem);
+  text-align: center;
   margin-bottom: 0.5rem;
   color: #d4af37;
   letter-spacing: 3px;
@@ -73,7 +74,7 @@ header h1 {
 header p {
   max-width: 700px;
   margin: 0 auto;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #c9c9c9;
   line-height: 1.7;
   animation: fadeIn 1.6s ease;
@@ -83,13 +84,13 @@ header p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .4rem;
+  gap: 1.4rem;
 }
 
 .logo-circle {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
   border: 1px solid rgba(212,175,55,0.6);
   display: flex;
   align-items: center;
@@ -100,8 +101,8 @@ header p {
 
 .logo-initial {
   font-family: 'Cinzel', serif;
-  font-size: 1.4rem;
-  color: #fdf5d0;
+  font-size: 1.5rem;
+  color: #d4af37;
 }
 
 .logo-sub {
@@ -113,11 +114,11 @@ header p {
 
 .title-zone h1 {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  font-size: clamp(2.3rem, 3.5vw, 2.5rem);
+  text-align: center;
   color: #d4af37;
   letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.9rem;
 }
 
 .subtitle {
@@ -159,7 +160,14 @@ header p {
 
 .hero-text h2 {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-size: clamp(1.8rem, 2.4vw, 2rem);
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+}
+.hero-text h3 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 2vw, 1.5rem);
   text-align: center;
   color: #d4af37;
   margin-bottom: 0.75rem;
@@ -221,44 +229,6 @@ header p {
   border: 1px solid rgba(212,175,55,0.45);
   color: #d4af37;
   background: rgba(12,12,12,0.9);
-}
-
-/* Hero image */
-.hero-image-card {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-rosa {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.rosa-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent 40%);
-}
-
-.rosa-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem 1.2rem;
-}
-
-.rosa-caption h3 {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  color: #fef7d6;
-  margin-bottom: 0.2rem;
-}
-
-.rosa-caption p {
-  font-size: 0.85rem;
-  color: #e2e2e2;
 }
 
 /* Intro text */
@@ -358,13 +328,13 @@ header p {
 
 .reflexion-card h3 {
   font-size: 1rem;
-  color: #f5e6b8;
+  color: #d4af37;
   margin-bottom: 0.4rem;
 }
 
 .reflexion-card p {
   font-size: 0.9rem;
-  color: #d1d1d1;
+  color: #d4af01;
   margin-bottom: 0.7rem;
 }
 
@@ -514,8 +484,6 @@ header p {
    (mejoran la lectura y hacen el nav más atractivo)
    ============================================ */
 
-
-
 /* seccion “¿Qué encontrarás aquí?” un poco más destacada */
 .intro-text {
   background: radial-gradient(circle at top left, rgba(212,175,55,0.12), rgba(14,14,16,0.96));
@@ -613,90 +581,74 @@ footer a:hover {
 /* =========================================
    CORRECCIÓN 1: EL MENÚ HAMBURGUESA (NUEVO)
    ========================================= */
-
-/* NAV */
-nav.main-nav {
+.nav-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
+  justify-content: center; /* Centrado en escritorio */
   align-items: center;
-  gap: 2rem;
-  flex: 1;
-  justify-content: center;
-  position: relative;
 }
 
-/* Links normales */
-.nav-links {
-  display: flex;
-  gap: 1.6rem;
-}
-
-.nav-link {
-  color: #d4af37;
-  text-decoration: none;
-  font-size: 1rem;
-  letter-spacing: .5px;
-  transition: .2s ease;
-}
-
-.nav-link:hover {
-  color: #fff6c7;
-}
-
-/* BOTÓN HAMBURGUESA */
 .menu-toggle {
   display: none; /* Oculto en PC */
   background: none;
   border: 1px solid #d4af37;
   color: #d4af37;
-  font-size: 1.7rem;
-  padding: 0.45rem 0.65rem;
-  border-radius: 8px;
+  font-size: 1.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
   cursor: pointer;
-  margin-left: auto; /* Pegado a la derecha */
-  transition: .2s ease;
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem; /* Ajustar según tu header */
+  z-index: 100;
 }
 
-/* ==========================
-   VISTA MÓVIL
-   ========================== */
-@media (max-width: 820px) {
-  
-  /* botón hamburguesa visible */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* ESTILOS MÓVIL (Menú colapsado) */
+@media (max-width: 768px) {
   .menu-toggle {
-    display: block;
+    display: block; /* Aparece el botón */
   }
 
-  /* oculta links */
   .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    display: none; /* Oculto por defecto */
     width: 100%;
-    background: rgba(10,10,10,0.98);
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(212,175,55,0.4);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.9);
-    z-index: 300;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    position: absolute;
+    top: 100%; /* Justo debajo del header */
+    left: 0;
+    padding: 1.5rem 0;
+    border-bottom: 1.5px solid #d4af37;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.9);
   }
 
   .nav-links.active {
-    display: flex;
+    display: flex; /* Se muestra al activar JS */
   }
 
   .nav-link {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(212,175,55,0.1);
+    display: block;
     text-align: center;
-    width: 100%;
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
   }
-
+  
+  /* Ajuste del contenedor del nav */
   nav.main-nav {
-    justify-content: flex-end;
+    padding: 1rem;
+    position: relative; /* Necesario para posicionar el menú desplegable */
+    justify-content: space-between;
   }
-
 }
+
 /* =========================================
    CORRECCIÓN 2: TEXTOS Y DETALLES VISUALES
    ========================================= */
@@ -710,17 +662,6 @@ nav.main-nav {
   font-size: 1rem;
   margin-bottom: 1.4rem;
   line-height: 1.7;
-}
-
-/* Borde rojo eliminado -> Ahora es dorado sutil */
-.rosa-frame {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.3); /* Dorado sutil */
-  box-shadow: 0 18px 40px rgba(0,0,0,0.9);
-  max-width: 420px;
-  margin: 0 auto; /* Centrar imagen */
 }
 
 /* Input más visible */

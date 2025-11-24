@@ -122,24 +122,8 @@
 
   <!-- CONTENEDOR GLOBAL -->
   <div class="layout">
-
-    <!-- HEADER -->
-    <header class="site-header">
-      <div class="logo-zone">
-      <div class="logo-circle"><span class="logo-initial">J</span></div>
-     
-      </div>
-
-      <div class="title-zone">
-        <h1>El rincón del conocimiento</h1>
-        <p class="subtitle">
-          Poemas y reflexiones directamente a tus ojos 
-        </p>
-      </div>
-      </div>
-    </header>
-
-<!-- NAVEGACIÓN PRINCIPAL (CORREGIDA) -->
+    
+    <!-- NAVEGACIÓN PRINCIPAL (CORREGIDA) -->
     <nav class="main-nav">
       <!-- Botón Hamburguesa (Solo visible en móvil) -->
       <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
@@ -153,15 +137,57 @@
         <a href="/galeria/" class="nav-link">Galería</a>
         <a href="/videos/" class="nav-link">Videos</a>
         <a href="/sobre-mi/" class="nav-link">Sobre mí</a>
-       <a href="admin.html" class="nav-link">admin</a>
+       <a href="admin.html" class="nav-link">Creador</a>
       </div>
     </nav>
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="logo-zone">
+      <div class="logo-circle"><span class="logo-initial">J</span>
+      </div>
+     
+      </div>
+
+      <div class="title-zone">
+ <h1>El rincón del conocimiento</h1>
+        <p class="subtitle">
+          Poemas y reflexiones directamente a tus ojos 
+        </p>
+      </div>
+      </div>
+    </header>
+    
+          <section class="hero">
+        <div class="hero-text">
+          <h2>Bienvenido esperó logres coincidir con este espacio</h2>
+
+      <!-- SECCIÓN INTERACTIVA -->
+      <section class="interactive-section">
+        <h2>¿Qué es la vida para ti?</h2>
+        <p class="interactive-sub">
+          Escribe lo primero que se te venga a la mente. Luego deja que la página te responda.
+        </p>
+
+        <div class="interactive-box">
+          <input
+            type="text"
+            id="respuesta"
+            class="interactive-input"
+            placeholder="Escribe tu pensamiento..."
+            autocomplete="off"
+          >
+          <button id="enviar" class="btn btn-primary">Descubrir</button>
+        </div>
+
+        <p id="resultado" class="interactive-output"></p>
+      </section>
 
     <!-- HERO / INTRO (ORTOGRAFÍA CORREGIDA) -->
     <main>
       <section class="hero">
         <div class="hero-text">
-          <h2>Un rincón de mi conocimiento</h2>
+          <h3>Un rincón de mi conocimiento</h3>
           <!-- Texto corregido: Ortografía y gramática mejorada -->
           <p>
             Un espacio donde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
@@ -176,22 +202,6 @@
           <div class="hero-buttons">
             <a href="/reflexiones/" class="btn btn-primary">Leer reflexiones</a>
             <a href="/galeria/" class="btn btn-ghost">Ver imágenes</a>
-          </div>
-        </div>
-
-        <div class="hero-image-card">
-          <div class="rosa-frame">
-            <!-- Asegúrate de que la ruta de la imagen sea correcta -->
-            <img
-              src="imagen-principal.jpg"
-              alt="Rosa roja en un bosque oscuro"
-              class="hero-rosa"
-              loading="lazy"
-            >
-            <div class="rosa-overlay"></div>
-            <div class="rosa-caption">
-              <h3>Como la rosa</h3>
-            </div>
           </div>
         </div>
       </section>
@@ -254,26 +264,7 @@
         </div>
       </section>
 
-      <!-- SECCIÓN INTERACTIVA -->
-      <section class="interactive-section">
-        <h2>¿Qué es la vida para ti?</h2>
-        <p class="interactive-sub">
-          Escribe lo primero que se te venga a la mente. Luego deja que la página te responda.
-        </p>
 
-        <div class="interactive-box">
-          <input
-            type="text"
-            id="respuesta"
-            class="interactive-input"
-            placeholder="Escribe tu pensamiento..."
-            autocomplete="off"
-          >
-          <button id="enviar" class="btn btn-primary">Descubrir</button>
-        </div>
-
-        <p id="resultado" class="interactive-output"></p>
-      </section>
 
       <!-- CTA FINAL -->
       <section class="final-cta">
@@ -284,6 +275,7 @@
         <a href="/sobre-mi/" class="btn btn-ghost">Conocer al autor</a>
       </section>
     </main>
+  </div>
 
     <!-- FOOTER -->
     <footer class="site-footer">
@@ -292,7 +284,6 @@
         Actualización: <span id="ultima-act"></span>
       </p>
     </footer>
-  </div>
 
   <!-- JS: tema + interacción -->
   <script src="advanced-features.js" defer></script>
