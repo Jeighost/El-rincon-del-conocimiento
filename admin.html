@@ -1,401 +1,548 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JeigHost - Panel Admin</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1208 100%);
-            color: #d4af37;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .login-box {
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #d4af37;
-            border-radius: 15px;
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 10px 50px rgba(212, 175, 55, 0.3);
-        }
-        
-        .login-box h1 {
-            color: #d4af37;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
-        }
-        
-        .form-group { margin-bottom: 20px; }
-        
-        .form-group label {
-            display: block;
-            color: #d4af37;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            color: #f5e6d3;
-            font-size: 1rem;
-            font-family: inherit;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Jeighost Admin</title>
 
-        .form-group textarea {
-            min-height: 200px;
-            resize: vertical;
-            line-height: 1.6;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
 
-        .btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            border: none;
-            border-radius: 8px;
-            color: #0a0a0a;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-full { width: 100%; }
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Crimson Pro',serif;
+      background:#0b0b0c;
+      color:#f5e6d3;
+      min-height:100vh;
+      padding:18px;
+      overflow-x:hidden;
+    }
+    .halo{
+      position:fixed;top:50%;left:50%;width:320px;height:320px;
+      background:radial-gradient(circle,rgba(212,175,55,0.18),transparent 70%);
+      border-radius:50%;pointer-events:none;z-index:-1;
+      animation:pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.35}
+      50%{transform:translate(-50%,-50%) scale(1.6);opacity:.1}
+    }
 
-        .btn-danger {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-            color: white;
-        }
+    .wrap{max-width:1100px;margin:0 auto}
 
-        .error, .success {
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .error {
-            background: rgba(220, 38, 38, 0.2);
-            border: 1px solid #dc2626;
-            color: #fca5a5;
-        }
-        
-        .success {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid #22c55e;
-            color: #86efac;
-        }
+    .card{
+      background:rgba(0,0,0,.75);
+      border:2px solid #d4af37;
+      border-radius:14px;
+      padding:22px;
+      box-shadow:0 10px 40px rgba(212,175,55,.15);
+    }
 
-        .header {
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #d4af37;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .tab {
-            padding: 12px 24px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            color: #d4af37;
-            cursor: pointer;
-            font-weight: 600;
-        }
+    /* LOGIN */
+    #login-screen{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+    }
+    .login-box{max-width:420px;width:100%}
+    .login-title{
+      font-family:'Cinzel',serif;color:#d4af37;text-align:center;
+      font-size:2rem;margin-bottom:18px;
+      letter-spacing:.5px;
+    }
 
-        .tab.active { 
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            color: black;
-        }
+    label{display:block;margin:10px 0 6px;color:#d4af37;font-weight:600}
+    input,textarea{
+      width:100%;padding:12px;border-radius:8px;
+      background:rgba(212,175,55,.08);
+      border:1px solid #d4af37;color:#f5e6d3;
+      font-size:1rem;font-family:inherit;
+      outline:none;
+    }
+    textarea{min-height:220px;line-height:1.7;resize:vertical}
+    input:focus,textarea:focus{
+      border-color:#ffd700;box-shadow:0 0 10px rgba(212,175,55,.4)
+    }
 
-        .editor-container {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #d4af37;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:8px;padding:12px 18px;border-radius:8px;
+      background:linear-gradient(135deg,#d4af37,#ffd700);
+      color:#0a0a0a;border:none;font-weight:800;cursor:pointer;
+      transition:.25s;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(212,175,55,.5)}
+    .btn-full{width:100%}
+    .btn-ghost{
+      background:rgba(212,175,55,.12);
+      color:#d4af37;border:1px solid #d4af37;
+    }
+    .btn-danger{
+      background:linear-gradient(135deg,#dc2626,#ef4444);
+      color:#fff;
+    }
 
-        .hidden { display: none; }
+    .error,.success{
+      padding:10px;border-radius:8px;margin-bottom:12px;text-align:center;
+    }
+    .error{background:rgba(220,38,38,.2);border:1px solid #dc2626;color:#fca5a5}
+    .success{background:rgba(34,197,94,.18);border:1px solid #22c55e;color:#86efac}
 
-        .output-box {
-            background: rgba(0,0,0,0.9);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
+    /* DASH */
+    header.top{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      margin-bottom:18px;
+    }
+    header.top h1{
+      font-family:'Cinzel',serif;color:#d4af37;font-size:1.8rem;
+    }
 
-        .code-box {
-            background: #1a1a1a;
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            padding: 15px;
-            font-family: monospace;
-            color: #f5e6d3;
-            overflow-x: auto;
-            max-height: 400px;
-        }
+    .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+    .tab{
+      padding:10px 14px;border-radius:8px;border:1px solid #d4af37;
+      background:rgba(212,175,55,.08);color:#d4af37;font-weight:700;cursor:pointer;
+    }
+    .tab.active{background:linear-gradient(135deg,#d4af37,#ffd700);color:#0a0a0a}
 
-        .instruction-box {
-            background: rgba(212, 175, 55, 0.1);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:900px){.row{grid-template-columns:1fr}}
 
-        .filename-display {
-            background: rgba(212,175,55,0.2);
-            border: 1px solid #d4af37;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-family: monospace;
-            color: #ffd700;
-            font-weight: bold;
-        }
-    </style>
+    .muted{opacity:.7;font-size:.9rem;margin-top:4px}
+
+    .out{
+      margin-top:14px
+    }
+    pre{
+      background:#111;border:1px solid #d4af37;border-radius:8px;
+      padding:14px;max-height:380px;overflow:auto;white-space:pre-wrap;
+      color:#f5e6d3;font-family:monospace;font-size:.9rem;
+    }
+    .filename{
+      display:inline-block;margin-top:8px;padding:8px 10px;border-radius:8px;
+      background:rgba(212,175,55,.15);border:1px solid #d4af37;color:#ffd700;font-weight:800;
+      font-family:monospace;
+    }
+    .hidden{display:none}
+  </style>
 </head>
 <body>
+<div class="halo"></div>
 
-    <div id="login-screen" class="login-container">
-        <div class="login-box">
-            <h1>🔐 Jeighost Admin</h1>
-            <div id="login-error" class="error hidden"></div>
+<!-- LOGIN -->
+<section id="login-screen">
+  <div class="card login-box">
+    <div class="login-title">🔐 Jeighost Admin</div>
+    <div id="login-error" class="error hidden"></div>
 
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>Usuario</label>
-                    <input type="text" id="username" required>
-                </div>
+    <form id="login-form">
+      <label>Correo admin</label>
+      <input id="username" type="email" placeholder="prodjeighost@gmail.com" required>
 
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="password" required>
-                </div>
+      <label>Contraseña</label>
+      <input id="password" type="password" required>
 
-                <button type="submit" class="btn btn-full">Iniciar Sesión</button>
-            </form>
+      <button class="btn btn-full" type="submit">Iniciar sesión</button>
+      <div class="muted" style="text-align:center;margin-top:10px">
+        Solo prodjeighost@gmail.com puede entrar
+      </div>
+    </form>
+  </div>
+</section>
 
-        </div>
+<!-- DASHBOARD -->
+<main id="dashboard" class="hidden">
+  <div class="wrap">
+
+    <header class="top card">
+      <h1>📝 Panel de Reflexiones (Plantilla 17)</h1>
+      <button class="btn btn-danger" id="logout-btn">Cerrar sesión</button>
+    </header>
+
+    <div id="success-message" class="success hidden"></div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('editor', this)">✍️ Nueva reflexión</div>
+      <div class="tab" onclick="showTab('json', this)">🧩 JSON nuevas</div>
+      <div class="tab" onclick="showTab('help', this)">❓ Ayuda</div>
     </div>
 
-    <div id="dashboard" class="hidden">
-        <div class="container">
-
-            <div class="header">
-                <h1>📝 Panel de Administración</h1>
-                <button class="btn btn-danger" onclick="handleLogout()">🚪 Cerrar Sesión</button>
-            </div>
-
-            <div class="tabs">
-                <div class="tab active" onclick="showTab('editor')">✍️ Nueva Reflexión</div>
-                <div class="tab" onclick="showTab('list')">📚 Mis Reflexiones</div>
-                <div class="tab" onclick="showTab('help')">❓ Ayuda</div>
-            </div>
-
-            <div id="editor-tab">
-                <div class="editor-container">
-
-                    <div class="form-group">
-                        <label>Título *</label>
-                        <input type="text" id="reflection-title">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Contenido *</label>
-                        <textarea id="reflection-content"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Audio MP3 (opcional)</label>
-                        <input type="url" id="reflection-audio">
-                    </div>
-
-                    <button class="btn btn-full" onclick="generateHTML()">Generar HTML</button>
-                </div>
-
-                <div id="output-section" class="hidden">
-                    <div class="output-box">
-                        <h3>HTML generado</h3>
-
-                        <div class="instruction-box">
-                            <ol>
-                                <li>Crea un archivo nuevo con este nombre:</li>
-                                <div id="filename-display" class="filename-display"></div>
-                                <li>Copia todo el código inferior.</li>
-                                <li>Pégalo en tu archivo.</li>
-                                <li>Sube el archivo a tu hosting.</li>
-                            </ol>
-                        </div>
-
-                        <button class="btn" onclick="copyToClipboard()">Copiar Código</button>
-
-                        <div id="generated-code" class="code-box"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="list-tab" class="hidden">
-                <h2>Lista en construcción…</h2>
-            </div>
-
-            <div id="help-tab" class="hidden">
-                <div class="instruction-box">
-                    <h3>Cómo usar este panel</h3>
-                    <ol>
-                        <li>Escribe tu reflexión.</li>
-                        <li>Haz clic en "Generar HTML".</li>
-                        <li>Copia y publica el archivo.</li>
-                    </ol>
-                </div>
-            </div>
-
+    <!-- EDITOR -->
+    <section id="editor-tab" class="card">
+      <div class="row">
+        <div>
+          <label>Título *</label>
+          <input id="reflection-title" type="text" placeholder="">
+          <div class="muted">Se usa en &lt;title&gt; y en H1</div>
         </div>
-    </div>
+
+        <div>
+          <label>Meta descripción SEO *</label>
+          <input id="reflection-description" type="text" placeholder="">
+          <div class="muted">Meta description</div>
+        </div>
+      </div>
+
+      <label>Subtítulo (opcional)</label>
+      <input id="reflection-subtitle" type="text" placeholder="">
+      <div class="muted">Si está vacío se genera &lt;p&gt;&lt;/p&gt;</div>
+
+      <label>Preview corta (para buscador) *</label>
+      <input id="reflection-preview" type="text" placeholder="">
+      <div class="muted">Una línea breve</div>
+
+      <div class="row">
+        <div>
+          <label>Tags (separados por coma) *</label>
+          <input id="reflection-tags" type="text" placeholder="conciencia, humanidad, unidad">
+        </div>
+        <div>
+          <label>Categorías (separadas por coma) *</label>
+          <input id="reflection-categories" type="text" placeholder="Filosofía, Conciencia">
+        </div>
+      </div>
+
+      <label>Contenido *</label>
+      <textarea id="reflection-content" placeholder=""></textarea>
+      <div class="muted">Separa párrafos con una línea en blanco</div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn" onclick="generateHTML()">🎨 Generar HTML</button>
+        <button class="btn btn-ghost" onclick="generateJSON()">🧩 Generar JSON nuevo</button>
+      </div>
+
+      <!-- HTML OUTPUT -->
+      <div id="output-section" class="out hidden">
+        <h3 style="color:#d4af37;margin:12px 0 6px">✅ HTML generado</h3>
+        <div>Nombre de archivo:</div>
+        <div id="filename-display" class="filename"></div>
+        <div style="margin-top:8px">
+          <button class="btn btn-ghost" onclick="copyHTML()">📋 Copiar HTML</button>
+        </div>
+        <pre id="generated-html"></pre>
+      </div>
+    </section>
+
+    <!-- JSON TAB -->
+    <section id="json-tab" class="card hidden">
+      <h3 style="color:#d4af37;margin-bottom:8px">🧩 Bloque para /nuevas-reflexiones.json</h3>
+      <div class="muted">
+        Copia este JSON y pégalo al final de tu archivo <b>/nuevas-reflexiones.json</b>
+      </div>
+      <div style="margin-top:8px">
+        <button class="btn btn-ghost" onclick="copyJSON()">📋 Copiar JSON</button>
+      </div>
+      <pre id="generated-json">Aún no generaste nada.</pre>
+    </section>
+
+    <!-- HELP TAB -->
+    <section id="help-tab" class="card hidden">
+      <ol style="margin-left:18px;line-height:1.9">
+        <li>Escribe tu reflexión.</li>
+        <li>Click en “Generar HTML”.</li>
+        <li>Guarda el archivo generado dentro de <b>/reflexiones/</b>.</li>
+        <li>Click en “Generar JSON nuevo”.</li>
+        <li>Pega el bloque en <b>/nuevas-reflexiones.json</b>.</li>
+      </ol>
+      <div class="muted" style="margin-top:8px">
+        Las reflexiones 1–17 NO se tocan. Esto es solo para 18+.
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FIREBASE + AUTH -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCFp3Q1lk1gOsWWRu4MPHUj49_eBh9Af38",
+    authDomain: "jeighost.firebaseapp.com",
+    projectId: "jeighost",
+    storageBucket: "jeighost.firebasestorage.app",
+    messagingSenderId: "553257365980",
+    appId: "1:553257365980:web:823c423bccf0f06f9cdf19",
+    measurementId: "G-NDNBVWH7H1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  window._auth = auth;
+
+  const ADMIN_EMAIL = "prodjeighost@gmail.com";
+
+  // login
+  document.getElementById("login-form").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const email = document.getElementById("username").value.trim();
+    const pass  = document.getElementById("password").value.trim();
+    const err   = document.getElementById("login-error");
+
+    if(email !== ADMIN_EMAIL){
+      err.textContent = "❌ Usuario no autorizado";
+      err.classList.remove("hidden");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, pass)
+      .then(()=>{ err.classList.add("hidden"); })
+      .catch(()=>{
+        err.textContent = "❌ Credenciales incorrectas";
+        err.classList.remove("hidden");
+      });
+  });
+
+  // route protection
+  onAuthStateChanged(auth,(user)=>{
+    if(!user || user.email !== ADMIN_EMAIL){
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("login-screen").classList.remove("hidden");
+    } else {
+      showDashboard();
+    }
+  });
+
+  // logout
+  document.getElementById("logout-btn").addEventListener("click", ()=>{
+    signOut(auth);
+  });
+</script>
 
 <script>
-const CREDENTIALS = {
-    username: "jeighost",
-    password: "Amor123"
-};
+  // UI
+  function showDashboard(){
+    document.getElementById("login-screen").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+  }
+  function showTab(tab, el){
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll('[id$="-tab"]').forEach(s=>s.classList.add("hidden"));
+    el.classList.add("active");
+    document.getElementById(tab+"-tab").classList.remove("hidden");
+  }
 
-function handleLogin(e) {
-    e.preventDefault();
-    const u = username.value;
-    const p = password.value;
+  // helpers
+  function escapeHTML(str){
+    return str.replace(/&/g,"&amp;")
+              .replace(/</g,"&lt;")
+              .replace(/>/g,"&gt;")
+              .replace(/"/g,"&quot;")
+              .replace(/'/g,"&#039;");
+  }
+  function slugify(title){
+    return title.toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9\s-]/g,"")
+      .replace(/\s+/g,"-")
+      .replace(/-+/g,"-")
+      .replace(/^-|-$/g,"");
+  }
 
-    if (u === CREDENTIALS.username && p === CREDENTIALS.password) {
-        login-screen.classList.add("hidden");
-        dashboard.classList.remove("hidden");
-    } else {
-        login-error.textContent = "Usuario o contraseña incorrectos";
-        login-error.classList.remove("hidden");
+  // state for JSON output
+  let lastJSONBlock = null;
+
+  async function getNextId(){
+    const BASE_TOTAL = 17; // viejas intocables
+    try{
+      const res = await fetch("/nuevas-reflexiones.json", {cache:"no-store"});
+      if(!res.ok) return BASE_TOTAL + 1;
+      const data = await res.json();
+      return BASE_TOTAL + data.length + 1;
+    }catch{
+      return BASE_TOTAL + 1;
     }
-}
+  }
 
-function handleLogout() {
-    location.reload();
-}
+  async function generateHTML(){
+    const titleRaw = document.getElementById("reflection-title").value.trim();
+    const subtitleRaw = document.getElementById("reflection-subtitle").value.trim();
+    const descRaw = document.getElementById("reflection-description").value.trim();
+    const prevRaw = document.getElementById("reflection-preview").value.trim();
+    const tagsRaw = document.getElementById("reflection-tags").value.trim();
+    const catsRaw = document.getElementById("reflection-categories").value.trim();
+    const contentRaw = document.getElementById("reflection-content").value.trim();
 
-function showTab(tab) {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    event.target.classList.add("active");
-
-    editor-tab.classList.add("hidden");
-    list-tab.classList.add("hidden");
-    help-tab.classList.add("hidden");
-
-    document.getElementById(tab + "-tab").classList.remove("hidden");
-}
-
-function generateHTML() {
-    const title = reflection-title.value.trim();
-    const content = reflection-content.value.trim();
-    const audio = reflection-audio.value.trim();
-
-    if (!title || !content) {
-        alert("Completa título y contenido");
-        return;
+    if(!titleRaw || !descRaw || !prevRaw || !tagsRaw || !catsRaw || !contentRaw){
+      alert("Completa todos los campos obligatorios");
+      return;
     }
 
-    const filename =
-        title.toLowerCase()
-             .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-             .replace(/[^a-z0-9\s-]/g, "")
-             .replace(/\s+/g, "-") + ".html";
+    const title = escapeHTML(titleRaw);
+    const subtitle = escapeHTML(subtitleRaw); // vacío permitido
+    const description = escapeHTML(descRaw);
+    const slug = slugify(titleRaw);
 
-    filename-display.textContent = filename;
+    const filename = slug + ".html";
+    document.getElementById("filename-display").textContent = filename;
 
-    const paragraphs = content
-        .split("\n")
-        .filter(x => x.trim())
-        .map(x => `<p>${x}</p>`)
-        .join("\n");
+    const paragraphs = contentRaw
+      .split(/\n\s*\n/)
+      .map(p=>p.trim())
+      .filter(Boolean)
+      .map(p=>`<p>${escapeHTML(p).replace(/\n/g,"<br>")}</p>`)
+      .join("\n\n");
 
-    const audioBlock = audio ? `<audio controls src="${audio}"></audio>` : "";
-
-    const html = `
-<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>${title}</title>
-    <style>
-        body {
-            background: #0b0b0c;
-            color: #f5e6d3;
-            font-family: Georgia;
-            padding: 20px;
-            line-height: 1.8;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: rgba(0,0,0,0.6);
-            border: 2px solid #d4af37;
-            padding: 40px;
-            border-radius: 15px;
-        }
-        h1 {
-            color: #d4af37;
-            margin-bottom: 20px;
-        }
-        p { margin-bottom: 15px; }
-        audio { width: 100%; margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>${title} - El rincón del conocimiento</title>
+
+  <meta name="description" content="${description}">
+  <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, diseño técnico, Jeison Gonzalez">
+  <meta name="author" content="Jeison Gonzalez">
+  <meta name="language" content="es">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://jeighost.lat">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="El rincón del conocimiento">
+  <meta property="og:description" content="Reflexiones y pensamientos sobre la esencia del ser y el conocimiento.">
+  <meta property="og:image" content="https://jeighost.lat/icon-512.png">
+  <meta property="og:url" content="https://jeighost.lat">
+  <meta property="og:site_name" content="El rincón del conocimiento">
+  <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="El rincón del conocimiento">
+  <meta name="twitter:description" content="Reflexiones filosóficas y diseño consciente">
+  <meta name="twitter:image" content="https://jeighost.lat/icon-512.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.postimg.cc">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <link rel="icon" href="/jeighost-icons-pack/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#d4af37">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="El Rincón">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
+
+  <style>
+    body{margin:0;padding:0;font-family:'Crimson Pro',serif;background:#0b0b0c;color:#ddd;min-height:100vh;overflow-x:hidden}
+    header{text-align:center;padding:2rem 1rem;background:rgba(13,13,15,0.95)}
+    h1{font-family:'Cinzel',serif;color:#d4af37;font-size:2.2rem;margin:0}
+    nav{display:flex;justify-content:center;gap:1rem;padding:1rem;flex-wrap:wrap;background:rgba(13,13,15,0.9)}
+    nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
+    .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+  </style>
+
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style" importance="high">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" media="all">
+
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../features.css">
+  <link rel="stylesheet" href="../paper-effect.css">
 </head>
+
 <body>
-<div class="container">
-    <h1>${title}</h1>
-    ${paragraphs}
-    ${audioBlock}
-</div>
+  <nav></nav>
+
+  <div class="fuego-fondo"></div>
+  <div class="halo"></div>
+
+  <header aria-labelledby="titulo">
+    <h1 id="titulo" aria-label="${title}">${title}</h1>
+    <p>${subtitle}</p>
+  </header>
+  
+  <section class="reflexion-completa">
+    <div class="texto-reflexion">
+${paragraphs}
+    </div>
+
+    <div class="mensaje-final">
+      ¿Es interesante? Puedes continuar leyendo, presionando las flechas de la esquina derecha.
+    </div>
+  </section>
+
+  <footer>
+    © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados.
+  </footer>
+
+*// los espacios //*
+  <script src="../advanced-features.js"></ script>
+  <script src="../features.js"></ script>
+  <script src="../lectura.js"></ script>
+  <script src="../favoritos.js"></ script>
+  <script src="../categories.js"></ script>
+  <script src="../comments.js"></ script>
+  <script src="../autoplay-reflexiones.js" defer></ script>
+  <script src="../analytics.js"></ script> 
 </body>
 </html>`;
 
-    generated-code.textContent = html;
-    output-section.classList.remove("hidden");
-}
+    document.getElementById("generated-html").textContent = html;
+    document.getElementById("output-section").classList.remove("hidden");
 
-function copyToClipboard() {
-    navigator.clipboard.writeText(generated-code.textContent);
-    alert("Código copiado");
-}
+    // también dejamos el JSON listo
+    await generateJSON(true);
+  }
+
+  async function generateJSON(silent=false){
+    const titleRaw = document.getElementById("reflection-title").value.trim();
+    const prevRaw  = document.getElementById("reflection-preview").value.trim();
+    const tagsRaw  = document.getElementById("reflection-tags").value.trim();
+    const catsRaw  = document.getElementById("reflection-categories").value.trim();
+
+    if(!titleRaw || !prevRaw || !tagsRaw || !catsRaw){
+      if(!silent) alert("Completa título, preview, tags y categorías");
+      return;
+    }
+
+    const id = await getNextId();
+    const slug = slugify(titleRaw);
+
+    const tags = tagsRaw.split(",").map(t=>t.trim()).filter(Boolean);
+    const categories = catsRaw.split(",").map(c=>c.trim()).filter(Boolean);
+
+    lastJSONBlock = {
+      id,
+      title: titleRaw,
+      slug,
+      preview: prevRaw,
+      tags,
+      categories
+    };
+
+    document.getElementById("generated-json").textContent =
+      JSON.stringify(lastJSONBlock, null, 2);
+
+    if(!silent){
+      const msg = document.getElementById("success-message");
+      msg.textContent = "🧩 JSON nuevo generado";
+      msg.classList.remove("hidden");
+      setTimeout(()=>msg.classList.add("hidden"),1500);
+    }
+  }
+
+  function copyHTML(){
+    navigator.clipboard.writeText(document.getElementById("generated-html").textContent);
+  }
+  function copyJSON(){
+    navigator.clipboard.writeText(document.getElementById("generated-json").textContent);
+  }
 </script>
-
 </body>
 </html>

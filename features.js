@@ -144,7 +144,17 @@ function addSocialShare() {
     if (!match) return;
 
     const id = parseInt(match[1]);
-    const total = 17;
+    let total = 17;
+
+(async () => {
+  try {
+    const res = await fetch("/nuevas-reflexiones.json", { cache: "no-store" });
+    if (!res.ok) return;
+
+    const nuevas = await res.json();
+    total = 17 + nuevas.length;
+  } catch (e) {}
+})();
 
     const nav = document.createElement('div');
     nav.className = 'floating-nav';

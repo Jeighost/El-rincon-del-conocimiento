@@ -180,3 +180,14 @@
     addCategoryFilterToReflexionesPage();
   });
 })();
+(async () => {
+  try {
+    const res = await fetch("/nuevas-reflexiones.json", { cache: "no-store" });
+    if (!res.ok) return;
+
+    const nuevas = await res.json();
+    nuevas.forEach(r => {
+      reflexionCategories[r.id] = r.categories;
+    });
+  } catch (e) {}
+})();
