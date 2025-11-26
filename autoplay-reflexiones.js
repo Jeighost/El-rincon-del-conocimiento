@@ -7,7 +7,7 @@
   'use strict';
 
   const AUTOPLAY_KEY = 'reflexiones_autoplay';
-  const TOTAL_REFLEXIONES = 17; // Ajustar según tu cantidad total
+  const TOTAL_REFLEXIONES = 18; // Ajustar según tu cantidad total
 
   // Obtener configuración de autoplay
   function getAutoplayEnabled() {
@@ -312,7 +312,7 @@
     setTimeout(() => {
       addAutoplayControls();
       setupAutoplayListeners();
-    }, 300);
+    }, 100);
 
     console.log('🎵 Sistema de autoplay inicializado');
   }

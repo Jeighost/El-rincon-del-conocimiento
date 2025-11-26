@@ -23,7 +23,8 @@
     14: ['Relaciones', 'Engaño'],
     15: ['Poesía', 'Melancolia'],
     16: ['Melancolia', 'Tristeza'],
-    17: ['Filosofía', 'Propósito']
+    17: ['Filosofía', 'Propósito'],
+    18: ['Filosofía', 'Conciencia']
   };
 
   // Iconos por categoría

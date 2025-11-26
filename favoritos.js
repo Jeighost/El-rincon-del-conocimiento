@@ -209,7 +209,8 @@
       '14': 'El espejo y la sombra',
       '15': 'Vacío',
       '16': '¿Desea reiniciar?',
-      '17': 'Egoísmo'
+      '17': 'Egoísmo',
+      '18': 'No es un buen negocio'
     };
     
     favorites.forEach(id => {

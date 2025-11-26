@@ -30,7 +30,8 @@
      { id: 14, title: 'El espejo y la sombra',tags: ['Engaño'], preview: 'Un relato filosófico sobre la infidelidad entendida no como un acto físico, sino como una consecuencia del vacío interior y la falta de empatía consigo mismo y con los demás.' },
      { id: 15, title: 'Vacío',tags: ['individualidad', 'melancolia'], preview: 'No logro mirar el final.' },
     { id: 16, title: '¿Desea reiniciar?',tags: ['individualidad', 'melancolia'], preview: '' },
-    { id: 17, title: 'Egoímos',tags: ['futuro', 'humanidad', 'unidad'], preview: 'Explicación sobre los puntos importantes del concepto' }  
+    { id: 17, title: 'Egoímos',tags: ['futuro', 'humanidad', 'unidad'], preview: 'Explicación sobre los puntos importantes del concepto' },
+    { id: 18, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' }
   ];
 
   // ===========================================
