@@ -7,12 +7,6 @@
 
   const FAVORITES_KEY = 'reflexiones_favoritas';
 
-  // Obtener favoritos del localStorage
-  function getFavorites() {
-    const stored = localStorage.getItem(FAVORITES_KEY);
-    return stored ? JSON.parse(stored) : [];
-  }
-
   // Guardar favoritos
   function saveFavorites(favorites) {
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
@@ -210,7 +204,8 @@
       '15': 'Vacío',
       '16': '¿Desea reiniciar?',
       '17': 'Egoísmo',
-      '18': 'No es un buen negocio'
+      '18': 'No es un buen negocio',
+      '19': 'La noche y el niño',
     };
     
     favorites.forEach(id => {

@@ -144,7 +144,7 @@ function addSocialShare() {
     if (!match) return;
 
     const id = parseInt(match[1]);
-    let total = 18;
+    let total = 19;
 
 (async () => {
   try {

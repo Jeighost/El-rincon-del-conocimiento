@@ -31,7 +31,8 @@
      { id: 15, title: 'Vacío',tags: ['individualidad', 'melancolia'], preview: 'No logro mirar el final.' },
     { id: 16, title: '¿Desea reiniciar?',tags: ['individualidad', 'melancolia'], preview: '' },
     { id: 17, title: 'Egoímos',tags: ['futuro', 'humanidad', 'unidad'], preview: 'Explicación sobre los puntos importantes del concepto' },
-    { id: 18, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' }
+    { id: 18, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' },
+    { id: 19, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' }
   ];
 
   // ===========================================
