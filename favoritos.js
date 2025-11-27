@@ -363,21 +363,390 @@
     const style = document.createElement('style');
     style.id = 'favoritos-styles';
     style.textContent = `
-      /* (Mantén todos tus estilos originales aquí) */
-      .favorite-btn {
-        display: block;
-        margin: 1rem auto;
-        background: transparent;
-        color: #d4af37;
-        border: 1px solid rgba(212,175,55,0.3);
-        padding: 0.7rem 1.5rem;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        font-weight: 600;
+/* ========================================
+       BOTÓN DE FAVORITO EN REFLEXIONES
+    ======================================== */
+    .favorite-btn {
+      display: block;
+      margin: 1rem auto;
+      background: transparent;
+      color: #d4af37;
+      border: 1px solid rgba(212,175,55,0.3);
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .favorite-btn:hover {
+      background: rgba(212,175,55,0.1);
+      border-color: #d4af37;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+    }
+
+    .favorite-btn.is-favorite {
+      background: rgba(212,175,55,0.2);
+      border-color: #d4af37;
+    }
+
+    /* ========================================
+       ICONO PEQUEÑO EN LISTA DE REFLEXIONES
+    ======================================== */
+    .favorite-icon-small {
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+
+    .favorite-icon-small:hover {
+      transform: scale(1.3);
+    }
+
+    /* ========================================
+       LINK DE FAVORITOS EN NAV
+    ======================================== */
+    .favorites-link {
+      position: relative;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(212,175,55,0.15);
+      border: 2px solid rgba(212,175,55,0.4);
+      border-radius: 25px;
+      color: #d4af37 !important;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-right: 15px;
+    }
+
+    .favorites-link:hover {
+      background: rgba(212,175,55,0.3);
+      border-color: #d4af37;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+    }
+
+    .favorites-link .fav-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .favorites-link .fav-count {
+      min-width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212,175,55,0.3);
+      border-radius: 50%;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0 6px;
+      color: #ffd700;
+    }
+
+    .favorites-link.empty {
+      opacity: 0.6;
+    }
+
+    /* ========================================
+       MODAL FLOTANTE (LA BURBUJA)
+    ======================================== */
+    .favorites-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .favorites-modal.show {
+      opacity: 1;
+    }
+
+    /* ========================================
+       CONTENEDOR DEL MODAL (LA BURBUJA)
+    ======================================== */
+    .favorites-modal-content {
+      background: linear-gradient(135deg, rgba(20,20,20,0.98), rgba(30,25,20,0.98));
+      border: 2px solid rgba(212,175,55,0.5);
+      border-radius: 20px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: 
+        0 25px 80px rgba(0,0,0,0.8),
+        0 0 40px rgba(212,175,55,0.3),
+        inset 0 1px 1px rgba(255,255,255,0.1);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .favorites-modal.show .favorites-modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    /* ========================================
+       HEADER DEL MODAL
+    ======================================== */
+    .favorites-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 2px solid rgba(212,175,55,0.3);
+      background: rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+
+    .favorites-modal-header h2 {
+      color: #d4af37;
+      margin: 0;
+      font-size: 1.6rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .favorites-modal-close {
+      background: transparent;
+      border: 2px solid rgba(212,175,55,0.3);
+      color: #d4af37;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .favorites-modal-close:hover {
+      background: rgba(212,175,55,0.2);
+      border-color: #d4af37;
+      transform: rotate(90deg);
+    }
+
+    /* ========================================
+       LISTA DE FAVORITOS (SCROLLABLE)
+    ======================================== */
+    .favorites-list {
+      padding: 1.5rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Personalizar scrollbar */
+    .favorites-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .favorites-list::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+    }
+
+    .favorites-list::-webkit-scrollbar-thumb {
+      background: rgba(212,175,55,0.5);
+      border-radius: 10px;
+    }
+
+    .favorites-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(212,175,55,0.7);
+    }
+
+    /* ========================================
+       ITEMS DE FAVORITOS
+    ======================================== */
+    .favorite-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.15);
+      transition: all 0.3s ease;
+      gap: 15px;
+    }
+
+    .favorite-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(212,175,55,0.4);
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(212,175,55,0.2);
+    }
+
+    .favorite-item a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: #ddd;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .favorite-number {
+      background: rgba(212,175,55,0.25);
+      color: #d4af37;
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(212,175,55,0.3);
+    }
+
+    .favorite-title {
+      flex: 1;
+      color: #f5e6d3;
+      font-weight: 600;
+      font-size: 1.05rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .favorite-arrow {
+      color: #d4af37;
+      font-size: 1.3rem;
+      opacity: 0.6;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+
+    .favorite-item:hover .favorite-arrow {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    /* ========================================
+       BOTÓN DE ELIMINAR
+    ======================================== */
+    .remove-favorite {
+      background: rgba(255,100,100,0.1);
+      border: 2px solid rgba(255,100,100,0.3);
+      color: #ff6b6b;
+      padding: 0.5rem 0.7rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+
+    .remove-favorite:hover {
+      background: rgba(255,100,100,0.25);
+      border-color: #ff6b6b;
+      transform: scale(1.1);
+    }
+
+    /* ========================================
+       NOTIFICACIÓN FLOTANTE
+    ======================================== */
+    .favorite-notification {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: linear-gradient(135deg, rgba(20,20,20,0.98), rgba(30,25,20,0.98));
+      color: #d4af37;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      border: 2px solid rgba(212,175,55,0.5);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 100000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 0.95rem;
+      max-width: 90%;
+    }
+
+    .favorite-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    @media (max-width: 768px) {
+      .favorites-modal-content {
+        max-width: 95%;
+        max-height: 90vh;
+        border-radius: 16px;
       }
-      /* ... (resto de tus estilos) ... */
+
+      .favorites-modal-header {
+        padding: 1rem 1.5rem;
+      }
+
+      .favorites-modal-header h2 {
+        font-size: 1.3rem;
+      }
+
+      .favorites-list {
+        padding: 1rem;
+      }
+
+      .favorite-item {
+        padding: 0.8rem 1rem;
+      }
+
+      .favorite-item a {
+        gap: 0.7rem;
+      }
+
+      .favorite-number {
+        min-width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+      }
+
+      .favorite-title {
+        font-size: 0.95rem;
+      }
+
+      .favorites-link {
+        padding: 6px 12px;
+        margin-right: 10px;
+      }
+    }
     `;
     document.head.appendChild(style);
   }
