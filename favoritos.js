@@ -259,6 +259,7 @@
       '17': 'Egoísmo',
       '18': 'No es un buen negocio',
       '19': 'La noche y el niño',
+      '20': 'Lo último de mi para ti',
     };
     
     favorites.forEach(id => {

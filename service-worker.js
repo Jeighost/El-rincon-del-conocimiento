@@ -3,7 +3,7 @@
 // Fecha: 2025-11-16
 
 // -- CONFIGURACIÓN --
-const VERSION = 'v11';
+const VERSION = 'v12';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 const CACHE_IMAGES  = `el-rincon-images-${VERSION}`;
@@ -61,7 +61,27 @@ const HTML_PAGES = [
   '/reflexiones/',
   '/galeria/',
   '/sobre-mi/',
-  '/videos/'
+  '/videos/',
+  '/reflexion1/',
+  '/reflexion2/',
+  '/reflexion3/',
+  '/reflexion4/',
+  '/reflexion5/',
+  '/reflexion6',
+  '/reflexion7',
+  '/reflexion8/',
+  '/reflexion9/',
+  '/reflexion10/',
+  '/reflexion11/',
+  '/reflexion12/',
+  '/reflexion13/',
+  '/reflexion14/',
+  '/reflexion15/',
+  '/reflexion16/',
+  '/reflexion17/',
+  '/reflexion18/',
+  '/reflexion19/',
+  '/reflexion20'
 ];
 
 // -- UTILIDADES --
@@ -89,7 +109,7 @@ async function limitCacheSize(cacheName, maxItems) {
 
 // -- INSTALL: Precarga de recursos críticos --
 self.addEventListener('install', (event) => {
-  console.log('[SW] Instalando v11...');
+  console.log('[SW] Instalando v12...');
   
   event.waitUntil(
     Promise.all([
@@ -131,7 +151,7 @@ self.addEventListener('install', (event) => {
 
 // -- ACTIVATE: Limpieza de cachés antiguos --
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activando v11...');
+  console.log('[SW] Activando v12...');
   
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -444,6 +464,6 @@ self.addEventListener('sync', (event) => {
   }
 });
 
-console.log('%c[SW] 🚀 Jeighost.lat v11 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
+console.log('%c[SW] 🚀 Jeighost.lat v12 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
 console.log('[SW] Estrategias: Network First (HTML) | Cache First (Assets/Imágenes)');
 console.log('[SW] Límites: Dinámico=' + MAX_DYNAMIC_ITEMS + ' | Imágenes=' + MAX_IMAGE_ITEMS);
