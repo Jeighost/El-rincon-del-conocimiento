@@ -108,7 +108,7 @@ function openDonateModal() {
 
   modal.innerHTML = `
     <div class="donate-modal-content">
-      <button class="close-donate" onclick="closeDonateModal()">✕</button>
+      <button class="close-donate" onclick="closeDonateModal()">×</button>
       
       <div class="donate-header">
         <h2><span class="heart">💛</span> Apoyar el Proyecto</h2>
