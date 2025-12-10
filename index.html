@@ -29,12 +29,6 @@
   <meta name="twitter:description" content="Reflexiones filosóficas y diseño consciente">
   <meta name="twitter:image" content="https://jeighost.lat/icon-512.png">
 
-  <!-- Optimización de conexiones -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
-  <link rel="preconnect" href="https://code.tidio.co"> <!-- Pre-conexión para el chat -->
-
   <!-- Favicon y PWA -->
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -48,96 +42,844 @@
   <meta name="apple-mobile-web-app-title" content="El Rincón">
   <link rel="apple-touch-icon" href="/icon-192.png">
 
-  <!-- Estilos Críticos -->
+  <!-- Estilos integrados para rendimiento 100% -->
   <style>
-    /* Reset y base */
-    body {
+    /* RESET Y VARIABLES */
+    :root {
+      --gold: #d4af37;
+      --gold-light: #ffd700;
+      --gold-dark: #b8860b;
+      --bg: #0b0b0c;
+      --text: #ddd;
+      --text-light: #aaa;
+      --card-bg: rgba(20, 20, 22, 0.7);
+      --border: rgba(212, 175, 55, 0.2);
+      --shadow: rgba(0, 0, 0, 0.5);
+      --transition: all 0.3s ease;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif; /* Fallback sistema */
-      background: #0b0b0c;
-      color: #ddd;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
+      line-height: 1.6;
       overflow-x: hidden;
     }
-    
-    /* Logo animation */
-    .logo-initial { animation: logoFadeIn 1s ease-out; display: inline-block; }
+
+/* Halo */
+.halo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.22), transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: halo-pulse 10s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+      50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.1; }
+    }
+
+    /* LAYOUT */
+    .layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* NAVEGACIÓN */
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* HEADER */
+    .site-header {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 3vw, 2rem);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: #d4af37;
+      letter-spacing: 3px;
+      text-shadow: 0 0 12px rgba(212,175,55,0.25);
+     animation: fadeIn 1.2s ease-out;
+ }
+
+    .logo-zone {
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .logo-initial {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      animation: logoFadeIn 1s ease-out;
+      display: inline-block;
+    }
+
     @keyframes logoFadeIn {
       0% { opacity: 0; transform: scale(0.8) rotateY(90deg); }
       100% { opacity: 1; transform: scale(1) rotateY(0); }
     }
-    
-    /* Header y Nav */
-    header { text-align: center; padding: 2rem 1rem; background: rgba(13,13,15,0.95); }
-    h1 { font-family: 'Cinzel', 'Times New Roman', serif; color: #d4af37; font-size: 2.2rem; margin: 0; }
-    nav { display: flex; justify-content: center; gap: 1rem; padding: 1rem; flex-wrap: wrap; background: rgba(13,13,15,0.9); }
-    nav a { color: #d4af37; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
-    
-    /* OPTIMIZACIÓN DE RENDIMIENTO: Halo con GPU */
-    .halo {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      will-change: transform, opacity; /* Avisa al navegador */
-      transform: translate(-50%, -50%); /* Centrado inicial */
-      animation: pulse 6s ease-in-out infinite;
+
+    .title-zone h1 {
+      font-family: 'Cinzel', serif;
+  font-size: clamp(2.3rem, 3.5vw, 2.5rem);
+  text-align: center;
+  color: #d4af37;
+  letter-spacing: 2px;
+  margin-bottom: 0.9rem;
+    }
+
+    .subtitle {
+      font-size: 0.98rem;
+  color: #d0d0d0;
+  max-width: 600px;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  margin-top: 1.5rem;
+    }
+
+    .hero h2 {
+      font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 2.4vw, 2rem);
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+}
+
+    .interactive-section {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .interactive-section h3 {
+      color: var(--gold);
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .interactive-sub {
+      margin-bottom: 1.5rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .interactive-box {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .interactive-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.8rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+    }
+
+    .interactive-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--bg);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .interactive-output {
+      min-height: 1.5rem;
+      color: var(--gold);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    .interactive-output.thinking::after {
+      content: '...';
+      animation: dots 1.5s steps(4) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+
+    .interactive-output.reveal {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 2rem 0;
+    }
+
+    .intro-text, .reflexiones-preview, .final-cta {
+      margin-bottom: 3rem;
+    }
+
+    .intro-text h2, .reflexiones-preview h2, .final-cta h2 {
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-family: 'Cinzel', serif;
+    }
+
+    .intro-text p, .reflexiones-preview p, .final-cta p {
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* REFLEXIONES GRID */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .section-link:hover {
+      text-decoration: underline;
+    }
+
+    .reflexiones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .reflexion-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .reflexion-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    .reflexion-card h3 {
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-family: 'Cinzel', serif;
+    }
+
+    .reflexion-card p {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .card-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-link:hover {
+      text-decoration: underline;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      text-align: center;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border-top: 1px dotted rgba(212,175,55,0.45);
+    }
+
+    .final-cta p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .site-footer span {
+      color: var(--gold);
+    }
+
+    .footer-meta {
+      margin-top: 0.5rem;
+    }
+
+    /* MOBILE MENU */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 250px;
+        background: rgba(11, 11, 12, 0.95);
+        flex-direction: column;
+        padding: 2rem;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+        border-left: 1px solid var(--border);
+      }
+      
+      .nav-links.active {
+        right: 0;
+      }
+      
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      
+      .title-zone h1 {
+        font-size: 2rem;
+      }
+      
+      .interactive-box {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* PERFECT FONT LOADING */
+    @font-face {
+      font-family: 'Crimson Pro';
+      font-display: swap;
     }
     
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.3;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 0.1;
-        transform: translate(-50%, -50%) scale(1.5);
-      }
+    @font-face {
+      font-family: 'Cinzel';
+      font-display: swap;
     }
     
-    /* Botones básicos */
-    .btn { display: inline-block; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
-    .btn-primary { background: linear-gradient(135deg, #d4af37, #ffd700); color: #0b0b0c; font-weight: 700; }
-    
-    /* Hero section */
-    .hero { padding: 3rem 1rem; text-align: center; }
-    .hero h2 { color: #d4af37; font-size: 1.8rem; margin-bottom: 1rem; }
-    
-    /* Interactive animations */
-    .interactive-output.thinking::after { content: '...'; animation: dots 1.5s steps(4) infinite; }
-    @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60%, 100% { content: '...'; } }
-    .interactive-output.reveal { animation: fadeInUp 0.6s ease-out; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+   /*  SISTEMA DE DONACIONES */
+
+.donate-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(255,215,0,0.25));
+  border: 2px solid rgba(212,175,55,0.5);
+  border-radius: 25px;
+  color: #d4af37;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 0 20px rgba(212,175,55,0.1);
+}
+
+.donate-btn:hover {
+  background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(255,215,0,0.35));
+  border-color: #d4af37;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212,175,55,0.5);
+}
+
+.donate-btn .heart {
+  font-size: 1.3rem;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10%, 30% { transform: scale(1.15); }
+  20%, 40% { transform: scale(1); }
+}
+
+.donate-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.donate-modal.show {
+  opacity: 1;
+}
+
+.donate-modal-content {
+  background: linear-gradient(135deg, rgba(20,20,20,0.98), rgba(30,25,20,0.98));
+  border: 2px solid rgba(212,175,55,0.5);
+  border-radius: 24px;
+  max-width: 550px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.8), 0 0 50px rgba(212,175,55,0.3);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.donate-modal.show .donate-modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.donate-header {
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 2px solid rgba(212,175,55,0.3);
+  background: rgba(0,0,0,0.3);
+}
+
+.donate-header h2 {
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.donate-header p {
+  color: #f5e6d3;
+  opacity: 0.9;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.close-donate {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: 2px solid rgba(212,175,55,0.3);
+  color: #d4af37;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-donate:hover {
+  background: rgba(212,175,55,0.2);
+  border-color: #d4af37;
+  transform: rotate(90deg);
+}
+
+.donate-methods {
+  padding: 2rem;
+}
+
+.donate-method {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(212,175,55,0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.donate-method:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(212,175,55,0.5);
+  transform: translateX(5px);
+}
+
+.donate-method-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.donate-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(212,175,55,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.donate-method-info h3 {
+  color: #d4af37;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.donate-method-info p {
+  color: #f5e6d3;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.donate-method-details {
+  margin-top: 1rem;
+  display: none;
+}
+
+.donate-method.active .donate-method-details {
+  display: block;
+}
+
+.donate-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: rgba(212,175,55,0.08);
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.donate-data span {
+  color: #f5e6d3;
+  font-family: monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.copy-btn {
+  background: rgba(212,175,55,0.2);
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  background: rgba(212,175,55,0.35);
+}
+
+.copy-btn.copied {
+  background: rgba(34,197,94,0.3);
+  border-color: #22c55e;
+  color: #86efac;
+}
+
+.donate-btn-action {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #d4af37, #ffd700);
+  border: none;
+  border-radius: 10px;
+  color: #0b0b0c;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.donate-btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212,175,55,0.5);
+}
+
+.thank-you-message {
+  text-align: center;
+  padding: 2rem;
+  border-top: 2px solid rgba(212,175,55,0.3);
+  background: rgba(0,0,0,0.2);
+}
+
+.thank-you-message p {
+  color: #f5e6d3;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.thank-you-message .signature {
+  color: #d4af37;
+  margin-top: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+}
+
+.donate-notification {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: linear-gradient(135deg, rgba(20,20,20,0.98), rgba(30,25,20,0.98));
+  color: #d4af37;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: 2px solid rgba(212,175,55,0.5);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  z-index: 100000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.donate-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 768px) {
+  .donate-modal-content {
+    max-width: 95%;
+  }
+  
+  .donate-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .donate-methods {
+    padding: 1.5rem;
+  }
+}
+/* sección interactiva más limpia */
+.interactive-section {
+  background: radial-gradient(circle at top, rgba(212,175,55,0.18), rgba(8,8,10,0.97));
+  border: 1px solid rgba(212,175,55,0.50);
+}
+
+.interactive-input {
+  background: rgba(5,5,7,0.95);
+  color: #f5f5f5;
+  border-color: rgba(212,175,55,0.6);
+}
+
+.interactive-input::placeholder {
+  color: rgba(220,220,220,0.55);
+}
+
+/* botón “Descubrir” un poco más protagonista */
+.interactive-section .btn-primary {
+  min-width: 130px;
+}
+/* Input más visible */
+.interactive-input {
+  border: 1px solid #d4af37;
+  background: #1a1a1a; /* Fondo gris oscuro, no negro */
+  color: #fff;
+}
+/* Details */
+.intro-details {
+  margin-top: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,0.3);
+  padding: 0.6rem 0.9rem;
+  background: rgba(255,255,255,0.02);
+}
+
+.intro-details summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  color: #d4af37;
+}
+
+.intro-details summary::marker {
+  display: none;
+}
+
+.intro-details summary::after {
+  content: " +";
+  font-weight: 400;
+}
+
+.intro-details[open] summary::after {
+  content: " −";
+}
+
+.intro-details p {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+}
   </style>
 
-  <!-- Fuentes optimizadas (display:swap para evitar texto invisible) -->
+  <!-- Fuentes optimizadas -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-
-  <!-- CSS diferido (no bloquea la carga inicial) -->
-  <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="splash-screen.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="features.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="app-native-features.css" media="print" onload="this.media='all'">
-  
   <noscript>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="splash-screen.css">
   </noscript>
 </head>
 
-<body class="theme-dark">
+<body>
+  <body class="theme-dark">
   <!-- Halo de fondo -->
   <div class="halo"></div>
 
   <!-- CONTENEDOR GLOBAL -->
   <div class="layout">
-    
     <!-- NAVEGACIÓN PRINCIPAL -->
     <nav class="main-nav">
       <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">☰</button>
@@ -157,6 +899,7 @@
     </nav>
 
     <!-- HEADER -->
+    <section>
     <header class="site-header">
       <div class="logo-zone">
         <div class="logo-circle">
@@ -169,60 +912,9 @@
         <p class="subtitle">Poemas y reflexiones directamente a tus ojos</p>
       </div>
     </header>
-    
-    <!-- HERO SECTION -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>Bienvenido, espero logres coincidir con este espacio</h2>
-
-        <!-- SECCIÓN INTERACTIVA -->
-        <div class="interactive-section">
-          <h3>¿Qué es la vida para ti?</h3>
-          <p class="interactive-sub">
-            Escribe lo primero que se te venga a la mente. Luego deja que la página te responda.
-          </p>
-
-          <div class="interactive-box">
-            <input
-              type="text"
-              id="respuesta"
-              class="interactive-input"
-              placeholder="✍️"
-              autocomplete="off"
-              aria-label="Tu respuesta"
-            >
-            <button id="enviar" class="btn btn-primary">Descubrir</button>
-          </div>
-
-          <p id="resultado" class="interactive-output" role="status" aria-live="polite"></p>
-        </div>
-      </div>
     </section>
-
-    <!-- MAIN CONTENT -->
-    <main>
-      <!-- INTRO -->
-      <section class="hero">
-        <div class="hero-text">
-          <h3>Un rincón de mi conocimiento</h3>
-          <p>
-            Un espacio donde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
-          </p>
-          <p>
-            Se redactan pensamientos —esos que han sido silenciados— intentando dar a conocer lo que la boca calla. Cada reflexión es una invitación a mirar desde otra perspectiva.
-          </p>
-          <p>
-            Este espacio está en constante actualización: siempre habrá algo nuevo por descubrir.
-          </p>
-
-          <div class="hero-buttons">
-            <a href="/reflexiones/" class="btn btn-primary">Leer reflexiones</a>
-            <a href="/galeria/" class="btn btn-ghost">Ver imágenes</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- TEXTO PRINCIPAL -->
+    
+          <!-- TEXTO PRINCIPAL -->
       <section class="intro-text">
         <h2>¿Qué encontrarás aquí?</h2>
         <p>
@@ -240,8 +932,30 @@
             Si algo de lo que lees aquí te incomoda, te mueve o te calma, entonces este
             lugar ya cumplió su propósito.
           </p>
+          <p>
+            es un espacio donde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
+          </p>
+          <p>
+            Se redactan pensamientos —esos que han sido silenciados— intentando dar a conocer lo que la boca calla. Cada reflexión es una invitación a mirar desde otra perspectiva.
+          </p>
+          <p>
+            Este espacio está en constante actualización: siempre habrá algo nuevo por descubrir.
+          </p>
         </details>
       </section>
+    
+    <!-- MAIN CONTENT -->
+    <main>
+            <!-- TEXTO PRINCIPAL -->
+      <section class="intro-text">
+        <h2>Aqui puedes ver accesos rapidos a las paginas principales.</h2>
+        <p> Explora, conoce y despierta tu propia reflexión.</p>
+          <div class="hero-buttons">
+            <a href="/reflexiones/" class="btn btn-primary">Leer reflexiones</a>
+            <a href="/galeria/" class="btn btn-ghost">Ver imágenes</a>
+          </div>
+        </div>
+        </section>
 
       <!-- REFLEXIONES DESTACADAS -->
       <section class="reflexiones-preview">
@@ -270,7 +984,29 @@
           </article>
         </div>
       </section>
+        <!-- SECCIÓN INTERACTIVA -->
+        <div class="interactive-section">
+          <h3>¿Qué es la vida para ti?</h3>
+          <p class="interactive-sub">
+            Escribe lo primero que se te venga a la mente. Luego deja que la página te responda.
+          </p>
 
+          <div class="interactive-box">
+            <input
+              type="text"
+              id="respuesta"
+              class="interactive-input"
+              placeholder="Escribe tu respuesta..."
+              autocomplete="off"
+              aria-label="Tu respuesta"
+            >
+            <button id="enviar" class="btn btn-primary">Descubrir</button>
+          </div>
+
+          <p id="resultado" class="interactive-output" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      
       <!-- CTA FINAL -->
       <section class="final-cta">
         <p>
@@ -286,11 +1022,11 @@
   <footer class="site-footer">
     <p>© 2025 <span>El rincón del conocimiento</span> — Jeighost.lat</p>
     <p class="footer-meta">
-      Actualización: <span id="ultima-act"></span>
+      Actualización: <span id="ultima-act">10 de diciembre de 2025</span>
     </p>
   </footer>
-
-  <!-- Scripts Funcionales (Defer para no bloquear) -->
+  
+<!-- Scripts Funcionales (Defer para no bloquear) -->
   <script src="advanced-features.js" defer></script>
   <script src="favoritos.js" defer></script>
   <script src="particles.js" defer></script>
@@ -314,8 +1050,9 @@
         console.log("💬 Chat cargado diferido para mejorar velocidad");
       }, 4000); // Espera 4 segundos después de cargar la web
     });
-
-    // 2. INTERACTIVIDAD
+    
+  <!-- SCRIPTS INTEGRADOS -->
+    // INTERACTIVIDAD
     document.addEventListener('DOMContentLoaded', function() {
       const respuestas = [
         "Quizás la vida no se define, se siente.",
@@ -355,19 +1092,14 @@
             btn.textContent = 'Descubrir';
           }, 800);
         });
-      }
-
-      // Fecha automática
-      const span = document.getElementById('ultima-act');
-      if (span) {
-        const fecha = new Date(document.lastModified);
-        span.textContent = fecha.toLocaleDateString('es-ES', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
+        
+        // Soporte para Enter
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            btn.click();
+          }
         });
       }
-
       // Menú hamburguesa
       const menuBtn = document.getElementById('mobile-menu-btn');
       const navLinks = document.getElementById('nav-links');
@@ -379,8 +1111,7 @@
         });
       }
     });
-
-    // Service Worker
+        // Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
@@ -389,8 +1120,7 @@
       });
     }
   </script>
-
-  <!-- Schema.org JSON-LD -->
+    <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
