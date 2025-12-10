@@ -29,13 +29,11 @@
   <meta name="twitter:description" content="Reflexiones filosóficas y diseño consciente">
   <meta name="twitter:image" content="https://jeighost.lat/icon-512.png">
 
-  <!-- ✅ MEJORA 1: Resource Hints optimizados -->
+  <!-- Optimización de conexiones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  
-  <!-- ✅ MEJORA 2: Preconnect a Firebase (si usas comentarios) -->
   <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  <link rel="preconnect" href="https://code.tidio.co"> <!-- Pre-conexión para el chat -->
 
   <!-- Favicon y PWA -->
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -49,72 +47,87 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="El Rincón">
   <link rel="apple-touch-icon" href="/icon-192.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
 
-  <!-- ✅ MEJORA 3: CSS Crítico expandido -->
+  <!-- Estilos Críticos -->
   <style>
     /* Reset y base */
-    body{margin:0;padding:0;font-family:'Crimson Pro',Georgia,serif;background:#0b0b0c;color:#ddd;min-height:100vh;overflow-x:hidden}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif; /* Fallback sistema */
+      background: #0b0b0c;
+      color: #ddd;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
     
     /* Logo animation */
-    .logo-initial{animation:logoFadeIn 1s ease-out;display:inline-block}
-    @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.8) rotateY(90deg)}100%{opacity:1;transform:scale(1) rotateY(0)}}
+    .logo-initial { animation: logoFadeIn 1s ease-out; display: inline-block; }
+    @keyframes logoFadeIn {
+      0% { opacity: 0; transform: scale(0.8) rotateY(90deg); }
+      100% { opacity: 1; transform: scale(1) rotateY(0); }
+    }
     
     /* Header y Nav */
-    header{text-align:center;padding:2rem 1rem;background:rgba(13,13,15,0.95)}
-    h1{font-family:'Cinzel',Georgia,serif;color:#d4af37;font-size:2.2rem;margin:0}
-    nav{display:flex;justify-content:center;gap:1rem;padding:1rem;flex-wrap:wrap;background:rgba(13,13,15,0.9)}
-    nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
+    header { text-align: center; padding: 2rem 1rem; background: rgba(13,13,15,0.95); }
+    h1 { font-family: 'Cinzel', 'Times New Roman', serif; color: #d4af37; font-size: 2.2rem; margin: 0; }
+    nav { display: flex; justify-content: center; gap: 1rem; padding: 1rem; flex-wrap: wrap; background: rgba(13,13,15,0.9); }
+    nav a { color: #d4af37; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
     
-    /* Halo efecto */
-    .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
-    @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+    /* OPTIMIZACIÓN DE RENDIMIENTO: Halo con GPU */
+    .halo {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      will-change: transform, opacity; /* Avisa al navegador */
+      transform: translate(-50%, -50%); /* Centrado inicial */
+      animation: pulse 6s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.1;
+        transform: translate(-50%, -50%) scale(1.5);
+      }
+    }
     
     /* Botones básicos */
-    .btn{display:inline-block;padding:0.8rem 1.5rem;border-radius:8px;text-decoration:none;transition:all 0.3s}
-    .btn-primary{background:linear-gradient(135deg,#d4af37,#ffd700);color:#0b0b0c;font-weight:700}
+    .btn { display: inline-block; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+    .btn-primary { background: linear-gradient(135deg, #d4af37, #ffd700); color: #0b0b0c; font-weight: 700; }
     
     /* Hero section */
-    .hero{padding:3rem 1rem;text-align:center}
-    .hero h2{color:#d4af37;font-size:1.8rem;margin-bottom:1rem}
-    
-    /* Loading placeholder */
-    .loading{min-height:50vh;display:flex;align-items:center;justify-content:center;color:#d4af37}
+    .hero { padding: 3rem 1rem; text-align: center; }
+    .hero h2 { color: #d4af37; font-size: 1.8rem; margin-bottom: 1rem; }
     
     /* Interactive animations */
-    .interactive-output.thinking::after{content:'...';animation:dots 1.5s steps(4) infinite}
-    @keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%,100%{content:'...'}}
-    .interactive-output.reveal{animation:fadeInUp 0.6s ease-out}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .interactive-output.thinking::after { content: '...'; animation: dots 1.5s steps(4) infinite; }
+    @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60%, 100% { content: '...'; } }
+    .interactive-output.reveal { animation: fadeInUp 0.6s ease-out; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 
-  <!-- ✅ MEJORA 4: Fuentes optimizadas (no bloqueantes) -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" media="print" onload="this.media='all'">
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-  </noscript>
+  <!-- Fuentes optimizadas (display:swap para evitar texto invisible) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
 
-  <!-- ✅ MEJORA 5: CSS con media print (no bloquea renderizado) -->
-  <link rel="preload" as="style" href="styles.css">
+  <!-- CSS diferido (no bloquea la carga inicial) -->
   <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-  
-  <link rel="preload" as="style" href="splash-screen.css">
   <link rel="stylesheet" href="splash-screen.css" media="print" onload="this.media='all'">
-  
-  <link rel="preload" as="style" href="features.css">
   <link rel="stylesheet" href="features.css" media="print" onload="this.media='all'">
-  
-  <link rel="preload" as="style" href="app-native-features.css">
   <link rel="stylesheet" href="app-native-features.css" media="print" onload="this.media='all'">
   
-  <!-- Fallback sin JS -->
   <noscript>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="splash-screen.css">
-    <link rel="stylesheet" href="features.css">
-    <link rel="stylesheet" href="app-native-features.css">
   </noscript>
 </head>
 
@@ -136,7 +149,6 @@
         <a href="/videos/" class="nav-link">Videos</a>
         <a href="/sobre-mi/" class="nav-link">Sobre mí</a>
         
-        <!-- Botón de donaciones -->
         <button class="donate-btn" onclick="openDonateModal()" aria-label="Apoyar el proyecto">
           <span class="heart">💛</span>
           <span>Apoyar</span>
@@ -197,10 +209,10 @@
             Un espacio donde la percepción, la consciencia y el pensamiento crítico se encuentran. Aquí las palabras buscan mostrar un punto de vista, no imponer. Explora, reflexiona y encuentra tus propias respuestas.
           </p>
           <p>
-            Se redactan pensamientos —esos que han sido silenciados— intentando dar a conocer lo que la boca calla. Cada reflexión es una invitación a mirar desde otra perspectiva, instando al lector a interpretar de la forma que le sea de mayor beneficio.
+            Se redactan pensamientos —esos que han sido silenciados— intentando dar a conocer lo que la boca calla. Cada reflexión es una invitación a mirar desde otra perspectiva.
           </p>
           <p>
-            Algunas reflexiones usan metáforas y no siempre se basan directamente en la vida del autor. Este espacio está en constante actualización: siempre habrá algo nuevo por descubrir.
+            Este espacio está en constante actualización: siempre habrá algo nuevo por descubrir.
           </p>
 
           <div class="hero-buttons">
@@ -222,9 +234,7 @@
           <summary>Ver más sobre la intención de este espacio</summary>
           <p>
             Este rincón está pensado para lectores curiosos, pero también para quienes no
-            se consideran "lectores", sino personas que sienten demasiado. No escribo para
-            encajar en los criterios de la sociedad, sino para construir un lenguaje propio
-            que pueda resonar contigo.
+            se consideran "lectores", sino personas que sienten demasiado.
           </p>
           <p>
             Si algo de lo que lees aquí te incomoda, te mueve o te calma, entonces este
@@ -280,7 +290,7 @@
     </p>
   </footer>
 
-  <!-- ✅ MEJORA 6: Scripts con defer (no bloquean renderizado) -->
+  <!-- Scripts Funcionales (Defer para no bloquear) -->
   <script src="advanced-features.js" defer></script>
   <script src="favoritos.js" defer></script>
   <script src="particles.js" defer></script>
@@ -288,13 +298,24 @@
   <script src="app-native-features.js" defer></script>
   <script src="donations.js" defer></script>
   
-  <!-- ✅ MEJORA 7: Analytics con async (más rápido) -->
+  <!-- Analytics -->
   <script src="analytics.js" async></script>
 
-  <!-- ✅ MEJORA 8: Scripts inline críticos al final -->
-  <script src="//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js" async></script>
+  <!-- LÓGICA DE LA PÁGINA Y CARGA DIFERIDA DE CHAT -->
   <script>
-    // Interacción: ¿Qué es la vida?
+    // 1. CARGA DIFERIDA DE TIDIO (Chat) - Mejora el LCP drásticamente
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement("script");
+        // Asegúrate de que este ID sea el correcto de tu cuenta Tidio
+        script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
+        script.async = true;
+        document.body.appendChild(script);
+        console.log("💬 Chat cargado diferido para mejorar velocidad");
+      }, 4000); // Espera 4 segundos después de cargar la web
+    });
+
+    // 2. INTERACTIVIDAD
     document.addEventListener('DOMContentLoaded', function() {
       const respuestas = [
         "Quizás la vida no se define, se siente.",
@@ -312,29 +333,29 @@
       const btn = document.getElementById('enviar');
       const out = document.getElementById('resultado');
 
-      if (!input || !btn || !out) return;
-
-      btn.addEventListener('click', () => {
-        const texto = input.value.trim();
-        if (!texto) {
-          out.textContent = "Antes de responderle a la vida, escúchate a ti mismo.";
-          return;
-        }
-        
-        btn.disabled = true;
-        btn.textContent = 'Pensando...';
-        out.textContent = '';
-        out.classList.add('thinking');
-        
-        setTimeout(() => {
-          const aleatoria = respuestas[Math.floor(Math.random() * respuestas.length)];
-          out.textContent = aleatoria;
-          out.classList.remove('thinking');
-          out.classList.add('reveal');
-          btn.disabled = false;
-          btn.textContent = 'Descubrir';
-        }, 800);
-      });
+      if (input && btn && out) {
+        btn.addEventListener('click', () => {
+          const texto = input.value.trim();
+          if (!texto) {
+            out.textContent = "Antes de responderle a la vida, escúchate a ti mismo.";
+            return;
+          }
+          
+          btn.disabled = true;
+          btn.textContent = 'Pensando...';
+          out.textContent = '';
+          out.classList.add('thinking');
+          
+          setTimeout(() => {
+            const aleatoria = respuestas[Math.floor(Math.random() * respuestas.length)];
+            out.textContent = aleatoria;
+            out.classList.remove('thinking');
+            out.classList.add('reveal');
+            btn.disabled = false;
+            btn.textContent = 'Descubrir';
+          }, 800);
+        });
+      }
 
       // Fecha automática
       const span = document.getElementById('ultima-act');
@@ -358,10 +379,8 @@
         });
       }
     });
-  </script>
 
-  <!-- Service Worker -->
-  <script>
+    // Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
