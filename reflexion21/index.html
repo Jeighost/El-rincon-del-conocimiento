@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>reflexion21 - El rincón del conocimiento</title>
+  <meta name="description" content="Prueba">
+  <link rel="canonical" href="https://jeighost.lat/reflexion21/">
+  
+  <!-- Preloads y Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+  
+  <!-- Estilos Globales -->
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../features.css">
+  <link rel="stylesheet" href="../paper-effect.css">
+  
+  <style>
+    body{background:#0b0b0c;color:#ddd;font-family:'Crimson Pro',serif}
+    header{text-align:center;padding:3rem 1rem}
+    h1{font-family:'Cinzel',serif;color:#d4af37;font-size:2.5rem;margin:0}
+    .subtitle{color:#f5e6d3;opacity:0.8;margin-top:10px;font-style:italic}
+    
+    .reflexion-completa{max-width:800px;margin:0 auto;padding:20px;font-size:1.15rem;line-height:1.8}
+    .texto-reflexion p {margin-bottom:1.5em}
+    
+    .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+  </style>
+</head>
+<body>
+  <div class="halo"></div>
+  
+  <nav style="padding:15px;text-align:center">
+    <a href="/" style="color:#d4af37;text-decoration:none">⟵ Volver al Inicio</a>
+  </nav>
+
+  <header>
+    <h1>reflexion21</h1>
+    <p class="subtitle">Prueba</p>
+  </header>
+
+  <section class="reflexion-completa">
+    <div class="texto-reflexion">
+      <p>Prueba</p>
+    </div>
+    
+    <div class="mensaje-final" style="text-align:center;margin-top:40px;font-style:italic;color:#d4af37">
+      ¿Te ha hecho pensar? Comparte tu opinión abajo.
+    </div>
+  </section>
+
+  <!-- FEATURES JS -->
+  <script src="../advanced-features.js" defer></ script>
+  <script src="../favoritos.js" defer></ script>
+  
+  <!-- SISTEMA DE COMENTARIOS -->
+  <script type="module" src="../comments.js"></ script>
+
+  <!-- CHAT TIDIO (Lazy Load) -->
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement("script");
+        script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
+        script.async = true;
+        document.body.appendChild(script);
+      }, 4000);
+    });
+  </ script>
+</body>
+</html>
