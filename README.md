@@ -1,4 +1,4 @@
-# 🌐 El Rincón del Conocimiento
+# 🌐 El Rincón del Conocimiento 
 
 Bienvenido al repositorio oficial de **El Rincón del Conocimiento**, un sitio web dedicado a compartir reflexiones, ideas, aprendizajes y contenido que invita a pensar, analizar y crecer.  
 El propósito de esta página es ofrecer un espacio donde cualquier persona pueda encontrar inspiración, conocimiento y una perspectiva diferente del mundo.
