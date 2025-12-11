@@ -563,4 +563,4 @@ if (document.readyState === 'loading') {
 window.addEventListener('beforeunload', () => {
   if (unsubscribeComments) unsubscribeComments();
 }); 
-notificarTelegram("Aviso", null, "Alguien en en las reflexiones", "Leyendo");
+notificarTelegram("${reflexionTitulo}", null, "Alguien en en las reflexiones", "Leyendo");
