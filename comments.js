@@ -309,10 +309,11 @@ function showNotification(message, type = 'info') {
 // NOTIFICACIÓN TELEGRAM (VERSIÓN FINAL)
 // ========================================
 async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
-  console.log('🔄 Intentando enviar notificación...');
-  
+  console.log('🔄 Enviando notificación a Telegram...');
+
   const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
   const TELEGRAM_CHAT_ID = '6384756087';
+
   const mensaje = `🔔 NUEVO COMENTARIO
 
 📖 ${reflexionTitulo}
@@ -324,25 +325,24 @@ async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
 🔗 https://jeighost.lat/admin.html`;
 
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: mensaje
       })
     });
-    
+
     const result = await response.json();
-    console.log('📬 Respuesta de Telegram:', result);
-    
-    if (result.ok) {
-      console.log('✅ Enviado');
-    } else {
-      console.error('❌ Error:', result.description);
+    console.log("📬 Respuesta Telegram:", result);
+
+    if (!result.ok) {
+      console.error("❌ Falla de Telegram:", result.description);
     }
+
   } catch (error) {
-    console.error('❌ Error de conexión:', error);
+    console.error("❌ Error al conectar con Telegram:", error);
   }
 }
 // ESTILOS
@@ -562,4 +562,4 @@ if (document.readyState === 'loading') {
 // Limpiar listener al salir
 window.addEventListener('beforeunload', () => {
   if (unsubscribeComments) unsubscribeComments();
-});
+}); 
