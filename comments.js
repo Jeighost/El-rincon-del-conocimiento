@@ -30,7 +30,6 @@ let unsubscribeComments = null;
 // INICIALIZAR SISTEMA
 // ========================================
 function initCommentsSystem() {
-  // Detectar ID de reflexión actual
   const path = window.location.pathname;
   const match = path.match(/reflexion(\d+)/i);
   
@@ -42,10 +41,7 @@ function initCommentsSystem() {
   currentReflectionId = match[1];
   console.log('🔥 Sistema de comentarios cargado para reflexión:', currentReflectionId);
   
-  // Crear interfaz de comentarios
   createCommentsUI();
-  
-  // Cargar comentarios en tiempo real
   loadComments();
 }
 
@@ -53,7 +49,6 @@ function initCommentsSystem() {
 // CREAR INTERFAZ
 // ========================================
 function createCommentsUI() {
-  // Buscar dónde insertar los comentarios
   const footer = document.querySelector('footer');
   const reflexionSection = document.querySelector('.reflexion-completa');
   
@@ -65,12 +60,10 @@ function createCommentsUI() {
   const commentsHTML = `
     <section class="comments-section" id="comments-section">
       <div class="comments-container">
-        
         <div class="comments-header">
           <h2>💬 Comentarios</h2>
           <span class="comments-count" id="comments-count">0</span>
         </div>
-
         <div class="comment-form">
           <input 
             type="text" 
@@ -91,29 +84,23 @@ function createCommentsUI() {
             </button>
           </div>
         </div>
-
         <div class="comments-list" id="comments-list">
           <div class="loading-comments">
             <div class="spinner"></div>
             <p>Cargando comentarios...</p>
           </div>
         </div>
-
       </div>
     </section>
   `;
   
-  // Insertar antes del footer
   if (footer) {
     footer.insertAdjacentHTML('beforebegin', commentsHTML);
   } else {
     reflexionSection.insertAdjacentHTML('afterend', commentsHTML);
   }
   
-  // Agregar estilos
   addCommentsStyles();
-  
-  // Agregar event listeners
   setupEventListeners();
 }
 
@@ -125,26 +112,18 @@ function setupEventListeners() {
   const commentText = document.getElementById('comment-text');
   const charCount = document.getElementById('char-count');
   
-  // Botón de enviar
   submitBtn.addEventListener('click', submitComment);
   
-  // Enter para enviar (Ctrl+Enter)
   commentText.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'Enter') {
       submitComment();
     }
   });
   
-  // Contador de caracteres
   commentText.addEventListener('input', () => {
     const count = commentText.value.length;
     charCount.textContent = `${count}/1000`;
-    
-    if (count > 950) {
-      charCount.style.color = '#ef4444';
-    } else {
-      charCount.style.color = '#d4af37';
-    }
+    charCount.style.color = count > 950 ? '#ef4444' : '#d4af37';
   });
 }
 
@@ -153,29 +132,19 @@ function setupEventListeners() {
 // ========================================
 function loadComments() {
   const commentsList = document.getElementById('comments-list');
-  
-  // Query a Firestore
   const q = query(
     collection(db, 'comments'),
     where('reflectionId', '==', currentReflectionId),
     orderBy('timestamp', 'desc')
   );
   
-  // Escuchar cambios en tiempo real
   unsubscribeComments = onSnapshot(q, (snapshot) => {
     const comments = [];
-    
     snapshot.forEach((doc) => {
-      comments.push({
-        id: doc.id,
-        ...doc.data()
-      });
+      comments.push({ id: doc.id, ...doc.data() });
     });
     
-    // Actualizar contador
     document.getElementById('comments-count').textContent = comments.length;
-    
-    // Renderizar comentarios
     renderComments(comments);
   }, (error) => {
     console.error('Error cargando comentarios:', error);
@@ -237,18 +206,19 @@ async function submitComment() {
   const name = nameInput.value.trim() || 'Anónimo';
   const text = textInput.value.trim();
   
-  // Validación
   if (!text || text.length < 3) {
     showNotification('❌ El comentario debe tener al menos 3 caracteres', 'error');
     return;
   }
-  
   if (text.length > 1000) {
     showNotification('❌ El comentario es demasiado largo (máx 1000 caracteres)', 'error');
     return;
   }
-  
-  // Deshabilitar botón mientras se envía
+
+  // Obtener título de la reflexión desde el H1
+  const h1 = document.querySelector('h1');
+  const reflexionTitulo = h1 ? h1.innerText.trim() : `Reflexión ${currentReflectionId}`;
+
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span>Enviando...</span>';
   
@@ -259,18 +229,19 @@ async function submitComment() {
       name: name,
       text: text,
       timestamp: Timestamp.now(),
-      userAgent: navigator.userAgent.substring(0, 100) // Para moderar spam
+      userAgent: navigator.userAgent.substring(0, 100)
     });
-    
+
+    // ✅ Notificación a Telegram (sin email, porque no lo recoges)
+    await notificarTelegram(name, null, text, reflexionTitulo);
+
     // Limpiar formulario
     nameInput.value = '';
     textInput.value = '';
     document.getElementById('char-count').textContent = '0/1000';
     
-    // Notificación de éxito
     showNotification('✅ Comentario publicado correctamente', 'success');
     
-    // Registrar en analytics
     if (window.gtag) {
       gtag('event', 'comment_posted', {
         'event_category': 'Engagement',
@@ -282,9 +253,57 @@ async function submitComment() {
     console.error('Error al publicar comentario:', error);
     showNotification('❌ Error al publicar. Intenta de nuevo.', 'error');
   } finally {
-    // Rehabilitar botón
     submitBtn.disabled = false;
     submitBtn.innerHTML = '<span>Publicar</span>';
+  }
+}
+
+// ========================================
+// NOTIFICACIÓN TELEGRAM
+// ========================================
+async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
+  const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
+  const TELEGRAM_CHAT_ID = '6384756087'; // ← Asegúrate que sea tu USER ID
+
+  // Escapar caracteres para MarkdownV2
+  const escapeMarkdown = (str) => {
+    return String(str).replace(/([_*[\]()~`>#+=|{}.!-])/g, '\\$1');
+  };
+
+  const mensaje = `🔔 *NUEVO COMENTARIO EN JEIGHOST\\.LAT*
+
+📖 *Reflexión:* ${escapeMarkdown(reflexionTitulo)}
+👤 *Nombre:* ${escapeMarkdown(nombre)}
+📧 *Email:* ${email ? escapeMarkdown(email) : 'No proporcionado'}
+⏰ *Fecha:* ${new Date().toLocaleString('es-ES')}
+
+💬 *Comentario:*
+"${escapeMarkdown(texto.substring(0, 150))}${texto.length > 150 ? '...' : ''}"
+
+---
+🔗 Ver en Admin: https://jeighost\\.lat/admin\\.html`;
+
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`; // ✅ Sin espacio
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: mensaje,
+        parse_mode: 'MarkdownV2'
+      })
+    });
+
+    if (response.ok) {
+      console.log('✅ Notificación enviada a Telegram');
+    } else {
+      const err = await response.json();
+      console.warn('⚠️ Error de Telegram API:', err);
+    }
+  } catch (error) {
+    console.error('⚠️ Error al enviar notificación a Telegram:', error);
   }
 }
 
@@ -293,10 +312,9 @@ async function submitComment() {
 // ========================================
 function getInitials(name) {
   const words = name.trim().split(' ');
-  if (words.length >= 2) {
-    return (words[0][0] + words[1][0]).toUpperCase();
-  }
-  return name.substring(0, 2).toUpperCase();
+  return words.length >= 2 
+    ? (words[0][0] + words[1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
 }
 
 function escapeHtml(text) {
@@ -307,23 +325,13 @@ function escapeHtml(text) {
 
 function getTimeAgo(date) {
   const seconds = Math.floor((new Date() - date) / 1000);
-  
-  const intervals = {
-    año: 31536000,
-    mes: 2592000,
-    semana: 604800,
-    día: 86400,
-    hora: 3600,
-    minuto: 60
-  };
-  
+  const intervals = { año: 31536000, mes: 2592000, semana: 604800, día: 86400, hora: 3600, minuto: 60 };
   for (const [name, value] of Object.entries(intervals)) {
     const interval = Math.floor(seconds / value);
     if (interval >= 1) {
       return `Hace ${interval} ${name}${interval > 1 ? (name === 'mes' ? 'es' : 's') : ''}`;
     }
   }
-  
   return 'Hace un momento';
 }
 
@@ -334,11 +342,9 @@ function showNotification(message, type = 'info') {
   const notification = document.createElement('div');
   notification.className = `comment-notification ${type}`;
   notification.textContent = message;
-  
   document.body.appendChild(notification);
   
   setTimeout(() => notification.classList.add('show'), 10);
-  
   setTimeout(() => {
     notification.classList.remove('show');
     setTimeout(() => notification.remove(), 300);
@@ -354,20 +360,17 @@ function addCommentsStyles() {
   const style = document.createElement('style');
   style.id = 'comments-firebase-styles';
   style.textContent = `
-    /* Sección de comentarios */
     .comments-section {
       max-width: 800px;
       margin: 3rem auto;
       padding: 2rem 1rem;
     }
-    
     .comments-container {
       background: rgba(0,0,0,0.3);
       border: 2px solid rgba(212,175,55,0.3);
       border-radius: 16px;
       padding: 2rem;
     }
-    
     .comments-header {
       display: flex;
       justify-content: space-between;
@@ -376,14 +379,12 @@ function addCommentsStyles() {
       padding-bottom: 1rem;
       border-bottom: 2px solid rgba(212,175,55,0.2);
     }
-    
     .comments-header h2 {
       font-family: 'Cinzel', serif;
       color: #d4af37;
       font-size: 1.8rem;
       margin: 0;
     }
-    
     .comments-count {
       background: rgba(212,175,55,0.2);
       color: #d4af37;
@@ -392,12 +393,6 @@ function addCommentsStyles() {
       font-weight: 700;
       font-size: 0.9rem;
     }
-    
-    /* Formulario */
-    .comment-form {
-      margin-bottom: 2rem;
-    }
-    
     .comment-form input,
     .comment-form textarea {
       width: 100%;
@@ -411,32 +406,27 @@ function addCommentsStyles() {
       font-size: 1rem;
       transition: all 0.3s;
     }
-    
     .comment-form input:focus,
     .comment-form textarea:focus {
       outline: none;
       border-color: #d4af37;
       background: rgba(255,255,255,0.08);
     }
-    
     .comment-form textarea {
       resize: vertical;
       min-height: 100px;
       line-height: 1.6;
     }
-    
     .comment-form-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    
     .char-count {
       color: #d4af37;
       font-size: 0.85rem;
       opacity: 0.7;
     }
-    
     .btn-submit-comment {
       background: linear-gradient(135deg, #d4af37, #ffd700);
       color: #0b0b0c;
@@ -448,23 +438,18 @@ function addCommentsStyles() {
       cursor: pointer;
       transition: all 0.3s;
     }
-    
     .btn-submit-comment:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(212,175,55,0.5);
     }
-    
     .btn-submit-comment:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
-    
-    /* Lista de comentarios */
     .comments-list {
       margin-top: 2rem;
     }
-    
     .loading-comments,
     .no-comments,
     .error-message {
@@ -473,7 +458,6 @@ function addCommentsStyles() {
       color: #d4af37;
       opacity: 0.7;
     }
-    
     .spinner {
       width: 40px;
       height: 40px;
@@ -483,11 +467,9 @@ function addCommentsStyles() {
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    
     .comment-item {
       display: flex;
       gap: 1rem;
@@ -498,12 +480,10 @@ function addCommentsStyles() {
       border-radius: 12px;
       transition: all 0.3s;
     }
-    
     .comment-item:hover {
       background: rgba(255,255,255,0.05);
       border-color: rgba(212,175,55,0.3);
     }
-    
     .comment-avatar {
       width: 45px;
       height: 45px;
@@ -518,12 +498,10 @@ function addCommentsStyles() {
       font-weight: 700;
       font-size: 0.9rem;
     }
-    
     .comment-content {
       flex: 1;
       min-width: 0;
     }
-    
     .comment-header {
       display: flex;
       justify-content: space-between;
@@ -532,26 +510,21 @@ function addCommentsStyles() {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
     .comment-author {
       color: #d4af37;
       font-weight: 600;
       font-size: 1rem;
     }
-    
     .comment-time {
       color: #f5e6d3;
       opacity: 0.5;
       font-size: 0.85rem;
     }
-    
     .comment-text {
       color: #f5e6d3;
       line-height: 1.7;
       word-wrap: break-word;
     }
-    
-    /* Notificación */
     .comment-notification {
       position: fixed;
       top: 80px;
@@ -568,45 +541,19 @@ function addCommentsStyles() {
       font-weight: 600;
       max-width: 90%;
     }
-    
     .comment-notification.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
-    
-    .comment-notification.success {
-      color: #86efac;
-      border-color: #22c55e;
-    }
-    
-    .comment-notification.error {
-      color: #fca5a5;
-      border-color: #ef4444;
-    }
-    
-    /* Responsive */
+    .comment-notification.success { color: #86efac; border-color: #22c55e; }
+    .comment-notification.error { color: #fca5a5; border-color: #ef4444; }
     @media (max-width: 768px) {
-      .comments-container {
-        padding: 1.5rem 1rem;
-      }
-      
-      .comments-header h2 {
-        font-size: 1.4rem;
-      }
-      
-      .comment-item {
-        padding: 1rem;
-      }
-      
-      .comment-avatar {
-        width: 38px;
-        height: 38px;
-        min-width: 38px;
-        font-size: 0.8rem;
-      }
+      .comments-container { padding: 1.5rem 1rem; }
+      .comments-header h2 { font-size: 1.4rem; }
+      .comment-item { padding: 1rem; }
+      .comment-avatar { width: 38px; height: 38px; font-size: 0.8rem; }
     }
   `;
-  
   document.head.appendChild(style);
 }
 
@@ -619,12 +566,7 @@ if (document.readyState === 'loading') {
   initCommentsSystem();
 }
 
-// Limpiar al salir de la página
+// Limpiar listener al salir
 window.addEventListener('beforeunload', () => {
-  if (unsubscribeComments) {
-    unsubscribeComments();
-  }
-  
-  // Iniciar sistema cuando cargue
-document.addEventListener('DOMContentLoaded', initCommentsSystem);
+  if (unsubscribeComments) unsubscribeComments();
 });
