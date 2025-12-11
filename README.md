@@ -57,7 +57,7 @@ Este proyecto busca inspirar a las personas a reflexionar sobre temas importante
 
 Puedes acceder al sitio en el siguiente enlace:
 
-👉 **https://jeighost.lat/**
+>> **https://jeighost.lat/**
 
 ---
 
