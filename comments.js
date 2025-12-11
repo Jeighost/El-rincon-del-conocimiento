@@ -306,10 +306,11 @@ function showNotification(message, type = 'info') {
 }
 
 // ========================================
-// NOTIFICACIÓN TELEGRAM (VERSIÓN FINAL)
+// NOTIFICACIONES A TELEGRAM (COMENTARIOS + VISITAS)
 // ========================================
+
 async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
-  console.log('🔄 Enviando notificación a Telegram...');
+  console.log('🔄 Enviando notificación de comentario…');
 
   const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
   const TELEGRAM_CHAT_ID = '6384756087';
@@ -325,26 +326,56 @@ async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
 🔗 https://jeighost.lat/admin.html`;
 
   try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: mensaje
-      })
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: mensaje })
     });
-
-    const result = await response.json();
-    console.log("📬 Respuesta Telegram:", result);
-
-    if (!result.ok) {
-      console.error("❌ Falla de Telegram:", result.description);
-    }
-
-  } catch (error) {
-    console.error("❌ Error al conectar con Telegram:", error);
+  } catch (e) {
+    console.error("❌ Error enviando comentario:", e);
   }
 }
+
+// ========= AVISO DE VISITA (LEE CUALQUIER REFLEXIÓN) =========
+
+async function notificarVisita(reflexionTitulo) {
+  console.log('👁️ Enviando aviso de lectura…');
+
+  const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
+  const TELEGRAM_CHAT_ID = '6384756087';
+
+  const mensaje = `👁️ AVISO DE VISITA
+
+📖 Reflexión: ${reflexionTitulo}
+⏰ ${new Date().toLocaleString('es-ES')}
+
+🚶 Alguien está leyendo esta reflexión.`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: mensaje })
+    });
+  } catch (e) {
+    console.error("❌ Error enviando aviso de visita:", e);
+  }
+}
+
+// ========= ACTIVAR AVISO CUANDO SE CARGA UNA REFLEXIÓN =========
+
+document.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname;
+  const match = path.match(/reflexion(\d+)/i);
+
+  if (!match) return; // No es reflexión, no avisar nada
+
+  const h1 = document.querySelector('h1');
+  const reflexionTitulo = h1 ? h1.innerText.trim() : `Reflexión ${match[1]}`;
+
+  // 🔥 AVISO AUTOMÁTICO
+  notificarVisita(reflexionTitulo);
+});
 // ESTILOS
 // ========================================
 function addCommentsStyles() {
@@ -563,4 +594,3 @@ if (document.readyState === 'loading') {
 window.addEventListener('beforeunload', () => {
   if (unsubscribeComments) unsubscribeComments();
 }); 
-notificarTelegram("${reflexionTitulo}", null, "Alguien en en las reflexiones", "Leyendo");
