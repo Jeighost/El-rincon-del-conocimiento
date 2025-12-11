@@ -259,53 +259,7 @@ async function submitComment() {
 }
 
 // ========================================
-// NOTIFICACIÓN TELEGRAM
-// ========================================
-async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
-  const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
-  const TELEGRAM_CHAT_ID = '6384756087'; // ← Asegúrate que sea tu USER ID
 
-  // Escapar caracteres para MarkdownV2
-  const escapeMarkdown = (str) => {
-    return String(str).replace(/([_*[\]()~`>#+=|{}.!-])/g, '\\$1');
-  };
-
-  const mensaje = `🔔 *NUEVO COMENTARIO EN JEIGHOST\\.LAT*
-
-📖 *Reflexión:* ${escapeMarkdown(reflexionTitulo)}
-👤 *Nombre:* ${escapeMarkdown(nombre)}
-📧 *Email:* ${email ? escapeMarkdown(email) : 'No proporcionado'}
-⏰ *Fecha:* ${new Date().toLocaleString('es-ES')}
-
-💬 *Comentario:*
-"${escapeMarkdown(texto.substring(0, 150))}${texto.length > 150 ? '...' : ''}"
-
----
-🔗 Ver en Admin: https://jeighost\\.lat/admin\\.html`;
-
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`; // ✅ Sin espacio
-
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: mensaje,
-        parse_mode: 'MarkdownV2'
-      })
-    });
-
-    if (response.ok) {
-      console.log('✅ Notificación enviada a Telegram');
-    } else {
-      const err = await response.json();
-      console.warn('⚠️ Error de Telegram API:', err);
-    }
-  } catch (error) {
-    console.error('⚠️ Error al enviar notificación a Telegram:', error);
-  }
-}
 
 // ========================================
 // UTILIDADES
@@ -352,6 +306,45 @@ function showNotification(message, type = 'info') {
 }
 
 // ========================================
+// NOTIFICACIÓN TELEGRAM (VERSIÓN FINAL)
+// ========================================
+async function notificarTelegram(nombre, email, texto, reflexionTitulo) {
+  console.log('🔄 Intentando enviar notificación...');
+  
+  const TELEGRAM_BOT_TOKEN = '8259355878:AAHJnkbWvF8shk2VwH3MusJblhCg7l6KLow';
+  const TELEGRAM_CHAT_ID = '6384756087';
+  const mensaje = `🔔 NUEVO COMENTARIO
+
+📖 ${reflexionTitulo}
+👤 ${nombre}
+⏰ ${new Date().toLocaleString('es-ES')}
+
+💬 "${texto.substring(0, 200)}..."
+
+🔗 https://jeighost.lat/admin.html`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: mensaje
+      })
+    });
+    
+    const result = await response.json();
+    console.log('📬 Respuesta de Telegram:', result);
+    
+    if (result.ok) {
+      console.log('✅ Enviado');
+    } else {
+      console.error('❌ Error:', result.description);
+    }
+  } catch (error) {
+    console.error('❌ Error de conexión:', error);
+  }
+}
 // ESTILOS
 // ========================================
 function addCommentsStyles() {
