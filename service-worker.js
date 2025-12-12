@@ -3,7 +3,7 @@
 // Fecha: 2025-11-16
 
 // -- CONFIGURACIÓN --
-const VERSION = 'v12';
+const VERSION = 'v13';
 const CACHE_STATIC  = `el-rincon-static-${VERSION}`;
 const CACHE_DYNAMIC = `el-rincon-dynamic-${VERSION}`;
 const CACHE_IMAGES  = `el-rincon-images-${VERSION}`;
@@ -33,12 +33,11 @@ const STATIC_ASSETS = [
   '/features.js',
   '/app-native-features.js',
   '/install.js',
-  '/notifications.js',
-  '/auto-notifications.js',
   '/particles.js',
   '/favoritos.js',
   '/analytics.js',
   '/autoplay-reflexiones.js',
+  '/comments.js',
   
   // Iconos
   '/jeighost-icons-pack/icon-72x72.png',
@@ -109,7 +108,7 @@ async function limitCacheSize(cacheName, maxItems) {
 
 // -- INSTALL: Precarga de recursos críticos --
 self.addEventListener('install', (event) => {
-  console.log('[SW] Instalando v12...');
+  console.log('[SW] Instalando v13...');
   
   event.waitUntil(
     Promise.all([
@@ -151,7 +150,7 @@ self.addEventListener('install', (event) => {
 
 // -- ACTIVATE: Limpieza de cachés antiguos --
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activando v12...');
+  console.log('[SW] Activando v13...');
   
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -462,8 +461,9 @@ self.addEventListener('sync', (event) => {
       })
     );
   }
+  importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
 });
 
-console.log('%c[SW] 🚀 Jeighost.lat v12 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
+console.log('%c[SW] 🚀 Jeighost.lat v13 MEJORADO activo', 'color: gold; font-weight: bold; font-size: 14px;');
 console.log('[SW] Estrategias: Network First (HTML) | Cache First (Assets/Imágenes)');
 console.log('[SW] Límites: Dinámico=' + MAX_DYNAMIC_ITEMS + ' | Imágenes=' + MAX_IMAGE_ITEMS);
