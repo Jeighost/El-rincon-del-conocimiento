@@ -1033,7 +1033,17 @@
   <script src="install.js" defer></script>
   <script src="app-native-features.js" defer></script>
   <script src="donations.js" defer></script>
-  
+
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "33ed9efb-93b4-49a7-91bd-81b8e38eadf3",
+    });
+  });
+</script>
+
   <!-- Analytics -->
   <script src="analytics.js" async></script>
 
