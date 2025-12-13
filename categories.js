@@ -26,7 +26,8 @@
     17: ['Filosofía', 'Propósito'],
     18: ['Filosofía', 'Conciencia'],
     19: ['Crecimiento Personal', 'Poesía'],
-    20: ['Amor', 'Relaciones', 'Poesía']
+    20: ['Amor', 'Relaciones', 'Poesía'],
+    21: ['Filosofía', 'Propósito']
   };
 
   // Iconos por categoría
