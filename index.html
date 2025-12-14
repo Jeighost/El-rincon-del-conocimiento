@@ -864,11 +864,73 @@
   margin-top: 0.6rem;
   font-size: 0.95rem;
 }
+.legal-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .legal-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .legal-links a:hover {
+            text-decoration: underline;
+        }
+
+        .legal-links span {
+            color: #cbd5e0;
+        }
+
+        .status-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .status-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .status-box pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .test-buttons {
+                flex-direction: column;
+            }
+
+            .test-btn {
+                width: 100%;
+            }
+        }
   </style>
 
   <!-- Fuentes optimizadas -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
   <noscript>
+    <!-- Sistema de Cookies -->
+    <link rel="stylesheet" href="cookie-consent-modal.css">
     <link rel="stylesheet" href="splash-screen.css">
   </noscript>
 </head>
@@ -1021,18 +1083,27 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <p>© 2025 <span>El rincón del conocimiento</span> — Jeighost.lat</p>
-    <p class="footer-meta">
+     <p class="footer-meta">
       Actualización: <span id="ultima-act">10 de diciembre de 2025</span>
     </p>
+    <div class="legal-links">
+                <a href="privacidad.html" target="_blank">Política de Privacidad</a>
+                <span>•</span>
+                <a href="cookies.html" target="_blank">Política de Cookies</a>
+                <span>•</span>
+                <a href="#" id="cookieSettings">⚙️ Configuración de Cookies</a>
+            </div>
   </footer>
   
 <!-- Scripts Funcionales (Defer para no bloquear) -->
+    <script src="cookie-consent-modal.js"></script>
   <script src="advanced-features.js" defer></script>
   <script src="favoritos.js" defer></script>
   <script src="particles.js" defer></script>
   <script src="install.js" defer></script>
   <script src="app-native-features.js" defer></script>
   <script src="donations.js" defer></script>
+    <!-- Sistema de Cookies -->
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
