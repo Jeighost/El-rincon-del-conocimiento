@@ -924,6 +924,25 @@
                 width: 100%;
             }
         }
+.notificaciones-box {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.notificaciones-box p {
+  margin-bottom: 15px;
+  font-size: 15px;
+  color: #444;
+}
+
+.notificaciones-box button {
+  padding: 10px 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
   </style>
 
   <!-- Fuentes optimizadas -->
@@ -933,6 +952,25 @@
      <link rel="stylesheet" href="cookies-pro.css">
     <link rel="stylesheet" href="splash-screen.css">
   </noscript>
+<!-- OneSignal SDK -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(function (OneSignal) {
+    OneSignal.init({
+      appId: "33ed9efb-93b4-49a7-91bd-81b8e38eadf3",
+      notifyButton: {
+        enable: false
+      },
+      promptOptions: {
+        slidedown: {
+          enabled: false
+        }
+      }
+    });
+  });
+</script>
 </head>
 
 <body>
@@ -1068,6 +1106,12 @@
           <p id="resultado" class="interactive-output" role="status" aria-live="polite"></p>
         </div>
       </div>
+<div class="notificaciones-box" id="notificaciones-box">
+  <p>¿Deseas recibir nuevas reflexiones cuando estén disponibles?</p>
+  <button id="btn-notificaciones" onclick="activarNotificaciones()">
+    Activar notificaciones
+  </button>
+</div>
       
       <!-- CTA FINAL -->
       <section class="final-cta">
@@ -1104,16 +1148,6 @@
   <script src="app-native-features.js" defer></script>
   <script src="donations.js" defer></script>
     <!-- Sistema de Cookies -->
-
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "33ed9efb-93b4-49a7-91bd-81b8e38eadf3",
-    });
-  });
-</script>
 
   <!-- Analytics -->
   <script src="analytics.js" async></script>
@@ -1217,5 +1251,22 @@
     "inLanguage": "es"
   }
   </script>
+<script>
+  function activarNotificaciones() {
+    OneSignalDeferred.push(function (OneSignal) {
+      OneSignal.showSlidedownPrompt();
+    });
+  }
+
+  // Ocultar el botón si ya decidió (aceptó o rechazó)
+  OneSignalDeferred.push(function (OneSignal) {
+    OneSignal.getNotificationPermission().then(function (permission) {
+      if (permission !== "default") {
+        const box = document.getElementById("notificaciones-box");
+        if (box) box.style.display = "none";
+      }
+    });
+  });
+</script>
 </body>
 </html>
