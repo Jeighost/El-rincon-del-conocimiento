@@ -260,7 +260,7 @@
       '18': 'No es un buen negocio',
       '19': 'La noche y el niño',
       '20': 'Lo último de mi para ti',
-      '21': 'Lo último de mi para ti',
+      '21': 'Mi pensamiento',
     };
     
     favorites.forEach(id => {
