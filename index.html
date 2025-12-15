@@ -1156,22 +1156,23 @@ body[data-theme="dark"] {
   });
 </script>
 
-  <!-- Analytics -->
-  <script src="analytics.js" async></script>
+<!-- Analytics se carga condicionalmente desde cookie-banner-improved.js -->
+<!-- <script src="analytics.js" async></script> -->
 
   <!-- LÓGICA DE LA PÁGINA Y CARGA DIFERIDA DE CHAT -->
   <script>
-    // 1. CARGA DIFERIDA DE TIDIO (Chat) - Mejora el LCP drásticamente
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement("script");
-        // Asegúrate de que este ID sea el correcto de tu cuenta Tidio
-        script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
-        script.async = true;
-        document.body.appendChild(script);
-        console.log("💬 Chat cargado diferido para mejorar velocidad");
-      }, 4000); // Espera 4 segundos después de cargar la web
-    });
+/*
+// 1. CARGA DIFERIDA DE TIDIO - DESACTIVADO (ahora se carga condicionalmente)
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var script = document.createElement("script");
+    script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
+    script.async = true;
+    document.body.appendChild(script);
+    console.log("💬 Chat cargado diferido para mejorar velocidad");
+  }, 4000);
+});
+*/
     
   <!-- SCRIPTS INTEGRADOS -->
     // INTERACTIVIDAD

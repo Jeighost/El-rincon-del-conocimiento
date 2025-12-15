@@ -110,7 +110,7 @@
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
-                    <p>Permiten guardar tus preferencias (tema, idioma, favoritos) y usar el chat de soporte (Tidio).</p>
+                    <p>Permiten el chat de soporte (Tidio). También usamos almacenamiento local (sin rastreo) para tus preferencias de tema y favoritos.</p>
                 </div>
                 
                 <div class="cookie-option">
@@ -170,21 +170,80 @@
         }, 3000);
     }
     
+    // Cargar servicios según preferencias
+    function loadServices(preferences) {
+        // Cargar Tidio (chat) si aceptó cookies funcionales
+        if (preferences.functional) {
+            loadTidioChat();
+        }
+        
+        // Cargar Google Analytics si aceptó cookies analíticas
+        if (preferences.analytics) {
+            loadGoogleAnalytics();
+        }
+        
+        console.log('🔧 Servicios cargados según preferencias:', preferences);
+    }
+    
+    // Cargar Tidio Chat
+    function loadTidioChat() {
+        if (document.querySelector('script[src*="tidio"]')) {
+            console.log('💬 Tidio ya está cargado');
+            return;
+        }
+        
+        setTimeout(function() {
+            var script = document.createElement("script");
+            script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
+            script.async = true;
+            document.body.appendChild(script);
+            console.log("💬 Tidio Chat cargado (cookies funcionales aceptadas)");
+        }, 2000);
+    }
+    
+    // Cargar Google Analytics
+    function loadGoogleAnalytics() {
+        if (window.gtag) {
+            console.log('📊 Google Analytics ya está cargado');
+            return;
+        }
+        
+        const GA_MEASUREMENT_ID = 'G-CV6RG5X5P1';
+        
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        
+        gtag('js', new Date());
+        gtag('config', GA_MEASUREMENT_ID, {
+            'send_page_view': true,
+            'anonymize_ip': true
+        });
+        
+        console.log('📊 Google Analytics cargado (cookies analíticas aceptadas)');
+    }
+
     // Gestor público de cookies
     window.cookieManager = {
         // Aceptar todas las cookies
         acceptAll: function() {
-            savePreferences({
+            const prefs = savePreferences({
                 functional: true,
                 analytics: true
             });
             closeBanner();
             showNotification('Todas las cookies han sido aceptadas');
+            loadServices(prefs);
         },
         
         // Rechazar cookies opcionales
         rejectAll: function() {
-            savePreferences({
+            const prefs = savePreferences({
                 functional: false,
                 analytics: false
             });
@@ -197,6 +256,8 @@
             
             closeBanner();
             showNotification('Solo cookies necesarias activadas');
+            // No carga servicios opcionales
+            console.log('⚠️ Servicios opcionales no cargados (rechazados por el usuario)');
         },
         
         // Abrir modal de preferencias
@@ -230,7 +291,7 @@
             const functional = document.getElementById('functionalCookies')?.checked || false;
             const analytics = document.getElementById('analyticsCookies')?.checked || false;
             
-            savePreferences({
+            const prefs = savePreferences({
                 functional: functional,
                 analytics: analytics
             });
@@ -243,6 +304,7 @@
             
             closeBanner();
             showNotification('Preferencias guardadas correctamente');
+            loadServices(prefs);
         },
         
         // Resetear (para pruebas)
@@ -257,6 +319,13 @@
         // Solo mostrar si no ha dado consentimiento
         if (!hasConsent()) {
             createBanner();
+        } else {
+            // Si ya dio consentimiento, cargar servicios según preferencias
+            const prefs = getPreferences();
+            if (prefs) {
+                loadServices(prefs);
+                console.log('✅ Preferencias previas detectadas, cargando servicios...');
+            }
         }
     }
     
