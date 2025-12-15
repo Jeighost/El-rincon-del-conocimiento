@@ -58,6 +58,67 @@
     nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
     .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
     @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
+        /* LEGAL LINKS EN FOOTER - MEJORADOS */
+.legal-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 15px 0;
+}
+
+.legal-links a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.legal-links a:hover {
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+.legal-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.legal-links a:hover::after {
+  width: 80%;
+}
+
+.legal-links span {
+  color: var(--text-light);
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .legal-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .legal-links span {
+    display: none;
+  }
+}
   </style>
 
   <!-- Precargar fuentes críticas -->
@@ -70,6 +131,9 @@
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
+      <!-- Sistema de Cookies -->
+   <link rel="stylesheet" href="../cookie-banner-improved.css">
+   
   <!-- Estilos -->
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../menu-mejorado.css">
@@ -205,17 +269,56 @@
  <p>Próximamente habrá una nueva</p>
  </section>
  
-  <footer>
-    © 2025 <span>El rincón del conocimiento</span> — Todos los derechos reservados
+    <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2025 <span>El rincón del conocimiento</span> — Jeighost.lat</p>
+     <p class="footer-meta">
+      Actualización: <span id="ultima-act"></span>
+    </p>
+    <div class="legal-links">
+         <a href="../privacidad.html" target="_blank">Política de Privacidad</a>
+         <a href="../cookies.html" target="_blank">Política de Cookies</a>
+         <a href="#" onclick="window.cookieManager.reset(); setTimeout(() => window.cookieManager.openPreferences(), 500); return false;">⚙️ Configuración de Cookies</a>
+         </div>
   </footer>
+  
+    <!-- Sistema de Cookies -->
+    <script src="../cookie-banner-improved.js"></script>
+    
 <script src="../advanced-features.js"></script>
-<script src="//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js" async></script>
   <script src="../features.js"></script>
   <script src="../particles.js"></script>
   <script src="../favoritos.js"></script>
  <script src="../reflexiones.js"></script>
  <script src="../app-native-features.js" defer></script>
-<script src="../auto-notifications.js"></script>
-<script src="../analytics.js"></script> 
+ 
+<!-- Analytics se carga condicionalmente desde cookie-banner-improved.js -->
+<!-- <script src="../analytics.js" async></script> -->
+
+  <!-- LÓGICA DE LA PÁGINA Y CARGA DIFERIDA DE CHAT -->
+  <script>
+/*
+// 1. CARGA DIFERIDA DE TIDIO - DESACTIVADO (ahora se carga condicionalmente)
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var script = document.createElement("script");
+    script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
+    script.async = true;
+    document.body.appendChild(script);
+    console.log("💬 Chat cargado diferido para mejorar velocidad");
+  }, 4000);
+});
+*/
+       // Fecha automática
+      const span = document.getElementById('ultima-act');
+      if (span) {
+        const fecha = new Date(document.lastModified);
+        span.textContent = fecha.toLocaleDateString('es-ES', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+        </script>
 </body>
 </html>
