@@ -44,19 +44,39 @@
 
   <!-- Estilos integrados para rendimiento 100% -->
   <style>
-    /* RESET Y VARIABLES */
-    :root {
-      --gold: #d4af37;
-      --gold-light: #ffd700;
-      --gold-dark: #b8860b;
-      --bg: #0b0b0c;
-      --text: #ddd;
-      --text-light: #aaa;
-      --card-bg: rgba(20, 20, 22, 0.7);
-      --border: rgba(212, 175, 55, 0.2);
-      --shadow: rgba(0, 0, 0, 0.5);
-      --transition: all 0.3s ease;
-    }
+/* RESET Y VARIABLES - MODO OSCURO POR DEFECTO */
+:root {
+  --gold: #d4af37;
+  --gold-light: #ffd700;
+  --gold-dark: #b8860b;
+  --bg: #0b0b0c;
+  --text: #ddd;
+  --text-light: #aaa;
+  --card-bg: rgba(20, 20, 22, 0.7);
+  --border: rgba(212, 175, 55, 0.2);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --transition: all 0.3s ease;
+}
+
+/* MODO CLARO - CONTROLADO POR data-theme */
+body[data-theme="light"] {
+  --bg: #f5f5f5;
+  --text: #333;
+  --text-light: #666;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --border: rgba(212, 175, 55, 0.3);
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* MODO OSCURO EXPLÍCITO (opcional, ya es el default) */
+body[data-theme="dark"] {
+  --bg: #0b0b0c;
+  --text: #ddd;
+  --text-light: #aaa;
+  --card-bg: rgba(20, 20, 22, 0.7);
+  --border: rgba(212, 175, 55, 0.2);
+  --shadow: rgba(0, 0, 0, 0.5);
+}
 
     * {
       margin: 0;
@@ -389,7 +409,7 @@
       border-radius: 12px;
       border: 1px solid var(--border);
       transition: var(--transition);
-    }
+     }
 
     .reflexion-card:hover {
       transform: translateY(-5px);
@@ -864,113 +884,78 @@
   margin-top: 0.6rem;
   font-size: 0.95rem;
 }
+/* LEGAL LINKS EN FOOTER - MEJORADOS */
 .legal-links {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .legal-links a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .legal-links a:hover {
-            text-decoration: underline;
-        }
-
-        .legal-links span {
-            color: #cbd5e0;
-        }
-
-        .status-box {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .status-box h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .status-box pre {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px 25px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .test-buttons {
-                flex-direction: column;
-            }
-
-            .test-btn {
-                width: 100%;
-            }
-        }
-.notificaciones-box {
-  margin: 40px auto;
-  padding: 20px;
-  max-width: 500px;
-  text-align: center;
-  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 15px 0;
 }
 
-.notificaciones-box p {
-  margin-bottom: 15px;
-  font-size: 15px;
-  color: #444;
+.legal-links a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 6px;
 }
 
-.notificaciones-box button {
-  padding: 10px 18px;
-  font-size: 14px;
-  cursor: pointer;
+.legal-links a:hover {
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+.legal-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.legal-links a:hover::after {
+  width: 80%;
+}
+
+.legal-links span {
+  color: var(--text-light);
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .legal-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .legal-links span {
+    display: none;
+  }
 }
   </style>
 
   <!-- Fuentes optimizadas -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-  <noscript>
+  
     <!-- Sistema de Cookies -->
-     <link rel="stylesheet" href="cookies-pro.css">
+     <link rel="stylesheet" href="cookie-banner-improved.css">
+     
+  <noscript>
     <link rel="stylesheet" href="splash-screen.css">
   </noscript>
-<!-- OneSignal SDK -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(function (OneSignal) {
-    OneSignal.init({
-      appId: "33ed9efb-93b4-49a7-91bd-81b8e38eadf3",
-      notifyButton: {
-        enable: false
-      },
-      promptOptions: {
-        slidedown: {
-          enabled: false
-        }
-      }
-    });
-  });
-</script>
 </head>
 
 <body>
@@ -1060,31 +1045,32 @@
       <!-- REFLEXIONES DESTACADAS -->
       <section class="reflexiones-preview">
         <div class="section-header">
-          <h2>Algunas reflexiones</h2>
-          <a href="/reflexiones/" class="section-link">Ver todas →</a>
+        <h2>Algunas reflexiones</h2>
+        <a href="/reflexiones/" class="section-link">Ver todas →</a>
         </div>
 
         <div class="reflexiones-grid">
-          <article class="reflexion-card">
-            <h3>1. La percepción</h3>
-            <p>Reflexión sobre la forma que vemos</p>
-            <a href="/reflexion1/" class="card-link">Leer completa</a>
-          </article>
+        <article class="reflexion-card">
+        <h3>1. La percepción</h3>
+        <p>Reflexión sobre la forma que vemos</p>
+        <a href="/reflexion1/" class="card-link">Leer completa</a>
+        </article>
 
-          <article class="reflexion-card">
-            <h3>2. La historia</h3>
-            <p>Irónico</p>
-            <a href="/reflexion2/" class="card-link">Leer completa</a>
-          </article>
+       <article class="reflexion-card">
+        <h3>2. La historia</h3>
+        <p>Irónico</p>
+        <a href="/reflexion2/" class="card-link">Leer completa</a>
+        </article>
 
-          <article class="reflexion-card">
-            <h3>3. Último mensaje</h3>
-            <p>Un corto poema</p>
-            <a href="/reflexion3/" class="card-link">Leer completa</a>
-          </article>
+        <article class="reflexion-card">
+        <h3>3. Último mensaje</h3>
+        <p>Un corto poema</p>
+        <a href="/reflexion3/" class="card-link">Leer completa</a>
+        </article>
         </div>
-      </section>
-        <!-- SECCIÓN INTERACTIVA -->
+        </section>
+        
+     <!-- SECCIÓN INTERACTIVA -->
         <div class="interactive-section">
           <h3>¿Qué es la vida para ti?</h3>
           <p class="interactive-sub">
@@ -1105,7 +1091,6 @@
 
           <p id="resultado" class="interactive-output" role="status" aria-live="polite"></p>
         </div>
-      </div>
       
       <!-- CTA FINAL -->
       <section class="final-cta">
@@ -1116,7 +1101,6 @@
         <a href="/sobre-mi/" class="btn btn-ghost">Conocer al autor</a>
       </section>
     </main>
-  </div>
 
   <!-- FOOTER -->
   <footer class="site-footer">
@@ -1125,21 +1109,52 @@
       Actualización: <span id="ultima-act"></span>
     </p>
     <div class="legal-links">
-                <a href="privacidad.html" target="_blank">Política de Privacidad</a>
-                <span>•</span>
-                <a href="cookies.html" target="_blank">Política de Cookies</a>
-            </div>
+         <a href="privacidad.html" target="_blank">Política de Privacidad</a>
+         <a href="cookies.html" target="_blank">Política de Cookies</a>
+         <a href="#" onclick="window.cookieManager.reset(); setTimeout(() => window.cookieManager.openPreferences(), 500); return false;">⚙️ Configuración de Cookies</a>
+         </div>
   </footer>
   
 <!-- Scripts Funcionales (Defer para no bloquear) -->
-    <script src="cookies-pro.js"></script>
+    <!-- Sistema de Cookies -->
+    <script src="cookie-banner-improved.js"></script>
   <script src="advanced-features.js" defer></script>
   <script src="favoritos.js" defer></script>
   <script src="particles.js" defer></script>
   <script src="install.js" defer></script>
   <script src="app-native-features.js" defer></script>
   <script src="donations.js" defer></script>
-    <!-- Sistema de Cookies -->
+
+<!-- OneSignal - Aparece automáticamente después de 3 segundos -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(function(OneSignal) {
+    OneSignal.init({
+      appId: "33ed9efb-93b4-49a7-91bd-81b8e38eadf3",
+      allowLocalhostAsSecureOrigin: true,
+      autoRegister: false,
+      autoResubscribe: true,
+      notifyButton: {
+        enable: false
+      }
+    }).then(function() {
+      console.log('🔔 OneSignal inicializado correctamente');
+      
+      // Mostrar el prompt después de 3 segundos
+      setTimeout(function() {
+        console.log('🔔 Mostrando prompt de notificaciones...');
+        OneSignal.Slidedown.promptPush().then(function(result) {
+          console.log('🔔 Resultado del prompt:', result);
+        }).catch(function(error) {
+          console.error('❌ Error al mostrar prompt:', error);
+        });
+      }, 3000);
+    }).catch(function(error) {
+      console.error('❌ Error al inicializar OneSignal:', error);
+    });
+  });
+</script>
 
   <!-- Analytics -->
   <script src="analytics.js" async></script>
@@ -1199,7 +1214,7 @@
             btn.textContent = 'Descubrir';
           }, 800);
         });
-        
+      
         // Soporte para Enter
         input.addEventListener('keypress', (e) => {
           if (e.key === 'Enter') {
@@ -1207,6 +1222,18 @@
           }
         });
       }
+      
+       // Fecha automática
+      const span = document.getElementById('ultima-act');
+      if (span) {
+        const fecha = new Date(document.lastModified);
+        span.textContent = fecha.toLocaleDateString('es-ES', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+      
       // Menú hamburguesa
       const menuBtn = document.getElementById('mobile-menu-btn');
       const navLinks = document.getElementById('nav-links');
@@ -1218,6 +1245,7 @@
         });
       }
     });
+    
         // Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -1243,22 +1271,5 @@
     "inLanguage": "es"
   }
   </script>
-<script>
-  function activarNotificaciones() {
-    OneSignalDeferred.push(function (OneSignal) {
-      OneSignal.showSlidedownPrompt();
-    });
-  }
-
-  // Ocultar el botón si ya decidió (aceptó o rechazó)
-  OneSignalDeferred.push(function (OneSignal) {
-    OneSignal.getNotificationPermission().then(function (permission) {
-      if (permission !== "default") {
-        const box = document.getElementById("notificaciones-box");
-        if (box) box.style.display = "none";
-      }
-    });
-  });
-</script>
 </body>
 </html>
