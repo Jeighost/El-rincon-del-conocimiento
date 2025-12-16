@@ -1,5 +1,6 @@
 // ========================================
 // SISTEMA DE DONACIONES - JEIGHOST
+// VERSIÓN CORREGIDA PARA MODO CLARO/OSCURO
 // ========================================
 
 // CONFIGURACIÓN - Cambia por tus datos reales
@@ -21,11 +22,49 @@ const DONATE_CONFIG = {
   }
 };
 
+// Función para detectar el tema actual
+function getCurrentTheme() {
+  return document.body.getAttribute('data-theme') || 'dark';
+}
+
+// Función para obtener colores según el tema
+function getThemeColors() {
+  const theme = getCurrentTheme();
+  if (theme === 'light') {
+    return {
+      modalBg: 'rgba(255, 255, 255, 0.98)',
+      contentBg: 'linear-gradient(135deg, rgba(250,250,250,0.98), rgba(245,245,245,0.98))',
+      headerBg: 'rgba(240,240,240,0.5)',
+      text: '#2c2c2c',
+      textSecondary: '#666',
+      border: 'rgba(212,175,55,0.4)',
+      methodBg: 'rgba(0,0,0,0.03)',
+      methodBgHover: 'rgba(0,0,0,0.06)',
+      dataBg: 'rgba(212,175,55,0.15)',
+      overlay: 'rgba(0, 0, 0, 0.7)'
+    };
+  } else {
+    return {
+      modalBg: 'rgba(0, 0, 0, 0.9)',
+      contentBg: 'linear-gradient(135deg, rgba(20,20,20,0.98), rgba(30,25,20,0.98))',
+      headerBg: 'rgba(0,0,0,0.3)',
+      text: '#f5e6d3',
+      textSecondary: '#f5e6d3',
+      border: 'rgba(212,175,55,0.5)',
+      methodBg: 'rgba(255,255,255,0.03)',
+      methodBgHover: 'rgba(255,255,255,0.06)',
+      dataBg: 'rgba(212,175,55,0.08)',
+      overlay: 'rgba(0, 0, 0, 0.85)'
+    };
+  }
+}
+
 // Abrir modal
 function openDonateModal() {
   const existing = document.querySelector('.donate-modal');
   if (existing) existing.remove();
 
+  const colors = getThemeColors();
   const modal = document.createElement('div');
   modal.className = 'donate-modal';
   
@@ -126,6 +165,9 @@ function openDonateModal() {
 
   document.body.appendChild(modal);
 
+  // Aplicar colores dinámicamente
+  applyDonateModalColors(modal);
+
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeDonateModal();
   });
@@ -140,6 +182,80 @@ function openDonateModal() {
   setTimeout(() => modal.classList.add('show'), 50);
 }
 
+function applyDonateModalColors(modal) {
+  const colors = getThemeColors();
+  
+  modal.style.background = colors.overlay;
+  modal.style.backdropFilter = 'blur(10px)';
+  
+  const content = modal.querySelector('.donate-modal-content');
+  if (content) {
+    content.style.background = colors.contentBg;
+    content.style.borderColor = colors.border;
+  }
+  
+  const header = modal.querySelector('.donate-header');
+  if (header) {
+    header.style.background = colors.headerBg;
+    header.style.borderColor = colors.border;
+    
+    const h2 = header.querySelector('h2');
+    if (h2) h2.style.color = '#d4af37';
+    
+    const p = header.querySelector('p');
+    if (p) p.style.color = colors.text;
+  }
+  
+  const methods = modal.querySelectorAll('.donate-method');
+  methods.forEach(method => {
+    method.style.background = colors.methodBg;
+    method.style.borderColor = colors.border;
+    
+    const h3 = method.querySelector('h3');
+    if (h3) h3.style.color = '#d4af37';
+    
+    const p = method.querySelector('p');
+    if (p) p.style.color = colors.textSecondary;
+    
+    method.addEventListener('mouseenter', () => {
+      method.style.background = colors.methodBgHover;
+    });
+    method.addEventListener('mouseleave', () => {
+      if (!method.classList.contains('active')) {
+        method.style.background = colors.methodBg;
+      }
+    });
+  });
+  
+  const dataBoxes = modal.querySelectorAll('.donate-data');
+  dataBoxes.forEach(box => {
+    box.style.background = colors.dataBg;
+    const span = box.querySelector('span');
+    if (span) span.style.color = colors.text;
+  });
+  
+  const thankYou = modal.querySelector('.thank-you-message');
+  if (thankYou) {
+    thankYou.style.background = colors.headerBg;
+    thankYou.style.borderColor = colors.border;
+    
+    const paragraphs = thankYou.querySelectorAll('p');
+    paragraphs.forEach(p => {
+      if (p.classList.contains('signature')) {
+        p.style.color = '#d4af37';
+      } else {
+        p.style.color = colors.text;
+      }
+    });
+  }
+  
+  const closeBtn = modal.querySelector('.close-donate');
+  if (closeBtn) {
+    closeBtn.style.borderColor = colors.border;
+    closeBtn.style.color = '#d4af37';
+  }
+}
+
 function closeDonateModal() {
   const modal = document.querySelector('.donate-modal');
   if (modal) {
@@ -149,10 +265,22 @@ function closeDonateModal() {
 }
 
 function toggleDonateMethod(element) {
+  const colors = getThemeColors();
+  
   document.querySelectorAll('.donate-method').forEach(m => {
-    if (m !== element) m.classList.remove('active');
+    if (m !== element) {
+      m.classList.remove('active');
+      m.style.background = colors.methodBg;
+    }
   });
+  
   element.classList.toggle('active');
+  if (element.classList.contains('active')) {
+    element.style.background = colors.methodBgHover;
+  } else {
+    element.style.background = colors.methodBg;
+  }
+  
   event.stopPropagation();
 }
 
@@ -179,9 +307,13 @@ function showDonateNotification(message) {
   const existing = document.querySelector('.donate-notification');
   if (existing) existing.remove();
 
+  const colors = getThemeColors();
   const notif = document.createElement('div');
   notif.className = 'donate-notification';
   notif.textContent = message;
+  notif.style.background = colors.contentBg;
+  notif.style.color = '#d4af37';
+  notif.style.borderColor = colors.border;
   
   document.body.appendChild(notif);
   setTimeout(() => notif.classList.add('show'), 10);
@@ -191,4 +323,4 @@ function showDonateNotification(message) {
   }, 3000);
 }
 
-console.log('💛 Sistema de donaciones cargado');
+console.log('💛 Sistema de donaciones cargado (compatible con modo claro/oscuro)');

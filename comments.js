@@ -509,12 +509,12 @@ function addCommentsStyles() {
       border-color: rgba(212,175,55,0.3);
     }
     .comment-avatar {
-      width: 45px;
+      width: 30px;
       height: 45px;
-      min-width: 45px;
+      min-width: 40px;
       background: rgba(212,175,55,0.2);
       border: 2px solid rgba(212,175,55,0.4);
-      border-radius: 50%;
+      border-radius: 45%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -593,4 +593,4 @@ if (document.readyState === 'loading') {
 // Limpiar listener al salir
 window.addEventListener('beforeunload', () => {
   if (unsubscribeComments) unsubscribeComments();
-}); 
+});
