@@ -115,6 +115,11 @@
       categories: ['Filosofía', 'Propósito'],
       title: 'Mi pensamiento',
       description: 'Solo es un pensamiento más de mi parte'
+    },
+    22: { 
+      categories: ['Melancolía', 'Poesía'],
+      title: 'De tanto pensar',
+      description: 'Una mas'
     }
   };
 
