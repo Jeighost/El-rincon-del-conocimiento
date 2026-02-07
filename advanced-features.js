@@ -34,7 +34,8 @@
     { id: 18, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' },
     { id: 19, title: 'No es un buen negocio',tags: ['individualidad', 'dualidad', 'soledad'], preview: 'No lo es' },
     { id: 20, title: 'Lo último de mi para ti',tags: ['individualidad', 'melancolia'], preview: 'Poesia' },
-     { id: 21, title: 'Mi pensamiento',                 tags: ['consciencia','unidad','preservacion'],     preview: 'Solo es un pensamiento más de mi parte' }
+     { id: 21, title: 'Mi pensamiento',                 tags: ['consciencia','unidad','preservacion'],     preview: 'Solo es un pensamiento más de mi parte' },
+      { id: 22, title: 'De tanto pensar',                 tags: ['consciencia','melancolia','Poesia'],     preview: 'Una mas' }
   ];
 
   // ===========================================

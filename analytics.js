@@ -84,7 +84,8 @@
       '/reflexion18/',
       '/reflexion19/',
       '/reflexion20/',
-      '/reflexion21'
+      '/reflexion21',
+      '/reflexion22'
     ];
 
     const currentPage = window.location.pathname;

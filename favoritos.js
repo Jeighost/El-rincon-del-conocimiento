@@ -274,7 +274,7 @@
       '12': 'El mundo que sueño', '13': '6:50', '14': 'El espejo y la sombra',
       '15': 'Vacío', '16': '¿Desea reiniciar?', '17': 'Egoísmo',
       '18': 'No es un buen negocio', '19': 'La noche y el niño',
-      '20': 'Lo último de mi para ti', '21': 'Lo último de mi para ti',
+      '20': 'Lo último de mi para ti', '21': 'Lo último de mi para ti', '22': 'De tanto pensar', 
     };
     
     favorites.forEach(id => {
