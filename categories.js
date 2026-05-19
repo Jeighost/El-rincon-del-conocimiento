@@ -28,7 +28,7 @@
     19: ['Crecimiento Personal', 'Poesía'],
     20: ['Amor', 'Relaciones', 'Poesía'],
     21: ['Filosofía', 'Propósito'],
-    22: ['Poesia', 'Melancolia']
+    22: ['Poesía', 'Melancolia']
   };
 
   // Iconos por categoría
