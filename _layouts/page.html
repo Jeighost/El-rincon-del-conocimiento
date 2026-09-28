@@ -1,0 +1,15 @@
+---
+layout: base
+---
+<article class="page">
+  <header class="page-head wrap-narrow">
+    {%- if page.kicker %}<p class="kicker">{{ page.kicker }}</p>{% endif %}
+    <h1 class="page-title">{{ page.title }}</h1>
+    {%- if page.description and page.mostrar_descripcion != false %}
+    <p class="page-lede">{{ page.description }}</p>
+    {%- endif %}
+  </header>
+  <div class="prose wrap-narrow">
+{{ content }}
+  </div>
+</article>

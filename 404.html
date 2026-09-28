@@ -1,0 +1,24 @@
+---
+layout: base
+title: Página no encontrada
+permalink: /404.html
+sitemap: false
+noindex: true
+---
+{%- assign recientes = site.reflexiones | reverse -%}
+<section class="nada wrap-narrow">
+  <p class="r-num" aria-hidden="true">404</p>
+  <h1 class="page-title">Esta página se perdió <em>en el vacío.</em></h1>
+  <p class="page-lede">Quizás cambió de lugar, o quizás nunca existió. Pero todavía hay mucho por leer.</p>
+  <div class="actions actions-center">
+    <a class="btn btn-primary" href="{{ '/reflexiones/' | relative_url }}">Ver las reflexiones</a>
+    <a class="btn btn-ghost" href="{{ '/' | relative_url }}">Ir al inicio</a>
+  </div>
+</section>
+<section class="wrap" aria-label="Reflexiones recientes">
+  <ol class="index-list">
+    {%- for doc in recientes limit: 3 %}
+    {% include fila.html doc=doc %}
+    {%- endfor %}
+  </ol>
+</section>

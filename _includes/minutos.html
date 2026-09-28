@@ -1,0 +1,5 @@
+{%- comment -%} Minutos de lectura (≈200 palabras por minuto) {%- endcomment -%}
+{%- assign _palabras = include.texto | strip_html | number_of_words -%}
+{%- assign _min = _palabras | plus: 199 | divided_by: 200 -%}
+{%- if _min < 1 -%}{%- assign _min = 1 -%}{%- endif -%}
+{{- _min -}}

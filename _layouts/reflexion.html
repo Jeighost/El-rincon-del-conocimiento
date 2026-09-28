@@ -1,0 +1,151 @@
+---
+layout: base
+clase: pagina-reflexion
+---
+{%- capture num %}{% include numero.html doc=page %}{% endcapture -%}
+{%- capture audio %}{% include audio.html doc=page %}{% endcapture -%}
+{%- capture minutos %}{% include minutos.html texto=content %}{% endcapture -%}
+{%- capture video_id %}{% include video-id.html url=page.video %}{% endcapture -%}
+{%- assign url_abs = page.url | absolute_url -%}
+<div class="progress" aria-hidden="true"><span data-progress></span></div>
+
+<article class="reflexion" data-reflexion="{{ page.slug }}">
+  <header class="r-head wrap-narrow">
+    <nav class="crumbs" aria-label="Estás aquí">
+      <a href="{{ '/reflexiones/' | relative_url }}">Reflexiones</a>
+      <span aria-hidden="true">/</span>
+      <span>Nº {{ num }}</span>
+    </nav>
+
+    <p class="r-num" aria-hidden="true">{{ num }}</p>
+    <h1 class="r-title">{{ page.title }}</h1>
+    {%- if page.description %}
+    <p class="r-desc">{{ page.description }}</p>
+    {%- endif %}
+
+    <p class="r-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{% include fecha.html fecha=page.date %}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ minutos }} min de lectura</span>
+    </p>
+
+    {%- if page.temas.size > 0 %}
+    <ul class="chips r-temas" aria-label="Temas">
+      {%- for tema in page.temas %}
+      <li><a class="chip" href="{{ '/reflexiones/' | relative_url }}?tema={{ tema | url_encode }}">{{ tema }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  </header>
+
+  {%- if audio != "" %}
+  <div class="player wrap-narrow" data-player>
+    <button class="player-play" type="button" data-play aria-label="Escuchar la reflexión">
+      <span class="when-paused">{% include icon.html name="play" %}</span>
+      <span class="when-playing">{% include icon.html name="pause" %}</span>
+    </button>
+    <div class="player-body">
+      <p class="player-label">Escuchar esta reflexión <span>narrada en audio</span></p>
+      <input class="player-seek" type="range" min="0" max="100" step="0.1" value="0" data-seek aria-label="Avanzar o retroceder el audio">
+      <p class="player-time"><span data-current>0:00</span><span data-duration>--:--</span></p>
+    </div>
+    <button class="player-rate" type="button" data-rate aria-label="Velocidad de reproducción">1×</button>
+    <audio preload="metadata" src="{{ audio | relative_url }}"></audio>
+  </div>
+  {%- endif %}
+
+  {%- if video_id != "" %}
+  <div class="video wrap-narrow">
+    <button class="lite-yt" type="button" data-youtube="{{ video_id }}" aria-label="Ver el video de «{{ page.title | escape }}»" style="background-image:url('https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg')">
+      <span class="lite-yt-play">{% include icon.html name="play" %}</span>
+      <span class="lite-yt-label">Ver en video</span>
+    </button>
+  </div>
+  {%- endif %}
+
+  <div class="prose r-body wrap-narrow">
+{{ content }}
+  </div>
+
+  <footer class="r-end wrap-narrow">
+    <p class="fleuron" aria-hidden="true">✦</p>
+    <p class="r-end-sign">Jeison Gonzalez</p>
+    <div class="share" data-share data-title="{{ page.title | escape }}" data-url="{{ url_abs }}">
+      <span class="share-label">Compartir</span>
+      <button class="icon-btn share-native" type="button" data-share-native hidden aria-label="Compartir">{% include icon.html name="share" %}</button>
+      <a class="icon-btn" href="https://wa.me/?text={{ page.title | append: ' — ' | append: url_abs | url_encode }}" target="_blank" rel="noopener" aria-label="Compartir por WhatsApp">{% include icon.html name="whatsapp" %}</a>
+      <a class="icon-btn" href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&amp;url={{ url_abs | url_encode }}" target="_blank" rel="noopener" aria-label="Compartir en X">{% include icon.html name="x" %}</a>
+      <a class="icon-btn" href="https://www.facebook.com/sharer/sharer.php?u={{ url_abs | url_encode }}" target="_blank" rel="noopener" aria-label="Compartir en Facebook">{% include icon.html name="facebook" %}</a>
+      <button class="icon-btn" type="button" data-copy="{{ url_abs }}" aria-label="Copiar enlace">{% include icon.html name="link" %}</button>
+    </div>
+  </footer>
+
+  <nav class="pager wrap" aria-label="Otras reflexiones">
+    {%- if page.previous %}
+    {%- capture num_prev %}{% include numero.html doc=page.previous %}{% endcapture %}
+    <a class="pager-link pager-prev" href="{{ page.previous.url | relative_url }}" rel="prev">
+      <span class="pager-dir">{% include icon.html name="arrow-left" %} Anterior · Nº {{ num_prev }}</span>
+      <span class="pager-title">{{ page.previous.title }}</span>
+    </a>
+    {%- else %}
+    <span></span>
+    {%- endif %}
+    {%- if page.next %}
+    {%- capture num_next %}{% include numero.html doc=page.next %}{% endcapture %}
+    <a class="pager-link pager-next" href="{{ page.next.url | relative_url }}" rel="next">
+      <span class="pager-dir">Siguiente · Nº {{ num_next }} {% include icon.html name="arrow-right" %}</span>
+      <span class="pager-title">{{ page.next.title }}</span>
+    </a>
+    {%- else %}
+    <a class="pager-link pager-next" href="{{ '/reflexiones/' | relative_url }}">
+      <span class="pager-dir">Estás al día {% include icon.html name="arrow-right" %}</span>
+      <span class="pager-title">Ver todas las reflexiones</span>
+    </a>
+    {%- endif %}
+  </nav>
+
+  <section class="comentarios wrap-narrow" id="comentarios" data-comentarios="{{ num }}" aria-labelledby="comentarios-titulo">
+    <div class="section-head">
+      <h2 id="comentarios-titulo">Comentarios <span class="count" data-count></span></h2>
+      <p>¿Qué te dejó esta reflexión? Tu comentario aparece al instante.</p>
+    </div>
+    <form class="c-form" data-form novalidate>
+      <label class="field">
+        <span>Tu nombre <small>(opcional)</small></span>
+        <input name="nombre" type="text" maxlength="50" autocomplete="name" placeholder="Anónimo">
+      </label>
+      <label class="field">
+        <span>Comentario</span>
+        <textarea name="texto" rows="4" maxlength="1000" required placeholder="Comparte lo que pensaste…"></textarea>
+      </label>
+      <div class="c-form-foot">
+        <span class="c-counter" data-counter>0 / 1000</span>
+        <button class="btn btn-primary" type="submit">Publicar comentario</button>
+      </div>
+      <p class="c-status" data-status role="status"></p>
+    </form>
+    <ol class="c-list" data-lista>
+      <li class="c-empty">Cargando comentarios…</li>
+    </ol>
+  </section>
+
+  {%- assign tema = page.temas | first -%}
+  {%- if tema %}
+  {%- assign relacionadas = site.reflexiones | where_exp: "d", "d.temas contains tema" | where_exp: "d", "d.url != page.url" | reverse -%}
+  {%- if relacionadas.size > 0 %}
+  <section class="relacionadas wrap" aria-labelledby="rel-titulo">
+    <div class="section-head section-head-row">
+      <h2 id="rel-titulo">Más sobre <em>{{ tema | downcase }}</em></h2>
+      <a class="more-link" href="{{ '/reflexiones/' | relative_url }}?tema={{ tema | url_encode }}">Ver todas {% include icon.html name="arrow-right" %}</a>
+    </div>
+    <ol class="index-list">
+      {%- for doc in relacionadas limit: 3 %}
+      {% include fila.html doc=doc %}
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+  {%- endif %}
+
+  {% include avisos.html %}
+</article>

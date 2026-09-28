@@ -1,0 +1,143 @@
+---
+layout: base
+title: Escribir una reflexión
+description: Editor para publicar una nueva reflexión en El rincón del conocimiento.
+permalink: /escribir/
+noindex: true
+sitemap: false
+redirect_from: /admin.html
+clase: pagina-escribir
+scripts:
+  - /assets/js/escribir.js
+---
+{%- assign siguiente = 0 -%}
+{%- for d in site.reflexiones -%}
+  {%- capture n %}{% include numero.html doc=d %}{% endcapture -%}
+  {%- assign n = n | plus: 0 -%}
+  {%- if n > siguiente -%}{%- assign siguiente = n -%}{%- endif -%}
+{%- endfor -%}
+{%- assign siguiente = siguiente | plus: 1 -%}
+{%- assign todos_temas = "" | split: "" -%}
+{%- for d in site.reflexiones -%}
+  {%- if d.temas -%}{%- assign todos_temas = todos_temas | concat: d.temas -%}{%- endif -%}
+{%- endfor -%}
+{%- assign temas = todos_temas | uniq | sort_natural -%}
+
+<header class="wrap editor-head">
+  <p class="kicker">Solo para el autor</p>
+  <h1 class="page-title">Escribir una <em>reflexión</em></h1>
+  <ol class="pasos">
+    <li><span>1</span><p>Escribe tu reflexión aquí abajo. Se guarda sola en este dispositivo.</p></li>
+    <li><span>2</span><p>Pulsa <strong>Publicar en GitHub</strong>: se abre GitHub con el archivo listo.</p></li>
+    <li><span>3</span><p>En GitHub pulsa el botón verde <strong>Commit changes</strong>. En uno o dos minutos aparece en el sitio.</p></li>
+  </ol>
+</header>
+
+<div class="wrap editor" data-editor data-repo="{{ site.repositorio }}" data-rama="{{ site.rama }}" data-siguiente="{{ siguiente }}" data-sitio="{{ site.url }}">
+  <form class="editor-form" data-editor-form autocomplete="off">
+    <div class="editor-numero">
+      <span>Será la reflexión <strong>Nº <span data-numero-texto>{{ siguiente }}</span></strong></span>
+      <span class="editor-url" data-url-texto>{{ site.url | remove: "https://" }}/reflexion{{ siguiente }}/</span>
+    </div>
+
+    <label class="field">
+      <span>Título</span>
+      <input name="titulo" type="text" required maxlength="120" placeholder="Ej: El peso del silencio">
+    </label>
+
+    <label class="field">
+      <span>Frase corta <small>(opcional · aparece debajo del título)</small></span>
+      <input name="descripcion" type="text" maxlength="200" placeholder="Ej: Lo que no se dice también pesa.">
+    </label>
+
+    <fieldset class="field">
+      <legend>Temas <small>(toca para elegir)</small></legend>
+      <div class="chips" data-temas>
+        {%- for t in temas %}
+        <button class="chip" type="button" data-tema-opcion="{{ t }}" aria-pressed="false">{{ t }}</button>
+        {%- endfor %}
+      </div>
+      <div class="tema-nuevo">
+        <input type="text" maxlength="40" placeholder="Otro tema…" data-tema-nuevo aria-label="Agregar un tema nuevo">
+        <button class="btn btn-ghost btn-sm" type="button" data-tema-agregar>Agregar</button>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <span id="texto-label">Texto</span>
+      <div class="toolbar" role="toolbar" aria-label="Formato">
+        <button type="button" data-formato="negrita" title="Negrita"><b>N</b></button>
+        <button type="button" data-formato="cursiva" title="Cursiva"><i>C</i></button>
+        <button type="button" data-formato="subtitulo" title="Subtítulo">Subtítulo</button>
+        <button type="button" data-formato="cita" title="Cita">“Cita”</button>
+        <button type="button" data-formato="separador" title="Separador">✦</button>
+      </div>
+      <textarea name="texto" rows="16" required aria-labelledby="texto-label" placeholder="Escribe como en tu celular.&#10;Un Enter hace un salto de línea (ideal para poemas).&#10;&#10;Una línea en blanco empieza un párrafo nuevo."></textarea>
+      <p class="field-help"><span data-palabras>0 palabras</span> · <span data-guardado>Borrador vacío</span></p>
+    </div>
+
+    <details class="field extras">
+      <summary>Más opciones: fecha, video y audio</summary>
+      <label class="field">
+        <span>Fecha de publicación</span>
+        <input name="fecha" type="date">
+      </label>
+      <label class="field">
+        <span>Enlace de YouTube <small>(opcional)</small></span>
+        <input name="video" type="url" placeholder="https://www.youtube.com/watch?v=…">
+      </label>
+      <div class="field">
+        <span>Audio narrado <small>(opcional)</small></span>
+        <p class="field-help">Sube el audio a la carpeta <code>audios</code> con el nombre <code data-audio-nombre>reflexion{{ siguiente }}.mp3</code> y el reproductor aparecerá solo en la reflexión.</p>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/{{ site.repositorio }}/upload/{{ site.rama }}/audios" target="_blank" rel="noopener">{% include icon.html name="headphones" %} Subir audio en GitHub</a>
+      </div>
+      <label class="field">
+        <span>Número <small>(normalmente no hace falta cambiarlo)</small></span>
+        <input name="numero" type="number" min="1" step="1" value="{{ siguiente }}">
+      </label>
+    </details>
+
+    <div class="editor-actions">
+      <button class="btn btn-primary" type="button" data-publicar>{% include icon.html name="github" %} Publicar en GitHub</button>
+      <button class="btn btn-ghost" type="button" data-copiar-md>{% include icon.html name="copy" %} Copiar archivo</button>
+      <button class="btn btn-ghost" type="button" data-descargar>Descargar .md</button>
+      <button class="linklike editor-borrar" type="button" data-borrar>Empezar de nuevo</button>
+    </div>
+    <p class="c-status" data-editor-estado role="status"></p>
+  </form>
+
+  <aside class="editor-preview" aria-label="Vista previa">
+    <p class="editor-preview-label">{% include icon.html name="eye" %} Vista previa</p>
+    <div class="preview-page">
+      <div class="r-head">
+        <p class="r-num" aria-hidden="true" data-prev-numero>{{ siguiente }}</p>
+        <h2 class="r-title" data-prev-titulo>Tu título</h2>
+        <p class="r-desc" data-prev-descripcion hidden></p>
+        <ul class="chips r-temas" data-prev-temas></ul>
+      </div>
+      <div class="prose r-body" data-prev-texto>
+        <p>Aquí verás tu reflexión tal como se leerá en el sitio.</p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<section class="wrap existentes" aria-labelledby="existentes-titulo">
+  <div class="section-head">
+    <h2 id="existentes-titulo">Corregir una reflexión <em>publicada</em></h2>
+    <p>Toca una para abrirla en GitHub, cambia lo que quieras y pulsa «Commit changes».</p>
+  </div>
+  <ol class="existentes-lista">
+    {%- assign lista = site.reflexiones | reverse -%}
+    {%- for doc in lista %}
+    {%- capture num %}{% include numero.html doc=doc %}{% endcapture %}
+    <li>
+      <a href="https://github.com/{{ site.repositorio }}/edit/{{ site.rama }}/{{ doc.path }}" target="_blank" rel="noopener">
+        <span class="fila-num">{{ num }}</span>
+        <span>{{ doc.title }}</span>
+        {% include icon.html name="pen" %}
+      </a>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
