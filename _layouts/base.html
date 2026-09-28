@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'es' }}">
+<head>
+{% include head.html %}
+</head>
+<body class="{{ page.clase }}">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="glow" aria-hidden="true"></div>
+  {% include header.html %}
+  <main id="contenido">
+{{ content }}
+  </main>
+  {% include footer.html %}
+  <script>
+    window.SITIO = {
+      ga: {{ site.google_analytics | jsonify }},
+      onesignal: {{ site.onesignal_app_id | jsonify }},
+      v: "{{ site.time | date: '%s' }}"
+    };
+  </script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+  {%- for script in page.scripts %}
+  <script type="module" src="{{ script | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+  {%- endfor %}
+</body>
+</html>

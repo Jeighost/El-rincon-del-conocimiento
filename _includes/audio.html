@@ -1,0 +1,8 @@
+{%- comment -%} Ruta del audio: usa "audio:" del archivo o busca /audios/<nombre>.mp3 automáticamente {%- endcomment -%}
+{%- if include.doc.audio -%}
+{{- include.doc.audio -}}
+{%- else -%}
+{%- assign _ruta = "/audios/" | append: include.doc.slug | append: ".mp3" -%}
+{%- assign _archivo = site.static_files | where: "path", _ruta | first -%}
+{%- if _archivo -%}{{- _ruta -}}{%- endif -%}
+{%- endif -%}

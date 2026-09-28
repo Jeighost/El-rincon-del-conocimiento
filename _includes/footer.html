@@ -1,0 +1,44 @@
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-about">
+      <p class="footer-title">El rincón <em>del conocimiento</em></p>
+      <p class="footer-text">Si alguna palabra aquí te hace pensar diferente, aunque sea un poco, entonces este rincón ya no es solo mío. También es tuyo.</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Pie de página">
+      <p class="footer-label">Explorar</p>
+      <ul>
+        <li><a href="{{ '/reflexiones/' | relative_url }}">Reflexiones</a></li>
+        <li><a href="{{ '/videos/' | relative_url }}">Videos</a></li>
+        <li><a href="{{ '/sobre-mi/' | relative_url }}">Sobre mí</a></li>
+        <li><a href="{{ '/apoyar/' | relative_url }}">Apoyar</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-follow">
+      <p class="footer-label">No te pierdas la próxima</p>
+      <button class="btn btn-ghost btn-sm" type="button" data-avisos hidden>
+        {% include icon.html name="bell" %}<span data-avisos-texto>Activar avisos</span>
+      </button>
+      <a class="footer-link" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Suscribirse por RSS</a>
+      <a class="footer-link" href="{{ site.facebook }}" target="_blank" rel="noopener">{% include icon.html name="facebook" %}Facebook</a>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <p>© 2025–{{ site.time | date: "%Y" }} Jeison Gonzalez · jeighost.lat</p>
+    <p class="footer-legal">
+      <a href="{{ '/privacidad/' | relative_url }}">Privacidad</a>
+      <a href="{{ '/cookies/' | relative_url }}">Cookies</a>
+      <button type="button" class="linklike" data-consent-open>Preferencias de cookies</button>
+    </p>
+  </div>
+</footer>
+
+<div class="consent" data-consent hidden role="dialog" aria-live="polite" aria-label="Aviso de cookies">
+  <p>Uso Google Analytics para saber qué reflexiones se leen más. No vendo tus datos ni muestro publicidad personalizada. <a href="{{ '/cookies/' | relative_url }}">Más información</a></p>
+  <div class="consent-actions">
+    <button class="btn btn-ghost btn-sm" type="button" data-consent-choice="no">Rechazar</button>
+    <button class="btn btn-primary btn-sm" type="button" data-consent-choice="si">Aceptar</button>
+  </div>
+</div>

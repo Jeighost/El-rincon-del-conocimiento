@@ -1,0 +1,9 @@
+# Imágenes de la galería.
+# 1. Sube la imagen a la carpeta assets/galeria/ (ej: assets/galeria/percepcion.webp)
+# 2. Agrega aquí un bloque como este (quita el # del inicio de cada línea):
+#
+# - imagen: /assets/galeria/percepcion.webp
+#   texto: La percepción no es una copia de la realidad, sino una interpretación.
+#
+# Cuando haya al menos una imagen, "Galería" aparece sola en el menú.
+[]

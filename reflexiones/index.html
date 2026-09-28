@@ -1,321 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Reflexiones - El rincón del conocimiento</title>
- <!-- Meta tags SEO -->
-  <meta name="description" content="Reflexiones filosóficas en lista">
-  <meta name="keywords" content="filosofía, conocimiento, reflexiones, pensamiento crítico, humanidad, sabiduría, diseño técnico, Jeison Gonzalez">
-  <meta name="author" content="Jeison Gonzalez">
-  <meta name="language" content="es">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://jeighost.lat">
+---
+layout: base
+title: Reflexiones
+description: Todas las reflexiones y poemas de El rincón del conocimiento, con buscador y filtro por tema.
+permalink: /reflexiones/
+redirect_from: /reflexiones.html
+---
+{%- assign lista = site.reflexiones | reverse -%}
+{%- assign primera = site.reflexiones | first -%}
+{%- assign todos_temas = "" | split: "" -%}
+{%- for d in site.reflexiones -%}
+  {%- if d.temas -%}{%- assign todos_temas = todos_temas | concat: d.temas -%}{%- endif -%}
+{%- endfor -%}
+{%- assign temas = todos_temas | uniq | sort_natural -%}
+{%- assign meses = "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre" | split: "," -%}
+{%- assign mes_inicio = primera.date | date: "%-m" | minus: 1 -%}
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="El rincón del conocimiento">
-  <meta property="og:description" content="Reflexiones y pensamientos sobre la esencia del ser y el conocimiento.">
-  <meta property="og:image" content="https://jeighost.lat/icon-512.png">
-  <meta property="og:url" content="https://jeighost.lat">
-  <meta property="og:site_name" content="El rincón del conocimiento">
-  <meta http-equiv="Cache-Control" content="max-age=31536000, immutable">
+<header class="list-head wrap">
+  <p class="kicker">Índice</p>
+  <h1>Todas las <em>reflexiones</em></h1>
+  <p>{{ site.reflexiones.size }} textos escritos desde {{ meses[mes_inicio] }} de {{ primera.date | date: "%Y" }}. Todo aquí nace de mi forma de ver el mundo: puedes nutrirte y usarlo como mejor te parezca.</p>
+</header>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="El rincón del conocimiento">
-  <meta name="twitter:description" content="Reflexiones filosóficas y diseño consciente">
-  <meta name="twitter:image" content="https://jeighost.lat/icon-512.png">
+<section class="wrap" aria-label="Lista de reflexiones">
+  <div class="filters" data-filtros>
+    <label class="search">
+      {% include icon.html name="search" %}
+      <span class="sr-only">Buscar</span>
+      <input type="search" placeholder="Buscar por palabra, título o frase…" data-buscar-input autocomplete="off">
+    </label>
+    <div class="chips" role="group" aria-label="Filtrar por tema">
+      {%- for t in temas %}
+      {%- assign cuantas = site.reflexiones | where_exp: "d", "d.temas contains t" | size %}
+      <button class="chip" type="button" data-tema="{{ t }}" aria-pressed="false">{{ t }} <small>{{ cuantas }}</small></button>
+      {%- endfor %}
+    </div>
+    <div class="filters-foot">
+      <span data-contador aria-live="polite">{{ site.reflexiones.size }} reflexiones</span>
+      <button class="linklike" type="button" data-limpiar>Quitar filtros</button>
+    </div>
+  </div>
 
-  <!-- Resource Hints -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://i.postimg.cc">
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <ol class="index-list" data-lista-reflexiones>
+    {%- for doc in lista %}
+    {% include fila.html doc=doc buscar=true %}
+    {%- endfor %}
+  </ol>
 
-  <!-- Favicon y PWA -->
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/jeighost-icons-pack/icon-192x192.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/jeighost-icons-pack/icon-192x192.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#d4af37">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="El Rincón">
-  <link rel="apple-touch-icon" href="/icon-192.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
+  <div class="empty-state" data-vacio hidden>
+    <p>Nada por aquí…</p>
+    <p>No encontré reflexiones con esa búsqueda. Prueba con otra palabra o quita los filtros.</p>
+  </div>
+</section>
 
-  <!-- CSS Crítico Inline (Above the fold) -->
-  <style>
-    body{margin:0;padding:0;font-family:'Crimson Pro',serif;background:#0b0b0c;color:#ddd;min-height:100vh;overflow-x:hidden}
-    header{text-align:center;padding:2rem 1rem;background:rgba(13,13,15,0.95)}
-    h1{font-family:'Cinzel',serif;color:#d4af37;font-size:2.2rem;margin:0}
-    nav{display:flex;justify-content:center;gap:1rem;padding:1rem;flex-wrap:wrap;background:rgba(13,13,15,0.9)}
-    nav a{color:#d4af37;text-decoration:none;padding:0.5rem 1rem;border-radius:5px;transition:background 0.3s}
-    .halo{position:fixed;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;animation:pulse 6s ease-in-out infinite}
-    @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.1}}
-        /* LEGAL LINKS EN FOOTER - MEJORADOS */
-.legal-links {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  padding: 15px 0;
-}
-
-.legal-links a {
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  position: relative;
-  padding: 5px 10px;
-  border-radius: 6px;
-}
-
-.legal-links a:hover {
-  color: var(--gold-light);
-  background: rgba(212, 175, 55, 0.1);
-  transform: translateY(-2px);
-}
-
-.legal-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--gold);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.legal-links a:hover::after {
-  width: 80%;
-}
-
-.legal-links span {
-  color: var(--text-light);
-  opacity: 0.5;
-  font-size: 0.8rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .legal-links {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .legal-links span {
-    display: none;
-  }
-}
-  </style>
-
-  <!-- Precargar fuentes críticas -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" as="style" importance="high">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" media="all">
-
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
-  </noscript>
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-      <!-- Sistema de Cookies -->
-   <link rel="stylesheet" href="../cookie-banner-improved.css">
-   
-  <!-- Estilos -->
-  <link rel="stylesheet" href="../reflexiones-categories.css">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../menu-mejorado.css">
-  <link rel="stylesheet" href="../features.css">
-  <body class="reflexiones-page">
-  <link rel="stylesheet" href="../reflexiones.css">
-  <link rel="stylesheet" href="../app-native-features.css">
-</body>
-</head>
-
-<body>
-    <header>
-    <h1>🧠 Reflexiones</h1>
-    <p>Todo aquí es escrito por mí, todo está basado en mi forma de ver el mundo.
-    Puedes nutrirte, usarlo como mejor te parezca.</p>
-  </header>
-    <nav>
-  
-  </nav>
-  <div class="halo"></div>
-
-<h2>Reflexiones en lista📜</h2>
-
-  <div class="reflexiones reflexiones-grid">
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion1/" class="enlace-reflexion">LA PERCEPCIÓN </a>
-     <p> Primera reflexión. Aquí empieza todo</p>
-    </div>
-   
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion2/" class="enlace-reflexion">LA HISTORIA</a>
-    <p>A veces...</p>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion3/" class="enlace-reflexion">ÚLTIMO MENSAJE</a>
-      <p>Un cortó poema</p>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion4/" class="enlace-reflexion">NO SOY NADIE</a>
-      <p>Nunca lo seré, pero pará mí lo soy</p>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion5/" class="enlace-reflexion">UN SUEÑO DESPIERTO</a>
-     <p>Todos podemos soñar con lo mismo</p>
-    </div>
-
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion6/" class="enlace-reflexion">UN SOLITARIO</a>
-     <p>Anhelando una compañía real</p>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion7/" class="enlace-reflexion">EL TÍTULO VA AL FINAL</a>
-     <P> Yá pude leerlo</P>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-      <a href="/reflexion8/" class="enlace-reflexion">OTRO DÍA</a>
-      <p>Poesía de tu inmensidad</p>
-    </div>
-  
-        <div class="reflexion-card reflexion-item">
-      <a href="/reflexion9/" class="enlace-reflexion">DESGASTE INVISIBLE</a>
-     <P>¿Cómo estoy cuidando lo importante?</p>
-    </div>
-    
-     <div class="reflexion-card reflexion-item">
-      <a href="/reflexion10/" class="enlace-reflexion">LA IDENTIDAD</a>
-      <p>Una mirada hacía el ser interior, dónde las máscaras, los recuerdos y el tiempo difuminan lo que creemos ser</p>
-    </div>
-    
-     <div class="reflexion-card reflexion-item">
-      <a href="/reflexion11/" class="enlace-reflexion">LA CONCIENCIA QUE SE BASTA ASÍ MISMA</a>
-      <p>Reflexión filosófica sobre la plenitud interior y la conciencia como fuente inagotable de felicidad</p>
-    </div>
-    
-     <div class="reflexion-card reflexion-item">
-      <a href="/reflexion12/" class="enlace-reflexion">EL MUNDO QUE SUEÑO</a>
-     <p>Una visión posible</P>
-    </div>
-    
-     <div class="reflexion-card reflexion-item">
-      <a href="/reflexion13/" class="enlace-reflexion">6:50</a>
-     <p>Esté mar, cómo te adoró y odió</P>
-    </div>
-    
-     <div class="reflexion-card reflexion-item">
-      <a href="/reflexion14/" class="enlace-reflexion">El espejo y la sombra</a>
-     <p>Un relató filosófico sobre la infidelidad entendida no cómo un acto físico, sino cómo una consecuencia del vacío interior y la falta de empatía consigo mismo y con los demás</P>
-    </div>
-    
-        <div class="reflexion-card reflexion-item">
-        <a href="/reflexion15/" class="enlace-reflexion">Vacío</a>
-     <p>No logro ver el final</P>
-    </div>
-    
-       <div class="reflexion-card reflexion-item">
-         <a href="/reflexion16/" class="enlace-reflexion">¿Desea reiniciar?</a>    <p>  </P>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-         <a href="/reflexion17/" class="enlace-reflexion">Egoísmo</a>   
-         <p> Explicación sobre los puntos importantes del concepto </P>
-    </div>
-    
-        <div class="reflexion-card reflexion-item">
-         <a href="/reflexion18/" class="enlace-reflexion">No es un buen negocio</a>   
-         <p> No lo es </P>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-         <a href="/reflexion19/" class="enlace-reflexion">La noche y el niño</a>   
-         <p> Entre la noche y el dia</P>
-    </div>
-    
-    <div class="reflexion-card reflexion-item">
-         <a href="/reflexion20/" class="enlace-reflexion">Lo último de mi para ti</a>   
-         <p> </P>
-    </div>
-    
-        <div class="reflexion-card reflexion-item">
-         <a href="/reflexion21/" class="enlace-reflexion">Mi pensamiento</a>   
-         <p> Solo es un pensamiento más de mi parte</P>
-    </div>
-    
-    </div>
-    
-    <section>
- <h3>Aqui finaliza las reflexiones </h3>
- <p>Próximamente habrá una nueva</p>
- </section>
- 
-    <!-- FOOTER -->
-  <footer class="site-footer">
-    <p>© 2025 <span>El rincón del conocimiento</span> — Jeighost.lat</p>
-     <p class="footer-meta">
-      Actualización: <span id="ultima-act"></span>
-    </p>
-  </footer>
-  
-    <!-- Sistema de Cookies -->
-    <script src="../cookie-banner-improved.js"></script>
-    
-      <script src="../favoritos.js"></script>
- <script src="../reflexiones.js"></script>
-  <script src="../reflexiones-enhanced.js"></script>
-<script src="../advanced-features.js"></script>
-  <script src="../features.js"></script>
-  <script src="../particles.js"></script>
- <script src="../app-native-features.js" defer></script>
- 
-<!-- Analytics se carga condicionalmente desde cookie-banner-improved.js -->
-<!-- <script src="../analytics.js" async></script> -->
-
-  <!-- LÓGICA DE LA PÁGINA Y CARGA DIFERIDA DE CHAT -->
-  <script>
-/*
-// 1. CARGA DIFERIDA DE TIDIO - DESACTIVADO (ahora se carga condicionalmente)
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var script = document.createElement("script");
-    script.src = "//code.tidio.co/kax9uycphdnmxhkjrlqanclvwweqsxzz.js";
-    script.async = true;
-    document.body.appendChild(script);
-    console.log("💬 Chat cargado diferido para mejorar velocidad");
-  }, 4000);
-});
-*/
-       // Fecha automática
-      const span = document.getElementById('ultima-act');
-      if (span) {
-        const fecha = new Date(document.lastModified);
-        span.textContent = fecha.toLocaleDateString('es-ES', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-      }
-        </script>
-</body>
-</html>
+{% include avisos.html %}

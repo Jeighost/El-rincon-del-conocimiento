@@ -1,74 +1,44 @@
-# 🌐 El Rincón del Conocimiento 
+# El rincón del conocimiento
 
-Bienvenido al repositorio oficial de **El Rincón del Conocimiento**, un sitio web dedicado a compartir reflexiones, ideas, aprendizajes y contenido que invita a pensar, analizar y crecer.  
-El propósito de esta página es ofrecer un espacio donde cualquier persona pueda encontrar inspiración, conocimiento y una perspectiva diferente del mundo.
+Reflexiones filosóficas y poemas de Jeison Gonzalez.
+**Sitio:** https://jeighost.lat/
 
-🔗 **Sitio web:** https://jeighost.lat/
+## ¿Quieres publicar una reflexión?
 
----
+Lee **[COMO-AGREGAR-REFLEXIONES.md](COMO-AGREGAR-REFLEXIONES.md)**. En resumen: entra a
+**https://jeighost.lat/escribir/**, escribe y pulsa «Publicar en GitHub».
 
-## 📌 ¿Qué es este proyecto?
+## Cómo está hecho
 
-*El Rincón del Conocimiento* es un sitio web creado con dedicación y enfoque en transmitir mensajes que aporten al crecimiento personal y colectivo.  
-Aquí se encuentran:
+El sitio lo construye GitHub Pages con [Jekyll](https://jekyllrb.com/) cada vez que hay un cambio.
+No hay que compilar nada ni subir páginas HTML a mano.
 
-- Reflexiones propias  
-- Mensajes motivadores  
-- Análisis sobre la sociedad, la educación y la conciencia humana  
-- Contenido escrito de manera sencilla, pero profunda  
+```
+_reflexiones/        Cada archivo .md es una reflexión (reflexion1.md → /reflexion1/)
+audios/              Audios narrados (reflexion2.mp3 aparece solo en /reflexion2/)
+_data/galeria.yml    Imágenes de la galería
+_layouts/            Plantillas: base, página y reflexión
+_includes/           Piezas reutilizables: cabecera, pie, íconos, fechas…
+assets/css/main.css  Todo el diseño (modo noche y modo papel)
+assets/js/main.js    Tema, menú, audio, buscador, compartir, cookies y avisos
+assets/js/comentarios.js  Comentarios (Firebase)
+assets/js/escribir.js     Editor de /escribir/
+index.html           Inicio
+reflexiones/         Índice con buscador y filtro por tema
+escribir/            Editor para publicar (no aparece en buscadores)
+feed.xml             RSS (se genera solo)
+_config.yml          Configuración del sitio
+```
 
-El sitio está diseñado para ser claro, directo y accesible desde cualquier dispositivo.
+## Probarlo en tu computador (opcional)
 
----
+```bash
+gem install bundler github-pages webrick
+jekyll serve
+```
 
-## 🗂️ Estructura del repositorio
+y abre http://localhost:4000.
 
-El repositorio incluye:
+## Licencia
 
-- **index.html** → Página principal  
-- **Carpetas de reflexiones** → Contenido organizado por temas o número  
-- **CSS** → Archivos de estilo para la apariencia del sitio  
-- **JS** → Funciones del sitio como favoritos, temas, etc.  
-- **Assets** → Imágenes, iconos, audios y recursos usados por la web  
-
-Todo está ordenado de forma simple para facilitar la lectura y mantenimiento.
-
----
-
-## 💡 Objetivo del proyecto
-
-El objetivo principal es aportar un espacio diferente en internet:  
-un lugar de calma, pensamiento crítico y conocimiento accesible para todos.
-
-Este proyecto busca inspirar a las personas a reflexionar sobre temas importantes de la vida, la unidad, la educación y la esencia humana.
-
----
-
-## 🧑‍💻 Tecnologías utilizadas
-
-- **HTML5**  
-- **CSS3**  
-- **JavaScript**  
-- **GitHub Pages** para el hosting del contenido estático
-
----
-
-## 🖥️ Vista del sitio
-
-Puedes acceder al sitio en el siguiente enlace:
-
->> **https://jeighost.lat/**
-
----
-
-## 📮 Contacto
-
-Si deseas comentar algo sobre el proyecto o colaborar, puedes hacerlo desde este mismo perfil de GitHub.
-
----
-
-## 📄 Licencia
-
-Este proyecto está publicado bajo la licencia **MIT**, lo que permite su uso libre siempre que se mantenga el reconocimiento correspondiente.
-
----
+Código bajo licencia MIT. Los textos de las reflexiones son de su autor.

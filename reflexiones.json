@@ -1,0 +1,11 @@
+---
+layout: null
+sitemap: false
+---
+{%- assign lista = site.reflexiones | reverse -%}
+[
+{%- for doc in lista %}
+  {%- capture num %}{% include numero.html doc=doc %}{% endcapture %}
+  {"numero": {{ num }}, "archivo": {{ doc.slug | jsonify }}, "titulo": {{ doc.title | jsonify }}, "descripcion": {{ doc.description | jsonify }}, "fecha": {{ doc.date | date: "%Y-%m-%d" | jsonify }}, "temas": {{ doc.temas | jsonify }}, "url": {{ doc.url | absolute_url | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor %}
+]

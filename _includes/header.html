@@ -1,0 +1,35 @@
+{%- assign _videos = site.reflexiones | where_exp: "d", "d.video" -%}
+{%- assign _url = page.url -%}
+<header class="site-header" data-header>
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} — inicio">
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span class="brand-name">El rincón <em>del conocimiento</em></span>
+    </a>
+
+    <nav class="nav" id="menu" aria-label="Principal">
+      <ul class="nav-list">
+        <li><a href="{{ '/reflexiones/' | relative_url }}"{% if page.collection == "reflexiones" or _url == "/reflexiones/" %} aria-current="page"{% endif %}>Reflexiones</a></li>
+        {%- if _videos.size > 0 %}
+        <li><a href="{{ '/videos/' | relative_url }}"{% if _url == "/videos/" %} aria-current="page"{% endif %}>Videos</a></li>
+        {%- endif %}
+        {%- if site.data.galeria.size > 0 %}
+        <li><a href="{{ '/galeria/' | relative_url }}"{% if _url == "/galeria/" %} aria-current="page"{% endif %}>Galería</a></li>
+        {%- endif %}
+        <li><a href="{{ '/sobre-mi/' | relative_url }}"{% if _url == "/sobre-mi/" %} aria-current="page"{% endif %}>Sobre mí</a></li>
+        <li><a class="nav-support" href="{{ '/apoyar/' | relative_url }}"{% if _url == "/apoyar/" %} aria-current="page"{% endif %}>{% include icon.html name="heart" %}Apoyar</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Cambiar a modo claro" title="Cambiar tema">
+        <span class="show-dark">{% include icon.html name="sun" %}</span>
+        <span class="show-light">{% include icon.html name="moon" %}</span>
+      </button>
+      <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <span class="when-closed">{% include icon.html name="menu" %}</span>
+        <span class="when-open">{% include icon.html name="close" %}</span>
+      </button>
+    </div>
+  </div>
+</header>

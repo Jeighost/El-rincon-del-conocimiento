@@ -1,46 +1,75 @@
-# Configuración de Jekyll para GitHub Pages
-# Jeighost.lat
+# =====================================================================
+#  El rincón del conocimiento — configuración del sitio (Jekyll)
+#  GitHub Pages construye el sitio automáticamente con este archivo.
+#  Para agregar reflexiones lee: COMO-AGREGAR-REFLEXIONES.md
+# =====================================================================
 
-# Permalinks limpios (sin .html)
-permalink: /:basename
+title: El rincón del conocimiento
+tagline: Reflexiones y poemas
+description: Reflexiones filosóficas y poemas de Jeison Gonzalez. Pensamientos que alguna vez fueron silenciados por la voz, ahora convertidos en palabras.
+author:
+  name: Jeison Gonzalez
+  url: https://jeighost.lat/sobre-mi/
+url: https://jeighost.lat
+baseurl: ""
+lang: es
+locale: es_CO
+timezone: America/Bogota
+logo: /assets/img/icon-512.png
 
-# Excluir archivos innecesarios
+# Repositorio donde vive el sitio (lo usa el editor /escribir/)
+repositorio: Jeighost/El-rincon-del-conocimiento
+rama: main
+
+# Enlaces del autor
+facebook: https://www.facebook.com/Jeig59
+
+# Servicios externos
+google_analytics: G-CV6RG5X5P1
+onesignal_app_id: 33ed9efb-93b4-49a7-91bd-81b8e38eadf3
+
+# Publicar aunque la fecha sea de hoy u hoy más tarde
+future: true
+
+# --- Reflexiones -----------------------------------------------------
+# Cada archivo dentro de la carpeta _reflexiones/ es una reflexión.
+# _reflexiones/reflexion23.md  ->  https://jeighost.lat/reflexion23/
+collections:
+  reflexiones:
+    output: true
+    permalink: /:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: reflexiones
+    values:
+      layout: reflexion
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/og.jpg
+  - scope:
+      path: google812318f727065fdd.html
+    values:
+      sitemap: false
+
+# Escribir en Markdown: un Enter = salto de línea, una línea en blanco = párrafo nuevo
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: true
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
 exclude:
   - README.md
-  - LICENSE
+  - COMO-AGREGAR-REFLEXIONES.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
   - node_modules
-  - package.json
-  - .gitignore
-  - .git
-
-# Incluir archivos que empiezan con punto
-include:
-  - .htaccess
-  - .nojekyll
-
-# Configuración de URLs
-baseurl: ""
-url: "https://jeighost.lat"
-
-# Procesamiento
-markdown: kramdown
-highlighter: rouge
-
-# No procesar estos archivos
-keep_files:
-  - audios
-  - jeighost-icons-pack
-  - imagenes
-
-# Configuración de plugins (GitHub Pages los activa automáticamente)
-plugins:
-  - jekyll-sitemap
-  - jekyll-feed
-
-# Idioma del sitio
-lang: es
-
-# Información del sitio
-title: "El rincón del conocimiento"
-description: "Reflexiones filosóficas y poesías, un espacio filosófico personal"
-author: "Jeison Gonzalez"
+  - .github

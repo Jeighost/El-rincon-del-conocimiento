@@ -1,185 +1,29 @@
+---
+layout: null
+sitemap: false
+---
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>El Rincón del Conocimiento</title>
-    <link>https://jeighost.lat</link>
-    <description>Reflexiones filosóficas y poesías que invitan a pensar diferente</description>
+    <title>{{ site.title | xml_escape }}</title>
+    <link>{{ '/' | absolute_url }}</link>
+    <atom:link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml"/>
+    <description>{{ site.description | xml_escape }}</description>
     <language>es</language>
-    <lastBuildDate>Thu, 28 Nov 2024 00:00:00 GMT</lastBuildDate>
-    <atom:link href="https://jeighost.lat/feed.xml" rel="self" type="application/rss+xml"/>
-    <image>
-      <url>https://jeighost.lat/icon-512.png</url>
-      <title>El Rincón del Conocimiento</title>
-      <link>https://jeighost.lat</link>
-    </image>
-
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    {%- assign lista = site.reflexiones | reverse %}
+    {%- for doc in lista limit: 30 %}
     <item>
-      <title>Mi pensamiento</title>
-      <link>https://jeighost.lat/reflexion21.html</link>
-      <description>Solo es un pensamiento más de mi parte</description>
-      <pubDate>Thu, 28 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion21.html</guid>
+      <title>{{ doc.title | xml_escape }}</title>
+      <link>{{ doc.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ doc.url | absolute_url }}</guid>
+      <pubDate>{{ doc.date | date_to_rfc822 }}</pubDate>
+      <author>{{ site.author.name | xml_escape }}</author>
+      {%- for t in doc.temas %}
+      <category>{{ t | xml_escape }}</category>
+      {%- endfor %}
+      <description>{% if doc.description %}{{ doc.description | xml_escape }}{% else %}{{ doc.content | strip_html | truncatewords: 40 | xml_escape }}{% endif %}</description>
     </item>
-
-    <item>
-      <title>Lo último de mí para ti</title>
-      <link>https://jeighost.lat/reflexion20.html</link>
-      <description>Poesia del final de una relación</description>
-      <pubDate>Thu, 28 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion20.html</guid>
-    </item>
-
-    <item>
-      <title>La noche y el niño</title>
-      <link>https://jeighost.lat/reflexion19.html</link>
-      <description>Entre la noche y el día</description>
-      <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion19.html</guid>
-    </item>
-
-    <item>
-      <title>No es un buen negocio</title>
-      <link>https://jeighost.lat/reflexion18.html</link>
-      <description>No lo es</description>
-      <pubDate>Mon, 25 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion18.html</guid>
-    </item>
-
-    <item>
-      <title>Egoísmo</title>
-      <link>https://jeighost.lat/reflexion17.html</link>
-      <description>Explicación sobre los puntos importantes del concepto</description>
-      <pubDate>Thu, 21 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion17.html</guid>
-    </item>
-
-    <item>
-      <title>¿Deseas reiniciar?</title>
-      <link>https://jeighost.lat/reflexion16.html</link>
-      <description>Reflexiones sobre cuando se agota todo</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion16.html</guid>
-    </item>
-
-    <item>
-      <title>Vacio</title>
-      <link>https://jeighost.lat/reflexion15.html</link>
-      <description>No logro ver el final</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion15.html</guid>
-    </item>
-
-    <item>
-      <title>El espejo y la sombra</title>
-      <link>https://jeighost.lat/reflexion14.html</link>
-      <description>Un relató filosófico sobre la infidelidad entendida no cómo un acto físico, sino cómo una consecuencia del vacío interior y la falta de empatía consigo mismo y con los demás</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion14.html</guid>
-    </item>
-
-    <item>
-      <title>6:50</title>
-      <link>https://jeighost.lat/reflexion13.html</link>
-      <description>Esté mar, cómo te adoró y odió</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion13.html</guid>
-    </item>
-
-    <item>
-      <title>El mundo que sueño</title>
-      <link>https://jeighost.lat/reflexion12.html</link>
-      <description>Una visión posible</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion12.html</guid>
-    </item>
-
-    <item>
-      <title>La conciencia que se basta así misma</title>
-      <link>https://jeighost.lat/reflexion11.html</link>
-      <description>Reflexión filosófica sobre la plenitud interior y la conciencia como fuente inagotable de felicidad</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion11.html</guid>
-    </item>
-
-    <item>
-      <title>La identidad</title>
-      <link>https://jeighost.lat/reflexion10.html</link>
-      <description>Una mirada hacia el ser interior, donde las máscaras y el tiempo difuminan lo que creemos ser</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion10.html</guid>
-    </item>
-
-    <item>
-      <title>Desgaste invisible</title>
-      <link>https://jeighost.lat/reflexion9.html</link>
-      <description>¿Cómo estoy cuidando lo importante?</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion9.html</guid>
-    </item>
-
-    <item>
-      <title>Otro día</title>
-      <link>https://jeighost.lat/reflexion8.html</link>
-      <description>Poesía de tu inmensidad</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion8.html</guid>
-    </item>
-
-    <item>
-      <title>El título va al final</title>
-      <link>https://jeighost.lat/reflexion7.html</link>
-      <description>Ya pude leerlo</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion7.html</guid>
-    </item>
-
-    <item>
-      <title>Un solitario</title>
-      <link>https://jeighost.lat/reflexion6.html</link>
-      <description>Anhelando una compañía real</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion6.html</guid>
-    </item>
-
-    <item>
-      <title>Un sueño despierto</title>
-      <link>https://jeighost.lat/reflexion5.html</link>
-      <description>Todos podemos soñar con lo mismo</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion5.html</guid>
-    </item>
-
-    <item>
-      <title>No soy nadie</title>
-      <link>https://jeighost.lat/reflexion4.html</link>
-      <description>Nunca lo sere, pero para mi lo soy</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion4.html</guid>
-    </item>
-
-    <item>
-      <title>Último mensaje</title>
-      <link>https://jeighost.lat/reflexion3.html</link>
-      <description>Un corto poema</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion3.html</guid>
-    </item>
-
-    <item>
-      <title>La historia</title>
-      <link>https://jeighost.lat/reflexion2.html</link>
-      <description>Irónico</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion2.html</guid>
-    </item>
-
-    <item>
-      <title>La percepción</title>
-      <link>https://jeighost.lat/reflexion1.html</link>
-      <description>Primera reflexión. Aquí empieza todo</description>
-      <pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate>
-      <guid>https://jeighost.lat/reflexion1.html</guid>
-    </item>
-
+    {%- endfor %}
   </channel>
 </rss>

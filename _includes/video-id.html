@@ -1,0 +1,4 @@
+{%- comment -%} Saca el ID de un enlace de YouTube (watch?v=, youtu.be/, shorts/, embed/ o el ID solo) {%- endcomment -%}
+{%- if include.url -%}
+{{- include.url | split: "v=" | last | split: "&" | first | split: "?" | first | split: "/" | last | strip -}}
+{%- endif -%}

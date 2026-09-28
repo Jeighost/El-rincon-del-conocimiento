@@ -1,0 +1,27 @@
+{%- comment -%} Una fila del índice de reflexiones. Uso: {% include fila.html doc=reflexion %} {%- endcomment -%}
+{%- capture _num %}{% include numero.html doc=include.doc %}{% endcapture -%}
+{%- capture _audio %}{% include audio.html doc=include.doc %}{% endcapture -%}
+{%- capture _min %}{% include minutos.html texto=include.doc.content %}{% endcapture -%}
+{%- assign _texto = include.doc.content | strip_html | normalize_whitespace -%}
+<li class="fila" data-temas="{{ include.doc.temas | join: '|' }}" data-slug="{{ include.doc.slug }}"{% if include.buscar %} data-buscar="{{ include.doc.title | append: ' ' | append: include.doc.description | append: ' ' | append: _texto | downcase | escape }}"{% endif %}>
+  <a class="fila-link" href="{{ include.doc.url | relative_url }}">
+    <span class="fila-num">{{ _num }}</span>
+    <span class="fila-main">
+      <span class="fila-title">{{ include.doc.title }}</span>
+      <span class="fila-desc">{% if include.doc.description %}{{ include.doc.description }}{% else %}{{ _texto | truncatewords: 16, "…" }}{% endif %}</span>
+    </span>
+    <span class="fila-meta">
+      <span>{% include fecha.html fecha=include.doc.date corta=true %}</span>
+      <span aria-hidden="true">·</span>
+      <span>{{ _min }} min</span>
+      {%- if _audio != "" %}
+      <span class="fila-badge" title="Tiene audio">{% include icon.html name="headphones" %}<span class="sr-only">Tiene audio</span></span>
+      {%- endif %}
+      {%- if include.doc.video %}
+      <span class="fila-badge" title="Tiene video">{% include icon.html name="video" %}<span class="sr-only">Tiene video</span></span>
+      {%- endif %}
+      <span class="fila-leida" title="Ya la leíste">{% include icon.html name="check" %}<span class="sr-only">Ya la leíste</span></span>
+    </span>
+    <span class="fila-arrow" aria-hidden="true">{% include icon.html name="arrow-right" %}</span>
+  </a>
+</li>

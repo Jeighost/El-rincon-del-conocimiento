@@ -1,0 +1,6 @@
+{%- comment -%} Número de la reflexión: sale del nombre del archivo (reflexion23.md -> 23) {%- endcomment -%}
+{%- assign _n = include.doc.slug | remove: "reflexion" | plus: 0 -%}
+{%- if _n == 0 -%}
+  {%- for _d in site.reflexiones -%}{%- if _d.url == include.doc.url -%}{%- assign _n = forloop.index -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
+{{- _n -}}
