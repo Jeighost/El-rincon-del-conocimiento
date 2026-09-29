@@ -13,6 +13,37 @@
   var guardar = function (clave, valor) { try { localStorage.setItem(clave, valor); } catch (e) {} };
   var leer = function (clave) { try { return localStorage.getItem(clave); } catch (e) { return null; } };
 
+  /* ---------- Versión nueva: si esta página es una copia vieja, se recarga sola ----------
+     Cada publicación (por ejemplo, una reflexión nueva) genera un número de versión nuevo.
+     Si la página que se abrió es de una versión anterior (guardada por Cloudflare o por el
+     navegador), se vuelve a pedir con ?v=<versión nueva>, que no está guardada en ninguna copia. */
+  (function () {
+    var url;
+    try { url = new URL(window.location.href); } catch (e) { return; }
+    if (url.searchParams.has('v')) {
+      url.searchParams.delete('v');
+      history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+    }
+    if (!SITIO.v || !window.fetch) return;
+    var inicio = Date.now();
+    fetch('/version.json?t=' + inicio, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var nueva = d && Number(d.v);
+        if (!nueva || nueva <= Number(SITIO.v)) return;
+        if (Date.now() - inicio > 6000) return;
+        // Solo un intento por versión y página, para no recargar en bucle
+        var clave = 'recarga-' + nueva + '-' + url.pathname;
+        try {
+          if (sessionStorage.getItem(clave)) return;
+          sessionStorage.setItem(clave, '1');
+        } catch (e) { return; }
+        url.searchParams.set('v', nueva);
+        window.location.replace(url.pathname + url.search + url.hash);
+      })
+      .catch(function () {});
+  })();
+
   /* ---------- Aviso flotante ---------- */
   var toastEl;
   var toastTimer;
