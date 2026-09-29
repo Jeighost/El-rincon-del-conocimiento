@@ -366,6 +366,29 @@
     b.addEventListener('click', function () { if (consent) consent.hidden = false; });
   });
 
+  /* ---------- Versión nueva del sitio ----------
+     La versión anterior del sitio instaló un service worker que guardaba
+     CSS, JS e imágenes en caché y los lectores seguían viendo lo viejo.
+     Aquí se borran esas cachés al instante y, cuando el service worker
+     nuevo toma el control, la página se recarga una sola vez. */
+  if ('caches' in window) {
+    caches.keys().then(function (nombres) {
+      return Promise.all(nombres.filter(function (n) { return n.indexOf('el-rincon-') === 0; })
+        .map(function (n) { return caches.delete(n); }));
+    }).catch(function () {});
+  }
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    var recargado = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (recargado) return;
+      recargado = true;
+      window.location.reload();
+    });
+    navigator.serviceWorker.getRegistrations().then(function (regs) {
+      regs.forEach(function (r) { r.update().catch(function () {}); });
+    }).catch(function () {});
+  }
+
   /* ---------- Avisos de nuevas reflexiones (OneSignal) ---------- */
   var botonesAvisos = $$('[data-avisos]');
   var bloquesAvisos = $$('[data-avisos-bloque]');

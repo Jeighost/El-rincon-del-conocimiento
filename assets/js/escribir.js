@@ -83,16 +83,22 @@ if (editor && form) {
     const sep = antes === '' || antes.endsWith('\n\n') ? '' : antes.endsWith('\n') ? '\n' : '\n\n';
     const lineas = sel.split('\n').map((l) => prefijo + l).join('\n');
     texto.setRangeText(sep + lineas + '\n\n', a, b, 'end');
+    // Sin texto seleccionado: deja marcado el ejemplo para que al escribir se reemplace
+    if (a === b && prefijo) {
+      texto.selectionStart = a + sep.length + prefijo.length;
+      texto.selectionEnd = texto.selectionStart + relleno.length;
+    }
     texto.focus();
     actualizar();
   }
+  const EJEMPLOS = ['texto en negrita', 'texto en cursiva', 'Escribe aquí el subtítulo', 'Escribe aquí la frase para destacar'];
   document.querySelectorAll('[data-formato]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const f = btn.dataset.formato;
-      if (f === 'negrita') envolver('**', '**', 'texto en negrita');
-      if (f === 'cursiva') envolver('*', '*', 'texto en cursiva');
-      if (f === 'subtitulo') bloque('## ', 'Subtítulo');
-      if (f === 'cita') bloque('> ', 'Una frase para destacar');
+      if (f === 'negrita') envolver('**', '**', EJEMPLOS[0]);
+      if (f === 'cursiva') envolver('*', '*', EJEMPLOS[1]);
+      if (f === 'subtitulo') bloque('## ', EJEMPLOS[2]);
+      if (f === 'cita') bloque('> ', EJEMPLOS[3]);
       if (f === 'separador') bloque('', '---');
     });
   });
@@ -221,6 +227,7 @@ if (editor && form) {
   /* ---------- Acciones ---------- */
   function validar() {
     estado.classList.remove('is-error');
+    estado.textContent = '';
     if (!campos.titulo.value.trim()) {
       estado.textContent = 'Falta el título.';
       estado.classList.add('is-error');
@@ -231,6 +238,15 @@ if (editor && form) {
       estado.textContent = 'Falta el texto de la reflexión.';
       estado.classList.add('is-error');
       texto.focus();
+      return false;
+    }
+    const ejemplo = EJEMPLOS.find((e) => texto.value.includes(e));
+    if (ejemplo) {
+      estado.textContent = `Todavía está el texto de ejemplo «${ejemplo}». Cámbialo por el tuyo o bórralo.`;
+      estado.classList.add('is-error');
+      const i = texto.value.indexOf(ejemplo);
+      texto.focus();
+      texto.setSelectionRange(i, i + ejemplo.length);
       return false;
     }
     return true;
