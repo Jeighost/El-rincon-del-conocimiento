@@ -15,6 +15,4 @@ Si mi amor fuera todo para ti, no tendrias que rogar amor en ningun lugar.
 Yo te daré el que necesitas...
 No alcanzas a imaginar asi como yo no alcanzo a expresar con total seguridad todo el amor que siento por ti.
 
-> Una frase para destacar
-
 Guardalo en tu mente, y recuerdame cada segundo que mi amor por ti nunca se irá, porque siempre vivirás en mi; porque te amo de verdad.
